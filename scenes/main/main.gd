@@ -45,7 +45,8 @@ func _ready():
 	Sfx.enable_track(Sfx.Track.Boom)
 
 	self.game = Game.new(Info.current_map.teams.map(func(t): return int(t)))
-	Effects.init(self.game.players, Callable(self, "apply_active"), Callable(self.game, "get_current_player"))
+	Effects.init(self.game.players, Callable(self.game, "get_current_player"))
+	Effects.apply_active.connect(apply_active)
 	self.add_mods(Info.current_mods)
 	self.load_map(Info.current_map.regions)
 	
@@ -55,9 +56,13 @@ func _ready():
 	
 	self.game.started = true
 	self.world.camera.move_instant(self.world.map_to_local(closest_player_tile_coords()))
-	self.deck.card_played = Callable(self, "use_card")
+	self.deck.card_played = use_card
 	
 	prepare_turn()
+
+func apply_active(effect):
+	var action = Actives.apply(effect, self.world, self.game)
+	await self.apply_action(action)
 
 func add_mod_effect(e):
 	var players_to_apply = []
@@ -88,16 +93,6 @@ func clear_mouse_state():
 		self.used_card.highlight(false)
 		self.used_card = null	
 
-func sink_tiles(coords):
-	var action = Action.new(self.game.human.team, Action.Type.Sink, 0, 0, coords )
-	self.game.actions_history.append(action)
-	self.apply_action(action)
-
-func emerge_tiles(coords):
-	var action = Action.new(self.game.human.team, Action.Type.Emerge, 0, 0, coords )
-	self.game.actions_history.append(action)
-	self.apply_action(action)
-
 func handle_tile_card(event):
 	if event is InputEventMouseMotion:
 		var tile_hovered = world.global_pos_to_coords(event.position)
@@ -117,20 +112,22 @@ func handle_tile_card(event):
 
 func handle_emerge(tile_hovered):
 	if self.mouse_item.emergeable(tile_hovered, self.world.tiles.keys()):
-		emerge_tiles(self.mouse_item.adjusted_shape_coords(tile_hovered))
+		var action = Action.new(Action.Type.Emerge, {'value': [self.mouse_item.adjusted_shape_coords(tile_hovered)]})
 		if self.used_card != null:
 			card_used(self.used_card)
 		self.clear_mouse_state()
+		await apply_action(action)
 	else:
 		messenger.set_message("You can only raise land from the sea, my lord.")
 		clear_mouse_state()
 
 func handle_sink(tile_hovered):
 	var tiles_to_sink = self.mouse_item.adjusted_shape_coords(tile_hovered).filter(func(t): return self.world.tiles.has(t))
-	sink_tiles(tiles_to_sink)
+	var action = Action.new(Action.Type.Sink, {'value' : tiles_to_sink})
 	if self.used_card != null:
 		card_used(self.used_card)
 	self.clear_mouse_state()
+	await apply_action(action)
 
 
 func handle_building(event):
@@ -158,16 +155,14 @@ func handle_building(event):
 			messenger.set_message("There is already a construction there, my lord.")
 			clear_mouse_state()
 			return
-		var region_built = self.world.tiles[coords_hovered].data.region
-		var action = Action.new(self.game.human.team, Action.Type.Build, region_built, Constants.NULL_REGION, [coords_hovered], self.current.building)
+		var action = Action.new(Action.Type.Build, {"coords": coords_hovered, "building": self.current.building})
 		current.building = Constants.Building.None
-		self.game.actions_history.append(action)
-		self.apply_action(action)
+		await self.apply_action(action)
 		card_used(self.used_card)
 		clear_mouse_state()
 	
 
-func handle_plus(event):
+func handle_reinforcements(event):
 	var coords_hovered = world.global_pos_to_coords(event.position)
 	if event is InputEventMouseMotion:
 		if world.tiles.has(coords_hovered):
@@ -195,9 +190,8 @@ func handle_plus(event):
 				clear_mouse_state()
 				return
 		var region_reinforced = self.world.tiles[coords_hovered].data.region
-		var action = Action.new(self.game.human.team, Action.Type.Reinforce, region_reinforced, 0, [], self.current.reinforcements)
-		self.game.actions_history.append(action)
-		self.apply_action(action)
+		var action = Action.new(Action.Type.Reinforce, {"region": region_reinforced, "value": self.current.reinforcements})
+		await self.apply_action(action)
 		if self.used_card != null:
 			card_used(self.used_card)
 		clear_mouse_state()
@@ -220,9 +214,8 @@ func handle_sacrifice(event):
 			clear_mouse_state()
 			return
 		var region_sacrificed = self.world.tiles[coords_hovered].data.region
-		var action = Action.new(self.game.human.team, Action.Type.Sacrifice, region_sacrificed)
-		self.game.actions_history.append(action)
-		self.apply_action(action)
+		var action = Action.new(Action.Type.Sacrifice, {"region": region_sacrificed})
+		await self.apply_action(action)
 		if self.used_card != null:
 			card_used(self.used_card)
 		clear_mouse_state()
@@ -243,19 +236,19 @@ func _unhandled_input(event):
 		elif event is InputEventMouse:
 			match self.mouse_state:
 				MouseState.Sink:
-					handle_tile_card(event)
+					await handle_tile_card(event)
 					return
 				MouseState.Emerge:
-					handle_tile_card(event)
+					await handle_tile_card(event)
 					return
 				MouseState.Sacrifice:
-					handle_sacrifice(event)
+					await handle_sacrifice(event)
 					return
 				MouseState.Build:
-					handle_building(event)
+					await handle_building(event)
 					return
 				MouseState.Reinforce:
-					handle_plus(event)
+					await handle_reinforcements(event)
 					return
 				_:
 					pass
@@ -271,7 +264,6 @@ func lock_controls(val : bool):
 
 func _on_turn_button_pressed():
 	await self.deck.discard_all()
-	self.apply_buildings(self.game.human.team)
 	
 	lock_controls(true)
 	clear_mouse_state()
@@ -300,76 +292,36 @@ func _on_cards_selected(cards):
 	Settings.input_locked = false
 	lock_controls(false)
 
-func active_random_discard(effect):
-	await self.deck.discard_random(effect.value)
-
-func active_draw(effect):
-	await self.deck.draw_multiple(effect.value)
-
-func active_faith(effect):
-	var expression = Expression.new()
-	expression.parse(effect.value, self.game.current_player.resources.keys())
-	var result = expression.execute(self.game.current_player.resources.values())
-	self.game.current_player.resources.faith = result
-	if !self.game.current_player.is_bot:
-		update_faith_player()
-
-func active_sink_random_self_tiles(effect):
-	var own_tiles = self.world.tiles.values().filter(func(t): return t.data.team == self.game.current_player.team)
-	var nb = min(effect.value, own_tiles.size())
-	var selected = []
-	own_tiles.shuffle()
-	for i in range(nb):
-		selected.push_back(own_tiles.pop_front().data.coords)
-	self.sink_tiles(selected)
-
-func active_sink_random_tiles(effect):
-	var all_tiles = self.world.tiles.values()
-	var nb = min(effect.value, all_tiles.size())
-	var selected = []
-	all_tiles.shuffle()
-	for i in range(nb):
-		selected.push_back(all_tiles.pop_front().data.coords)
-	self.sink_tiles(selected)
-
-func active_emerge_random_tiles(effect):
-	var computed_nb = effect.value + self.game.current_player.compute("flat_emerge_bonus")
-	var all_tiles = self.world.tiles.values()
-	var empty = []
-	for tile in all_tiles:
-		for coords in Utils.get_surrounding_cells(tile.data.coords):
-			if !self.world.tiles.has(coords):
-				empty.push_back(coords)
-	var nb = min(computed_nb, all_tiles.size())
-	empty.shuffle()
-	for i in range(nb):
-		self.emerge_tiles([empty.pop_front()])
-	
-func active_treason(effect):
-	var nb_treason = effect.value
-	var own_regions = self.world.regions.values().filter(func(r): return r.data.team == self.game.current_player.team)
-	own_regions.shuffle()
-	for i in range(nb_treason):
-		var region = own_regions.pop_front()
-		var new_team = self.game.get_random_enemy().team
-		region.set_team(new_team)
-		region.update()
-	messenger.set_message("Regions of %s have defected to the enemy!" % Constants.TEAM_NAMES[self.game.current_player.team])
-
-
-func active_renewal(effect):
-	var own_regions = self.world.regions.values().filter(func(r): return r.data.team == self.game.current_player.team)
-	for region in own_regions:
-		region.set_used(false)
-		region.update()
-	
-
-func apply_active(effect):
-	var func_name = "active_" + effect.name
-	var active_func = Callable(self, func_name)
-	if not active_func.is_valid():
-		Utils.log("Effect %s is not a valid active effect" % effect.name)
-	Callable(self, func_name).call(effect) 
+func compute_effect(effect):
+	match effect.name:
+		"sacrifice":
+			return effect.value
+		"emerge":
+			return effect.value
+		"sink":
+			return effect.value + self.game.current_player.compute("flat_sink_bonus")
+		"build":
+			return effect.value
+		"reinforcements":
+			return effect.value
+		"random_discard":
+			return effect.value 
+		"draw":
+			return effect.value 
+		"faith":
+			return effect.value 
+		"sink_random_self_tiles":
+			return effect.value + self.game.current_player.compute("flat_sink_bonus")
+		"sink_random_tiles":
+			return effect.value + self.game.current_player.compute("flat_sink_bonus")
+		"emerge_random_tiles":
+			return effect.value + self.game.current_player.compute("flat_emerge_bonus")
+		"treason":
+			return effect.value 
+		"renewal":
+			return effect.value 
+		_:
+			Utils.log("Unknown active effect: %s" % effect.name)
 			
 
 func use_card(cardView):
@@ -446,18 +398,6 @@ func check_win_condition():
 	elif self.game.players.filter(func(p): return !p.eliminated).size() < 2:
 		await SceneTransition.change_scene(SceneTransition.SCENE_REWARD)
 
-func apply_buildings(team):
-	self.world.tiles.values().filter(func(t): return t.data.team == team and t.data.building != Constants.Building.None).map(func(t): apply_building(t.data.coords, t.data.building))
-
-func apply_building(tile_coords, building):
-	# var team_id = self.world.tiles[tile_coords].data.team
-	match building:
-		_:
-			pass
-		# Constants.Building.Temple:
-		# 	self.add_faith(team_id, Constants.TEMPLE_FAITH_PER_TURN)
-
-
 func clear_selected_region():
 	if selected_region != null:
 		self.world.regions[selected_region].set_selected(false)
@@ -487,9 +427,8 @@ func handle_move(clicked_region):
 			self.world.regions[selected_region].update()
 			clicked_region.update()
 			if self.world.regions[selected_region].data.units > 1:
-				var move = Action.new(self.game.human.team, Action.Type.Move, selected_region, clicked_region.data.id )
-				self.game.actions_history.append(move)
-				self.apply_action(move)
+				var move = Action.new(Action.Type.Move, {"from": selected_region, "to": clicked_region.data.id, "team": self.game.human.team} )
+				await self.apply_action(move)
 			else:
 				messenger.set_message("My lord, we cannot leave this region undefended!")
 			clear_mouse_state()
@@ -527,13 +466,11 @@ func play_turn():
 		# var bot_actions = thread.wait_to_finish()
 		var bot_actions = self.game.current_player.bot.play_turn(self.world) ## use for debugging
 		for bot_action in bot_actions:
-			if bot_action.action == Action.Type.None:
+			if bot_action.type == Action.Type.None:
 				playing = false
 				break
 			await apply_action(bot_action)
-			self.game.actions_history.append(bot_action)
 			await Utils.wait(Settings.turn_time)
-	self.apply_buildings(self.game.current_player.team)
 	self.world.clear_regions_used()
 	await Utils.wait(Settings.turn_time)
 
@@ -552,27 +489,47 @@ func generate_units(team):
 			world.regions[region].generate_units(self.game.current_player.compute("units_per_tile"))
 
 func apply_action(action : Action):
-	match action.action:
+	self.game.actions_history.append(action)
+	match action.type:
 		Action.Type.Move:
-			await self.world.move_units(action.region_from, action.region_to, action.team)
+			await self.world.move_units(action.data.from, action.data.to, action.data.team)
 		Action.Type.Sink:
-			await self.world.sink_tiles(action.tiles)
+			await self.world.sink_tiles(action.data.value)
 			Effects.trigger(Effect.Trigger.TileSunk)
 		Action.Type.Emerge:
-			await self.world.emerge_tiles(action.tiles)
+			for tile_array in action.data.value:
+				await self.world.emerge_tiles(tile_array)
 			Effects.trigger(Effect.Trigger.TileEmerged)
 		Action.Type.Sacrifice:
-			sacrifice_region(action.region_from, action.team)
+			sacrifice_region(action.data.region, game.get_current_player().team)
 			Effects.trigger(Effect.Trigger.RegionSacrificed)
 		Action.Type.Build:
-			self.world.tiles[action.tiles[0]].set_building(action.misc)
+			self.world.tiles[action.data.coords].set_building(action.data.building)
 			Effects.trigger(Effect.Trigger.BuildingBuilt)
 		Action.Type.Reinforce:
-			self.world.regions[action.region_from].data.units += action.misc
-			if self.world.regions[action.region_from].data.team == Constants.NULL_TEAM:
-				self.world.regions[action.region_from].set_team(self.game.human.team)
-			self.world.regions[action.region_from].update()
+			self.world.regions[action.data.region].data.units += action.data.value
+			if self.world.regions[action.data.region].data.team == Constants.NULL_TEAM:
+				self.world.regions[action.data.region].set_team(self.game.human.team)
+			self.world.regions[action.data.region].update()
 			Effects.trigger(Effect.Trigger.RegionReinforced)
+		Action.Type.Faith:
+			self.game.current_player.resources.faith = action.data.value
+			if !game.current_player.is_bot:
+				self.update_faith_player()
+		Action.Type.RandomDiscard:
+			await self.deck.discard_random(action.data.value)
+		Action.Type.Draw:
+			await self.deck.draw_multiple(action.data.value)
+		Action.Type.Renewal:
+			for region_id in action.data.value:
+				self.world.regions[region_id].set_used(false)
+				self.world.regions[region_id].update()
+			messenger.set_message("Regions of %s have been renewed!" % Constants.TEAM_NAMES[game.current_player.team])
+		Action.Type.Treason:
+			for treason in action.data.value:
+				self.world.regions[treason.region].set_team(treason.new_team)
+				self.world.regions[treason.region].update()
+			messenger.set_message("Regions of %s have defected to the enemy!" % Constants.TEAM_NAMES[game.current_player.team])
 		Action.Type.None:
 			pass
 		_:
@@ -628,13 +585,13 @@ func fast_forward(val):
 
 			
 func sacrifice_region(region_id, team_id):
-	if self.world.regions[region_id].data.team == team_id:
-		# self.add_faith(team_id, self.world.regions[region_id].sacrifice())
-		self.world.regions[region_id].sacrifice()
-		#self.add_cards(2)
-		messenger.set_message("%s has sacrificed a region's inhabitants to the gods!" % Constants.TEAM_NAMES[team_id])
-	else:
-		Utils.log("Trying to sacrifice region %s, but it belongs to team %s" % [region_id, self.world.regions[region_id].data.team])
+	if self.world.regions[region_id].data.team != team_id:
+		Utils.log("ERROR: Trying to sacrifice region %s, but it belongs to team %s" % [region_id, self.world.regions[region_id].data.team])
+	# self.add_faith(team_id, self.world.regions[region_id].sacrifice())
+	self.world.regions[region_id].sacrifice()
+	#self.add_cards(2)
+	messenger.set_message("%s has sacrificed a region's inhabitants to the gods!" % Constants.TEAM_NAMES[team_id])
+		
 
 func _on_fast_forward_button_toggled(button_pressed:bool):
 	fast_forward(button_pressed)

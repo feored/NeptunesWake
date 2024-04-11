@@ -4,9 +4,15 @@
 		"name": "Olympian Blessing",
 		"effects": [
 			{
-				"type": "resource",
+				"type": "active",
 				"name": "faith",
-				"value": "faith * 2"
+				"value": "faith * 2",
+				"tooltip": [
+					{
+						"type": "text",
+						"value": "Double your faith."
+					}
+				]
 			}
 		],
 		"description": "Double your faith.",
@@ -23,7 +29,13 @@
 				"name": "flat_sink_bonus",
 				"value": "3",
 				"duration": 1,
-				"duration_trigger": "turn_over"
+				"duration_trigger": "turn_over",
+				"tooltip": [
+					{
+						"type": "text",
+						"value": "Double your faith."
+					}
+				]
 			}
 		],
 		"description": "All sink cards gain 3 bonus tiles for this turn.",
@@ -38,12 +50,24 @@
 			{
 				"type": "resource",
 				"name": "flat_sink_bonus",
-				"value": "flat_sink_bonus + 1"
+				"value": "flat_sink_bonus + 1",
+				"tooltip": [
+					{
+						"type": "text",
+						"value": "Add 1 tile to all sink cards."
+					}
+				]
 			},
 			{
 				"type": "resource",
 				"name": "flat_emerge_bonus",
-				"value": "flat_emerge_bonus + 1"
+				"value": "flat_emerge_bonus + 1",
+				"tooltip": [
+					{
+						"type": "text",
+						"value": "Add 1 tile to all emerge cards."
+					}
+				]
 			}
 		],
 		"description": "All sink and emerge cards gain one bonus tile.",
@@ -59,7 +83,21 @@
 				"type": "active",
 				"name": "emerge_random_tiles",
 				"value": 5,
-				"active_trigger": "instant"
+				"active_trigger": "instant",
+				"tooltip": [
+					{
+						"type": "text",
+						"value": "Emerge"
+					},
+					{
+						"type": "compute",
+						"value": "value + flat_emerge_bonus"
+					},
+					{
+						"type": "text",
+						"value": "random tiles from the sea."
+					}
+				]
 			}
 		],
 		"description": "Gaia emerges 5 random tiles from the sea.",

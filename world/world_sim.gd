@@ -34,30 +34,30 @@ func remove_cell(cell_coords):
 
 
 func simulate(action: Action):
-	match action.action:
+	match action.type:
 		Action.Type.Move:
-			self.move_units(action.region_from, action.region_to, action.team)
+			self.move_units(action.data.from, action.data.to, action.data.team)
 			return
 		Action.Type.Sink:
 			return
 
 
-func move_units(region_from, region_to, team):
-	var moved_units = self.regions[region_from].units - 1  #max(1, regions[region_from].units/2)
-	self.regions[region_from].units -= moved_units
-	self.regions[region_from].is_used = true
+func move_units(from, to, team):
+	var moved_units = self.regions[from].units - 1  #max(1, regions[from].units/2)
+	self.regions[from].units -= moved_units
+	self.regions[from].is_used = true
 
-	if self.regions[region_from].team == self.regions[region_to].team:
-		self.regions[region_to].units += moved_units
+	if self.regions[from].team == self.regions[to].team:
+		self.regions[to].units += moved_units
 	else:
-		if self.regions[region_to].units > moved_units:
-			self.regions[region_to].units -= moved_units
-		elif self.regions[region_to].units == moved_units:
-			self.team_regions[self.regions[region_to].team] -= 1
-			self.regions[region_to].units = 0
-			self.regions[region_to].team = Constants.NULL_TEAM
+		if self.regions[to].units > moved_units:
+			self.regions[to].units -= moved_units
+		elif self.regions[to].units == moved_units:
+			self.team_regions[self.regions[to].team] -= 1
+			self.regions[to].units = 0
+			self.regions[to].team = Constants.NULL_TEAM
 		else:
-			self.team_regions[self.regions[region_to].team] -= 1
-			self.team_regions[self.regions[region_from].team] += 1
-			self.regions[region_to].units = moved_units - self.regions[region_to].units
-			self.regions[region_to].team = team
+			self.team_regions[self.regions[to].team] -= 1
+			self.team_regions[self.regions[from].team] += 1
+			self.regions[to].units = moved_units - self.regions[to].units
+			self.regions[to].team = team
