@@ -152,7 +152,6 @@ axis_stretch_vertical = 2
 [resource]
 default_base_scale = 1.0
 default_font = ExtResource("1_u5pme")
-default_font_size = 0
 Button/styles/disabled = SubResource("StyleBoxTexture_bnvqk")
 Button/styles/focus = SubResource("StyleBoxEmpty_30h70")
 Button/styles/hover = SubResource("StyleBoxTexture_y36yn")

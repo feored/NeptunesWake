@@ -29,7 +29,7 @@ func _on_option_1_btn_pressed():
 	for card in Info.run.deck:
 		var is_modified = false
 		for effect in card.effects:
-			if effect.type == Effect.Type.Power and effect.name == "reinforcements":
+			if effect.type == Effect.Type.Power and effect.target == "reinforcements":
 				effect.value = effect.value + 10
 				is_modified = true
 		if is_modified:
@@ -41,10 +41,10 @@ func _on_option_2_btn_pressed():
 	var to_erase = []
 	for card in Info.run.deck:
 		if card.id == "Flood":
-			Info.run.deck.push_back(Cards.get_instance("Creation"))
+			Info.run.deck.push_back(Cards.get_card("Creation"))
 			to_erase.push_back(card)
 		if card.id == "PrimevalFlood":
-			Info.run.deck.push_back(Cards.get_instance("PrimevalCreation"))
+			Info.run.deck.push_back(Cards.get_card("PrimevalCreation"))
 			to_erase.push_back(card)
 	for card in to_erase:
 		Info.run.deck.erase(card)
@@ -63,7 +63,7 @@ func _on_option_3_btn_pressed():
 	for card in to_erase:
 		Info.run.deck.erase(card)
 	for i in range(largeOfferings):
-		Info.run.deck.push_back(Cards.get_instance("LargeOffering"))
+		Info.run.deck.push_back(Cards.get_card("LargeOffering"))
 	over()
 
 

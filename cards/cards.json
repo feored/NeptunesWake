@@ -1,0 +1,346 @@
+{
+	"OlympianBlessing": {
+		"id": "OlympianBlessing",
+		"name": "Olympian Blessing",
+		"effects": [
+			{
+				"id": "blessing",
+				"tier": 1
+			}
+		],
+		"cost": 2,
+		"icon": "res://cards/images/olympianblessing.png",
+		"exhaust": false
+	},
+	"PontusRevenge": {
+		"id": "PontusRevenge",
+		"name": "Pontus' Revenge",
+		"effects": [
+			{
+				"id": "flat_sink_bonus",
+				"tier": 2
+			}
+		],
+		"cost": 1,
+		"icon": "res://cards/images/pontusrevenge.png",
+		"exhaust": false
+	},
+	"GaiasBlessing": {
+		"id": "GaiasBlessing",
+		"name": "Gaia's Blessing",
+		"effects": [
+			{
+				"id": "flat_emerge_bonus",
+				"tier": 1
+			},
+			{
+				"id": "flat_sink_bonus",
+				"tier": 1
+			}
+		],
+		"cost": 1,
+		"icon": "res://cards/images/gaiasblessing.png",
+		"exhaust": false
+	},
+	"MiracleOfGaia": {
+		"id": "MiracleOfGaia",
+		"name": "Miracle of Gaia",
+		"effects": [
+			{
+				"id": "emerge_random_tiles",
+				"tier": 2
+			}
+		],
+		"cost": 2,
+		"icon": "res://cards/images/miracleofgaia.png",
+		"exhaust": false
+	},
+	"DivineFervor": {
+		"id": "DivineFervor",
+		"name": "Divine Fervor",
+		"effects": [
+			{
+				"id": "divine_fervor",
+				"tier": 1
+			}
+		],
+		"cost": 2,
+		"icon": "res://cards/images/divinefervor.png",
+		"exhaust": false
+	},
+	"HighMorale": {
+		"id": "HighMorale",
+		"name": "High Morale",
+		"effects": [
+			{
+				"id": "high_morale",
+				"tier": 1
+			}
+		],
+		"cost": 1,
+		"icon": "res://cards/images/highmorale.png",
+		"exhaust": true
+	},
+	"Conversion": {
+		"id": "Conversion",
+		"name": "Conversion",
+		"effects": [
+			{
+				"id": "conversion",
+				"tier": 2
+			}
+		],
+		"cost": 2,
+		"icon": "res://cards/images/conversion.png",
+		"exhaust": true
+	},
+	"Rebirth": {
+		"id": "Rebirth",
+		"name": "Rebirth",
+		"effects": [
+			{
+				"id": "renewal",
+				"tier": 1
+			}
+		],
+		"cost": 2,
+		"icon": "res://cards/images/rebirth.png",
+		"exhaust": false
+	},
+	"Cataclysm": {
+		"id": "Cataclysm",
+		"name": "Cataclysm",
+		"effects": [
+			{
+				"id": "sink_random_tiles",
+				"tier": 3
+			}
+		],
+		"cost": 3,
+		"icon": "res://cards/images/cataclysm.png",
+		"exhaust": false
+	},
+	"CultStatue": {
+		"id": "CultStatue",
+		"name": "Cult Statue",
+		"effects": [
+			{
+				"id": "priestly",
+				"tier": 1
+			},
+			{
+				"id": "cardless",
+				"tier": 1
+			}
+		],
+		"cost": 2,
+		"icon": "res://cards/images/statue.png",
+		"exhaust": false
+	},
+	"Offering": {
+		"id": "Offering",
+		"name": "Offering",
+		"effects": [
+			{
+				"id": "offering",
+				"tier": 1
+			}
+		],
+		"cost": 0,
+		"icon": "res://cards/images/tridentsun.png",
+		"exhaust": false
+	},
+	"LargeOffering": {
+		"id": "LargeOffering",
+		"name": "Large Offering",
+		"effects": [
+			{
+				"id": "offering",
+				"tier": 2
+			}
+		],
+		"cost": 0,
+		"icon": "res://cards/images/tridentsun.png",
+		"exhaust": false
+	},
+	"Seal": {
+		"id": "Seal",
+		"name": "Seal",
+		"effects": [
+			{
+				"id": "seal",
+				"tier": 1
+			}
+		],
+		"cost": 1,
+		"icon": "res://cards/images/seal.png",
+		"exhaust": false
+	},
+	"Barracks": {
+		"id": "Barracks",
+		"name": "Barracks",
+		"effects": [
+			{
+				"id": "barracks",
+				"tier": 1
+			}
+		],
+		"cost": 1,
+		"icon": "res://cards/images/barracks.png",
+		"exhaust": false
+	},
+	"Prayer": {
+		"id": "Prayer",
+		"name": "Prayer",
+		"effects": [
+			{
+				"id": "offering",
+				"tier": 1
+			},
+			{
+				"id": "random_discard",
+				"tier": 1
+			}
+		],
+		"cost": 0,
+		"icon": "res://cards/images/prayer.png",
+		"exhaust": false
+	},
+	"Hoplites": {
+		"id": "Hoplites",
+		"name": "Hoplites",
+		"effects": [
+			{
+				"id": "reinforcements",
+				"tier": 3
+			}
+		],
+		"cost": 3,
+		"icon": "res://cards/images/warrior.png",
+		"exhaust": false
+	},
+	"CretanArchers": {
+		"id": "CretanArchers",
+		"name": "Cretan Archers",
+		"effects": [
+			{
+				"id": "reinforcements",
+				"tier": 1
+			}
+		],
+		"cost": 1,
+		"icon": "res://cards/images/archer.png",
+		"exhaust": false
+	},
+	"LuckOfTheDraw": {
+		"id": "LuckOfTheDraw",
+		"name": "Luck of the Draw",
+		"effects": [
+			{
+				"id": "draw",
+				"tier": 1
+			}
+		],
+		"cost": 1,
+		"icon": "res://cards/images/questionmark.png",
+		"exhaust": false
+	},
+	"Sacrifice": {
+		"id": "Sacrifice",
+		"name": "Sacrifice",
+		"effects": [
+			{
+				"id": "sacrifice",
+				"tier": 2
+			},
+			{
+				"id": "draw",
+				"tier": 2
+			}
+		],
+		"cost": 0,
+		"icon": "res://cards/images/skull.png",
+		"exhaust": false
+	},
+	"Flood": {
+		"id": "Flood",
+		"name": "Flood",
+		"effects": [
+			{
+				"id": "sink",
+				"tier": 1
+			}
+		],
+		"icon": "res://cards/images/wave.png",
+		"cost": 1,
+		"exhaust": false
+	},
+	"PrimevalFlood": {
+		"id": "PrimevalFlood",
+		"name": "Primeval Flood",
+		"effects": [
+			{
+				"id": "sink",
+				"tier": 2
+			}
+		],
+		"cost": 2,
+		"exhaust": false
+	},
+	"Creation": {
+		"id": "Creation",
+		"name": "Creation",
+		"effects": [
+			{
+				"id": "emerge",
+				"tier": 1
+			}
+		],
+		"cost": 1,
+		"icon": "res://cards/images/landemerge.png",
+		"exhaust": false
+	},
+	"PrimevalCreation": {
+		"id": "PrimevalCreation",
+		"name": "Primeval Creation",
+		"effects": [
+			{
+				"id": "emerge",
+				"tier": 2
+			}
+		],
+		"cost": 2,
+		"icon": "res://cards/images/largecreation.png",
+		"exhaust": false
+	},
+	"TychesFavor": {
+		"id": "TychesFavor",
+		"name": "Tyche's Favor",
+		"effects": [
+			{
+				"id": "draw",
+				"tier": 2
+			}
+		],
+		"cost": 2,
+		"icon": "res://cards/images/questionmark.png",
+		"exhaust": false
+	},
+	"Libation": {
+		"id": "Libation",
+		"name": "Libation",
+		"effects": [
+			{
+				"id": "sacrifice",
+				"tier": 2
+			},
+			{
+				"id": "offering",
+				"tier": 1
+			}
+		],
+		"cost": 0,
+		"icon": "res://cards/images/skull.png",
+		"exhaust": false
+	}
+}

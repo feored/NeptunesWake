@@ -1,0 +1,178 @@
+[
+	{
+		"id": "seal",
+		"name": "Seal",
+		"tiers": [
+			{
+				"type": "power",
+				"target": "build",
+				"value": "Seal",
+				"tooltip": "Seal a region to make it resist one of Neptune's Marks.",
+				"cost": 1,
+				"level": 1
+			}
+		]
+	},
+	{
+		"id": "barracks",
+		"name": "Barracks",
+		"tiers": [
+			{
+				"type": "power",
+				"target": "build",
+				"value": "Barracks",
+				"tooltip": "Build a Barracks in a region. Will generate 3 troops per turn.",
+				"cost": 1,
+				"level": 1
+			}
+		]
+	},
+	{
+		"id": "reinforcements",
+		"name": "Reinforce",
+		"tiers": [
+			{
+				"type": "power",
+				"target": "reinforcements",
+				"value": 5,
+				"tooltip": "Summon _VALUE_ (_COMPUTE_) troops to the selected region.",
+				"cost": 1,
+				"level": 1
+			},
+			{
+				"type": "power",
+				"target": "reinforcements",
+				"value": 10,
+				"tooltip": "Summon _VALUE_ (_COMPUTE_) troops to the selected region.",
+				"cost": 2,
+				"level": 2
+			},
+			{
+				"type": "power",
+				"target": "reinforcements",
+				"value": 15,
+				"tooltip": "Summon _VALUE_ (_COMPUTE_) troops to the selected region.",
+				"cost": 3,
+				"level": 3
+			},
+			{
+				"type": "power",
+				"target": "reinforcements",
+				"value": 20,
+				"tooltip": "Summon _VALUE_ (_COMPUTE_) troops to the selected region.",
+				"cost": 4,
+				"level": 4
+			},
+			{
+				"type": "power",
+				"target": "reinforcements",
+				"value": 30,
+				"tooltip": "Summon _VALUE_ (_COMPUTE_) troops to the selected region.",
+				"cost": 5,
+				"level": 5
+			}
+		]
+	},
+	{
+		"id": "sacrifice",
+		"name": "Sacrifice",
+		"tiers": [
+			{
+				"type": "power",
+				"target": "sacrifice",
+				"value": 0,
+				"tooltip": "Sacrifice all the units in a region except for one.",
+				"cost": -1,
+				"level": 1
+			},
+			{
+				"type": "power",
+				"target": "sacrifice",
+				"value": 1,
+				"tooltip": "Sacrifice all the units in a region, losing your claim to it.",
+				"cost": -3,
+				"level": 3
+			}
+		]
+	},
+	{
+		"id": "sink",
+		"name": "Sink",
+		"tiers": [
+			{
+				"type": "power",
+				"target": "sink",
+				"value": [
+					[
+						0,
+						0
+					]
+				],
+				"cost": 1,
+				"level": 1,
+				"tooltip": "Sink _VALUE_ (_COMPUTE_) tiles. The affected regions will lose units in proportion."
+			},
+			{
+				"type": "power",
+				"target": "sink",
+				"value": [
+					[
+						0,
+						0
+					],
+					[
+						1,
+						0
+					],
+					[
+						0,
+						1
+					]
+				],
+				"cost": 2,
+				"level": 3,
+				"tooltip": "Sink _VALUE_ (_COMPUTE_) tiles. The affected regions will lose units in proportion."
+			}
+		]
+	},
+	{
+		"id": "emerge",
+		"name": "Emerge",
+		"tiers": [
+			{
+				"type": "power",
+				"target": "emerge",
+				"value": [
+					[
+						0,
+						0
+					]
+				],
+				"cost": 1,
+				"level": 1,
+				"tooltip": "Emerge _VALUE_ (_COMPUTE_) tiles. The affected regions will lose units in proportion."
+			},
+			{
+				"type": "power",
+				"target": "emerge",
+				"value": [
+					[
+						0,
+						0
+					],
+					[
+						1,
+						0
+					],
+					[
+						0,
+						1
+					]
+				],
+				"cost": 2,
+				"level": 3,
+				"tooltip": "Emerge _VALUE_ (_COMPUTE_) tiles. The affected regions will lose units in proportion."
+			}
+		]
+	}
+]

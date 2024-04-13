@@ -73,7 +73,7 @@ func add_mod_effect(e):
 	elif e.target == Constants.Target.All:
 		players_to_apply = self.game.players
 	for player in players_to_apply:
-		var instanced_effect = Effect.new(e.effect)
+		var instanced_effect = Effect.new(e.effect.id, e.effect.tier)
 		Effects.add(instanced_effect, player)
 
 func add_mods(mods):
@@ -293,11 +293,11 @@ func _on_cards_selected(cards):
 	lock_controls(false)
 
 func compute_effect(effect):
-	match effect.name:
+	match effect.target:
 		"sacrifice":
 			return effect.value
 		"emerge":
-			return effect.value
+			return effect.value + self.game.current_player.compute("flat_sink_bonus")
 		"sink":
 			return effect.value + self.game.current_player.compute("flat_sink_bonus")
 		"build":
@@ -321,7 +321,7 @@ func compute_effect(effect):
 		"renewal":
 			return effect.value 
 		_:
-			Utils.log("Unknown active effect: %s" % effect.name)
+			Utils.log("Unknown active effect: %s" % effect.target)
 			
 
 func use_card(cardView):
@@ -337,7 +337,7 @@ func use_card(cardView):
 	var play_powers = cardView.card.effects.filter(func(e): return e.type == Effect.Type.Power)
 	if play_powers.size() > 0:
 		var play_power = play_powers[0]
-		match play_power.name:
+		match play_power.target:
 			"reinforcements":
 				set_reinforcements(play_power.value)
 			"sacrifice":

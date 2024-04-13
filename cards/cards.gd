@@ -1,14 +1,35 @@
 extends Node
 
-const CARD_DATA_PATH = "res://cards/data.json"
+const CARD_DATA_PATH = "res://cards/cards.json"
+const EFFECT_DATA_PATHS = [
+	"res://cards/effects/data/powers.json",
+	"res://cards/effects/data/actives.json",
+	"res://cards/effects/data/resources.json"
+]
 
-var data: Dictionary
+var effects: Array = []
+var cards: Dictionary
 
 
 func _ready():
-	var card_file = FileAccess.open(CARD_DATA_PATH, FileAccess.READ)
-	self.data = JSON.parse_string(card_file.get_as_text())
+	self.cards = read_into(CARD_DATA_PATH)
+	for path in EFFECT_DATA_PATHS:
+		self.effects += read_into(path)
+	Utils.log("Loaded " + str(self.effects.size()) + " effects")
 
 
-func get_instance(id: String):
-	return Card.new(self.data[id])
+func read_into(path):
+	var file = FileAccess.open(path, FileAccess.READ)
+	return JSON.parse_string(file.get_as_text())
+
+
+func get_card(id: String):
+	return Card.new(self.cards[id])
+
+
+func get_effect_tree(id: String):
+	Utils.log("Getting effect tree for " + id)
+	return self.effects.filter(func(e): return e.id == id)[0]
+
+func all_cards():
+	return self.cards.keys()

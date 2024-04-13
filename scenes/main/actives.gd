@@ -57,9 +57,8 @@ static func treason(effect, world, game):
 
 static func renewal(_effect, world, game):
 	var own_regions = world.regions.values().filter(func(r): return r.data.team == game.current_player.team).map(func(r): return r.data.id)
-
 	return Action.new(Action.Type.Renewal, {'value': own_regions})
 	
 
 static func apply(effect, world, game):
-	return Callable(Actives, effect.name).call(effect, world, game) 
+	return Callable(Actives, effect.target).call(effect, world, game) 

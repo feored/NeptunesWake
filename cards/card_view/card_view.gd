@@ -12,14 +12,15 @@ const HOVER_Z_INDEX = 1
 
 @onready var card_icon : TextureRect = %PowerIcon
 @onready var card_name : Label = %PowerName
-@onready var card_description : RichTextLabel = %PowerDescription
 @onready var card_cost : Label = %PowerCost
 @onready var shape_gui = %ShapeGUI
 @onready var front : Control = %Front
 @onready var back : Control = %Back
 @onready var exhaust_label : Label = %ExhaustLabel
+@onready var effect_container : Control = %EffectContainer
 
 var shape_prefab = preload("res://scenes/shapes/shape_gui.tscn")
+const effect_prefab = preload("res://cards/effects/effect_view.tscn")
 
 var buyable: bool = true
 var tweens = []
@@ -130,9 +131,13 @@ func config():
 	# 	self.shape_gui.hide()
 	# 	self.card_icon.show()
 	# self.btn.tooltip_text = self.power.description
-	self.card_description.text = "[center]" + self.card.description + "[/center]"
+	#self.card_description.text = "[center]" + self.card.description + "[/center]"
 	self.card_cost.text = str(self.card.cost)
 	self.exhaust_label.visible = self.card.exhaust
+	# for effect in self.card.effects:
+	# 	var effect_view = effect_prefab.instantiate()
+	# 	effect_view.effect = effect
+	# 	self.effect_container.add_child(effect_view)
 	if not self.is_static:
 		self.mouse_entered.connect(Callable(self, "_on_mouse_entered"))
 		self.mouse_exited.connect(Callable(self, "_on_mouse_exited"))

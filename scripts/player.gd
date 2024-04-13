@@ -28,10 +28,10 @@ const DEFAULT_RESOURCES = {
 
 func compute(r : String):
 	var res = self.resources.duplicate()
-	for effect in Effects.effects[self].filter(func(e): return e.name == r):
+	for effect in Effects.effects[self].filter(func(e): return e.target == r):
 		var expression = Expression.new()
 		expression.parse(effect.value, res.keys())
 		var result = expression.execute(res.values())
-		res[effect.name] = result
+		res[effect.target] = result
 	Utils.log("Player " + str(self.team) + " has " + str(res[r]) + " " + r + " computed from " + str(self.resources[r]) + " base.")
 	return res[r]

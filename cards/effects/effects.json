@@ -1,0 +1,457 @@
+[
+	{
+		"id": "double_faith",
+		"name": "Blessing",
+		"tiers": [
+			{
+				"target": "faith",
+				"value": "faith * 2",
+				"tooltip": "Double your faith.",
+				"type": "active",
+				"active_trigger": "instant",
+				"cost": 2,
+				"level": 10
+			}
+		]
+	},
+	{
+		"id": "flat_sink_bonus",
+		"name": "Augment Sink",
+		"tiers": [
+			{
+				"type": "resource",
+				"target": "flat_sink_bonus",
+				"value": "flat_sink_bonus + 1",
+				"tooltip": "Your sink cards sink an additional tile.",
+				"duration": 1,
+				"duration_trigger": "turn_over",
+				"cost": 1,
+				"level": 1
+			},
+			{
+				"type": "resource",
+				"target": "flat_sink_bonus",
+				"value": "flat_sink_bonus + 3",
+				"tooltip": "Your sink cards sink an additional tile.",
+				"duration": 1,
+				"duration_trigger": "turn_over",
+				"cost": 2,
+				"level": 3
+			},
+			{
+				"type": "resource",
+				"target": "flat_sink_bonus",
+				"value": "flat_sink_bonus + 3",
+				"tooltip": "Your sink cards sink an additional tile.",
+				"duration": 3,
+				"duration_trigger": "turn_over",
+				"cost": 3,
+				"level": 5
+			},
+			{
+				"type": "resource",
+				"target": "flat_sink_bonus",
+				"value": "flat_sink_bonus + 5",
+				"tooltip": "Your sink cards sink an additional tile.",
+				"duration": 3,
+				"duration_trigger": "turn_over",
+				"cost": 4,
+				"level": 7
+			},
+			{
+				"type": "resource",
+				"target": "flat_sink_bonus",
+				"value": "flat_sink_bonus + 5",
+				"tooltip": "Your sink cards sink an additional tile.",
+				"cost": 5,
+				"level": 10
+			}
+		]
+	},
+	{
+		"id": "flat_emerge_bonus",
+		"name": "Augment Emerge",
+		"tiers": [
+			{
+				"type": "resource",
+				"target": "flat_emerge_bonus",
+				"value": "flat_emerge_bonus + 1",
+				"tooltip": "Your emerge cards emerge an additional tile.",
+				"duration": 1,
+				"duration_trigger": "turn_over",
+				"cost": 1,
+				"level": 1
+			},
+			{
+				"type": "resource",
+				"target": "flat_emerge_bonus",
+				"value": "flat_emerge_bonus + 3",
+				"tooltip": "Your emerge cards emerge an additional tile.",
+				"duration": 1,
+				"duration_trigger": "turn_over",
+				"cost": 2,
+				"level": 3
+			},
+			{
+				"type": "resource",
+				"target": "flat_emerge_bonus",
+				"value": "flat_emerge_bonus + 3",
+				"tooltip": "Your emerge cards emerge an additional tile.",
+				"duration": 3,
+				"duration_trigger": "turn_over",
+				"cost": 3,
+				"level": 5
+			},
+			{
+				"type": "resource",
+				"target": "flat_emerge_bonus",
+				"value": "flat_emerge_bonus + 5",
+				"tooltip": "Your emerge cards emerge an additional tile.",
+				"duration": 3,
+				"duration_trigger": "turn_over",
+				"cost": 4,
+				"level": 7
+			},
+			{
+				"type": "resource",
+				"target": "flat_emerge_bonus",
+				"value": "flat_emerge_bonus + 5",
+				"tooltip": "Your emerge cards emerge an additional tile.",
+				"cost": 5,
+				"level": 10
+			}
+		]
+	},
+	{
+		"id": "emerge_random_tiles",
+		"name": "Emerge Random",
+		"tiers": [
+			{
+				"type": "active",
+				"target": "emerge_random_tiles",
+				"value": 3,
+				"active_trigger": "instant",
+				"tooltip": "Emerge _VALUE_ (_COMPUTE_) random tiles from the sea.",
+				"cost": 1,
+				"level": 1
+			},
+			{
+				"type": "active",
+				"target": "emerge_random_tiles",
+				"value": 5,
+				"active_trigger": "instant",
+				"tooltip": "Emerge _VALUE_ (_COMPUTE_) random tiles from the sea.",
+				"cost": 2,
+				"level": 3
+			},
+			{
+				"type": "active",
+				"target": "emerge_random_tiles",
+				"value": 7,
+				"active_trigger": "instant",
+				"tooltip": "Emerge _VALUE_ (_COMPUTE_) random tiles from the sea.",
+				"cost": 3,
+				"level": 5
+			},
+			{
+				"type": "active",
+				"target": "emerge_random_tiles",
+				"value": 10,
+				"active_trigger": "instant",
+				"tooltip": "Emerge _VALUE_ (_COMPUTE_) random tiles from the sea.",
+				"cost": 4,
+				"level": 7
+			},
+			{
+				"type": "active",
+				"target": "emerge_random_tiles",
+				"value": 7,
+				"active_trigger": "turn_over",
+				"tooltip": "Emerge _VALUE_ (_COMPUTE_) random tiles from the sea.",
+				"cost": 5,
+				"exhaust": true,
+				"level": 10
+			}
+		]
+	},
+	{
+		"id": "sink_random_tiles",
+		"name": "Sink Random",
+		"tiers": [
+			{
+				"type": "active",
+				"target": "sink_random_tiles",
+				"value": 3,
+				"active_trigger": "instant",
+				"tooltip": "Sink _VALUE_ (_COMPUTE_) random tiles. Affected regions will lose units in proportion.",
+				"cost": 1,
+				"level": 1
+			},
+			{
+				"type": "active",
+				"target": "sink_random_tiles",
+				"value": 5,
+				"active_trigger": "instant",
+				"tooltip": "Sink _VALUE_ (_COMPUTE_) random tiles. Affected regions will lose units in proportion.",
+				"cost": 2,
+				"level": 3
+			},
+			{
+				"type": "active",
+				"target": "sink_random_tiles",
+				"value": 7,
+				"active_trigger": "instant",
+				"tooltip": "Sink _VALUE_ (_COMPUTE_) random tiles. Affected regions will lose units in proportion.",
+				"cost": 3,
+				"level": 5
+			},
+			{
+				"type": "active",
+				"target": "sink_random_tiles",
+				"value": 10,
+				"active_trigger": "instant",
+				"tooltip": "Sink _VALUE_ (_COMPUTE_) random tiles. Affected regions will lose units in proportion.",
+				"cost": 4,
+				"level": 7
+			},
+			{
+				"type": "active",
+				"target": "sink_random_tiles",
+				"value": 7,
+				"active_trigger": "turn_over",
+				"tooltip": "Sink _VALUE_ (_COMPUTE_) random tiles. Affected regions will lose units in proportion.",
+				"cost": 5,
+				"exhaust": true,
+				"level": 10
+			}
+		]
+	},
+	{
+		"id": "high_morale",
+		"name": "High Morale",
+		"tiers": [
+			{
+				"type": "resource",
+				"target": "flat_reinforce_bonus",
+				"value": "flat_reinforce_bonus + 5",
+				"tooltip": "Your reinforce cards add 5 more units.",
+				"cost": 1,
+				"level": 1
+			},
+			{
+				"type": "resource",
+				"target": "flat_reinforce_bonus",
+				"value": "flat_reinforce_bonus + 10",
+				"tooltip": "Your reinforce cards add 10 more units.",
+				"cost": 2,
+				"level": 3
+			},
+			{
+				"type": "resource",
+				"target": "flat_reinforce_bonus",
+				"value": "flat_reinforce_bonus + 15",
+				"tooltip": "Your reinforce cards add 15 more units.",
+				"cost": 3,
+				"level": 5
+			},
+			{
+				"type": "resource",
+				"target": "flat_reinforce_bonus",
+				"value": "flat_reinforce_bonus + 20",
+				"tooltip": "Your reinforce cards add 20 more units.",
+				"cost": 4,
+				"level": 7
+			},
+			{
+				"type": "resource",
+				"target": "flat_reinforce_bonus",
+				"value": "flat_reinforce_bonus + 30",
+				"tooltip": "Your reinforce cards add 30 more units.",
+				"cost": 5,
+				"level": 10
+			}
+		]
+	},
+	{
+		"id": "divine_fervor",
+		"name": "Divine Fervor",
+		"tiers": [
+			{
+				"type": "resource",
+				"target": "flat_reinforce_bonus",
+				"value": "flat_reinforce_bonus + 15",
+				"tooltip": "Your reinforce cards add 15 more units.",
+				"duration": 1,
+				"duration_trigger": "turn_over",
+				"cost": 1,
+				"level": 1
+			},
+			{
+				"type": "resource",
+				"target": "flat_reinforce_bonus",
+				"value": "flat_reinforce_bonus + 25",
+				"tooltip": "Your reinforce cards add 25 more units.",
+				"duration": 1,
+				"duration_trigger": "turn_over",
+				"cost": 2,
+				"level": 3
+			}
+		]
+	},
+	{
+		"id": "conversion",
+		"name": "Conversion",
+		"tiers": [
+			{
+				"type": "resource",
+				"target": "reinforce_neutral",
+				"value": "1",
+				"duration": 1,
+				"duration_trigger": "turn_over",
+				"cost": 3,
+				"level": 5,
+				"tooltip": "You can reinforce neutral regions, winning them over to your side."
+			},
+			{
+				"type": "resource",
+				"target": "reinforce_neutral",
+				"value": "1",
+				"cost": 5,
+				"level": 10,
+				"tooltip": "You can reinforce neutral regions, winning them over to your side."
+			}
+		]
+	},
+	{
+		"id": "renewal",
+		"name": "Renewal",
+		"tiers": [
+			{
+				"type": "active",
+				"target": "renewal",
+				"value": 1,
+				"active_trigger": "instant",
+				"cost": 3,
+				"level": 5,
+				"tooltip": "All your regions are usable again."
+			}
+		]
+	},
+	{
+		"id": "priestly",
+		"name": "Priestly",
+		"tiers": [
+			{
+				"type": "resource",
+				"target": "faith_per_turn",
+				"value": "faith_per_turn + 1",
+				"tooltip": "Gain 1 more faith per turn.",
+				"cost": 2,
+				"level": 3
+			},
+			{
+				"type": "resource",
+				"target": "faith_per_turn",
+				"value": "faith_per_turn + 2",
+				"tooltip": "Gain 1 more faith per turn.",
+				"cost": 3,
+				"level": 5
+			},
+			{
+				"type": "resource",
+				"target": "faith_per_turn",
+				"value": "faith_per_turn + 3",
+				"tooltip": "Gain 1 more faith per turn.",
+				"cost": 5,
+				"level": 10
+			}
+		]
+	},
+	{
+		"id": "cardless",
+		"name": "Cardless",
+		"tiers": [
+			{
+				"type": "resource",
+				"target": "cards_per_turn",
+				"value": "cards_per_turn - 1",
+				"tooltip": "Draw 1 less card per turn.",
+				"cost": -1,
+				"level": 1
+			},
+			{
+				"type": "resource",
+				"target": "cards_per_turn",
+				"value": "cards_per_turn - 2",
+				"tooltip": "Draw 2 less cards per turn.",
+				"cost": -2,
+				"level": 3
+			},
+			{
+				"type": "resource",
+				"target": "cards_per_turn",
+				"value": "cards_per_turn - 3",
+				"tooltip": "Draw 3 less cards per turn.",
+				"cost": -3,
+				"level": 5
+			}
+		]
+	},
+	{
+		"id": "offering",
+		"name": "Offering",
+		"tiers": [
+			{
+				"type": "active",
+				"target": "faith",
+				"value": "faith + 1",
+				"active_trigger": "instant",
+				"cost": 0,
+				"level": 1,
+				"tooltip": "Gain 1 faith."
+			},
+			{
+				"type": "active",
+				"target": "faith",
+				"value": "faith + 2",
+				"active_trigger": "instant",
+				"cost": 0,
+				"level": 5,
+				"tooltip": "Gain 2 faith."
+			},
+			{
+				"type": "active",
+				"target": "faith",
+				"value": "faith + 3",
+				"active_trigger": "instant",
+				"cost": 0,
+				"level": 10,
+				"tooltip": "Gain 3 faith."
+			}
+		]
+	},
+	{
+		"id": "seal",
+		"name": "Seal",
+		"tiers": [
+			{
+				"type": "power",
+				"target": "build",
+				"value": "Seal",
+				"tooltip": "Seal a region to make it resist one of Neptune's Marks."
+			}
+		]
+	},
+	{
+		"id": "barracks",
+		"name": "Barracks",
+		"tiers": [
+			{
+				"type": "power",
+				"target": "build",
+				"value": "Barracks",
+				"tooltip": "Build a Barracks in a region. Will generate 3 troops per turn."
+			}
+		]
+	}
+]

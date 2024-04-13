@@ -24,8 +24,13 @@ var duration: int
 var duration_trigger: Trigger
 var active_trigger: Trigger
 var type: Type
+var target: String
 var name: String
 var value: Variant
+var cost: int
+var level: int
+var effect_id: String
+var tier: int
 
 
 func _to_string():
@@ -98,21 +103,32 @@ func string_to_trigger(s: String) -> Trigger:
 		return Trigger.Instant
 
 
-func _init(e):
-	duration = 0 if not e.has("duration") else e["duration"]
-	duration_trigger = (
+func _init(init_id: String, init_tier: int):
+	var e_tree = Cards.get_effect_tree(init_id)
+
+	self.effect_id = init_id
+	self.name = e_tree.name
+	self.tier = tier
+
+	var e = e_tree.tiers[init_tier - 1]
+
+	self.duration = 0 if not e.has("duration") else e["duration"]
+	self.duration_trigger = (
 		Trigger.Instant
 		if not e.has("duration_trigger")
 		else string_to_trigger(e["duration_trigger"])
 	)
-	type = string_to_type(e["type"])
-	active_trigger = (
+	self.type = string_to_type(e.type)
+	self.active_trigger = (
 		Trigger.Instant
 		if (self.type != Type.Active or not e.has("active_trigger"))
 		else string_to_trigger(e["active_trigger"])
 	)
-	name = e["name"]
-	value = e["value"]
+
+	self.target = e.target
+	self.value = e.value
+	self.cost = e.cost
+	self.level = e.level
 
 # Three types of effects: Power, Actve, and Resource.
 # Powers are things that require player interaction. They are limited to one per card.

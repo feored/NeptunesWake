@@ -111,7 +111,7 @@ func _on_new_run_btn_pressed():
 
 func _on_card_collection_btn_pressed():
 	var all_cards = []
-	for c in Cards.data.keys():
-		all_cards.push_back(Cards.get_instance(c))
+	for c in Cards.all_cards():
+		all_cards.push_back(Cards.get_card(c))
 	deck_view.init(all_cards)
 	deck_view.show()

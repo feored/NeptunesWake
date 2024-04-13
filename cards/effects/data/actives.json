@@ -1,0 +1,281 @@
+[
+	{
+		"id": "blessing",
+		"name": "Blessing",
+		"tiers": [
+			{
+				"target": "faith",
+				"value": "faith * 2",
+				"tooltip": "Double your faith.",
+				"type": "active",
+				"active_trigger": "instant",
+				"cost": 2,
+				"level": 10
+			}
+		]
+	},
+	{
+		"id": "emerge_random_tiles",
+		"name": "Emerge Random",
+		"tiers": [
+			{
+				"type": "active",
+				"target": "emerge_random_tiles",
+				"value": 3,
+				"active_trigger": "instant",
+				"tooltip": "Emerge _VALUE_ (_COMPUTE_) random tiles from the sea.",
+				"cost": 1,
+				"level": 1
+			},
+			{
+				"type": "active",
+				"target": "emerge_random_tiles",
+				"value": 5,
+				"active_trigger": "instant",
+				"tooltip": "Emerge _VALUE_ (_COMPUTE_) random tiles from the sea.",
+				"cost": 2,
+				"level": 3
+			},
+			{
+				"type": "active",
+				"target": "emerge_random_tiles",
+				"value": 7,
+				"active_trigger": "instant",
+				"tooltip": "Emerge _VALUE_ (_COMPUTE_) random tiles from the sea.",
+				"cost": 3,
+				"level": 5
+			},
+			{
+				"type": "active",
+				"target": "emerge_random_tiles",
+				"value": 10,
+				"active_trigger": "instant",
+				"tooltip": "Emerge _VALUE_ (_COMPUTE_) random tiles from the sea.",
+				"cost": 4,
+				"level": 7
+			},
+			{
+				"type": "active",
+				"target": "emerge_random_tiles",
+				"value": 7,
+				"active_trigger": "turn_over",
+				"tooltip": "Emerge _VALUE_ (_COMPUTE_) random tiles from the sea.",
+				"cost": 5,
+				"exhaust": true,
+				"level": 10
+			}
+		]
+	},
+	{
+		"id": "sink_random_tiles",
+		"name": "Sink Random",
+		"tiers": [
+			{
+				"type": "active",
+				"target": "sink_random_tiles",
+				"value": 3,
+				"active_trigger": "instant",
+				"tooltip": "Sink _VALUE_ (_COMPUTE_) random tiles. Affected regions will lose units in proportion.",
+				"cost": 1,
+				"level": 1
+			},
+			{
+				"type": "active",
+				"target": "sink_random_tiles",
+				"value": 5,
+				"active_trigger": "instant",
+				"tooltip": "Sink _VALUE_ (_COMPUTE_) random tiles. Affected regions will lose units in proportion.",
+				"cost": 2,
+				"level": 3
+			},
+			{
+				"type": "active",
+				"target": "sink_random_tiles",
+				"value": 7,
+				"active_trigger": "instant",
+				"tooltip": "Sink _VALUE_ (_COMPUTE_) random tiles. Affected regions will lose units in proportion.",
+				"cost": 3,
+				"level": 5
+			},
+			{
+				"type": "active",
+				"target": "sink_random_tiles",
+				"value": 10,
+				"active_trigger": "instant",
+				"tooltip": "Sink _VALUE_ (_COMPUTE_) random tiles. Affected regions will lose units in proportion.",
+				"cost": 4,
+				"level": 7
+			},
+			{
+				"type": "active",
+				"target": "sink_random_tiles",
+				"value": 7,
+				"active_trigger": "turn_over",
+				"tooltip": "Sink _VALUE_ (_COMPUTE_) random tiles. Affected regions will lose units in proportion.",
+				"cost": 5,
+				"exhaust": true,
+				"level": 10
+			}
+		]
+	},
+	{
+		"id": "sink_random_self_tiles",
+		"name": "Sink Self",
+		"tiers": [
+			{
+				"type": "active",
+				"target": "sink_random_self_tiles",
+				"value": 1,
+				"active_trigger": "turn_over",
+				"cost": -1,
+				"level": 1
+			},
+			{
+				"type": "active",
+				"target": "sink_random_self_tiles",
+				"value": 1,
+				"active_trigger": "card_played",
+				"cost": -3,
+				"level": 5
+			}
+		]
+	},
+	{
+		"id": "renewal",
+		"name": "Renewal",
+		"tiers": [
+			{
+				"type": "active",
+				"target": "renewal",
+				"value": 1,
+				"active_trigger": "instant",
+				"cost": 3,
+				"level": 5,
+				"tooltip": "All your regions are usable again."
+			}
+		]
+	},
+	{
+		"id": "offering",
+		"name": "Offering",
+		"tiers": [
+			{
+				"type": "active",
+				"target": "faith",
+				"value": "faith + 1",
+				"active_trigger": "instant",
+				"cost": 0,
+				"level": 1,
+				"tooltip": "Gain 1 faith."
+			},
+			{
+				"type": "active",
+				"target": "faith",
+				"value": "faith + 2",
+				"active_trigger": "instant",
+				"cost": 0,
+				"level": 5,
+				"tooltip": "Gain 2 faith."
+			},
+			{
+				"type": "active",
+				"target": "faith",
+				"value": "faith + 3",
+				"active_trigger": "instant",
+				"cost": 0,
+				"level": 10,
+				"tooltip": "Gain 3 faith."
+			}
+		]
+	},
+	{
+		"id": "random_discard",
+		"name": "Random Discard",
+		"tiers": [
+			{
+				"type": "active",
+				"target": "random_discard",
+				"value": 1,
+				"active_trigger": "instant",
+				"cost": -1,
+				"level": 1,
+				"tooltip": "Discard a random card."
+			},
+			{
+				"type": "active",
+				"target": "random_discard",
+				"value": 2,
+				"active_trigger": "instant",
+				"cost": -2,
+				"level": 3,
+				"tooltip": "Discard 2 randomly chosen cards."
+			},
+			{
+				"type": "active",
+				"target": "random_discard",
+				"value": 3,
+				"active_trigger": "instant",
+				"cost": -3,
+				"level": 5,
+				"tooltip": "Discard 3 randomly chosen card."
+			}
+		]
+	},
+	{
+		"id": "draw",
+		"name": "Draw",
+		"tiers": [
+			{
+				"type": "active",
+				"target": "draw",
+				"value": 1,
+				"active_trigger": "instant",
+				"cost": 1,
+				"level": 1,
+				"tooltip": "Draw a card."
+			},
+			{
+				"type": "active",
+				"target": "draw",
+				"value": 2,
+				"active_trigger": "instant",
+				"cost": 2,
+				"level": 5,
+				"tooltip": "Draw 2 cards."
+			},
+			{
+				"type": "active",
+				"target": "draw",
+				"value": 3,
+				"active_trigger": "instant",
+				"cost": 3,
+				"level": 7,
+				"tooltip": "Draw 3 cards."
+			}
+		]
+	},
+	{
+		"id": "treason",
+		"name": "Treason",
+		"tiers": [
+			{
+				"type": "active",
+				"target": "treason",
+				"value": 1,
+				"active_trigger": "turn_over",
+				"cost": -5,
+				"level": 5,
+				"tooltip": "A random region defects to the enemy."
+			},
+			{
+				"type": "active",
+				"target": "treason",
+				"value": 2,
+				"active_trigger": "turn_over",
+				"cost": -10,
+				"level": 10,
+				"tooltip": "Two random regions defect to the enemy."
+			}
+		]
+	}
+]

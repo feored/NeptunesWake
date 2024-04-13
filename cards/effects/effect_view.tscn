@@ -1,0 +1,117 @@
+[gd_scene load_steps=7 format=3 uid="uid://bsjkwm7ah2iay"]
+
+[ext_resource type="Theme" uid="uid://3t61g0061mea" path="res://assets/theme.tres" id="1_arfc8"]
+[ext_resource type="Script" path="res://cards/effects/effect_view.gd" id="2_ti7r7"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ttiev"]
+bg_color = Color(0.0627451, 0.0627451, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ve1k6"]
+content_margin_left = 2.0
+content_margin_right = 2.0
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rgycn"]
+content_margin_left = 5.0
+content_margin_top = 0.0
+content_margin_right = 5.0
+content_margin_bottom = 0.0
+bg_color = Color(0.294118, 0.623529, 0.439216, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qpug4"]
+content_margin_left = 5.0
+content_margin_right = 5.0
+bg_color = Color(0.0117647, 0.529412, 0.313726, 1)
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[node name="Effect" type="PanelContainer"]
+theme = ExtResource("1_arfc8")
+theme_override_styles/panel = SubResource("StyleBoxFlat_ttiev")
+script = ExtResource("2_ti7r7")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "On"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TriggerLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.180392, 0.658824, 0.819608, 1)
+text = "[PLAY]"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="PanelContainer2" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ve1k6")
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/PanelContainer2"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.47451, 0.619608, 1)
+text = "P"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_rgycn")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+text = "Lv.4
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+text = "Renewal"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Control" type="Control" parent="."]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="Control"]
+layout_mode = 2
+offset_left = -16.0
+offset_bottom = 20.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_qpug4")
+
+[node name="Label" type="Label" parent="Control/PanelContainer"]
+layout_mode = 2
+text = "7"
+horizontal_alignment = 2
+vertical_alignment = 1

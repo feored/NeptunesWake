@@ -1,7 +1,7 @@
 extends Control
 
 
-const CARD_SIZE = Vector2(125, 165)
+const CARD_SIZE = Vector2(166, 244)
 const CARD_SPACING : float = 125
 const CENTER = Vector2(Constants.VIEWPORT_SIZE.x / 2.0 - CARD_SIZE.x/2.0, 425.0)
 const POSITION_CURVE = preload("res://cards/card_view/position_curve.tres")
@@ -56,11 +56,15 @@ func draw():
 func add_card(cv):
 	cv.disconnect_picked()
 	cv.picked.connect(func(cv): card_played.call(cv))
+	Utils.log("Before size", cv.size)
 	add_child(cv)
+	Utils.log("1size", cv.size)
 	cv.position = DRAW_POS
 	self.play_pile.append(cv)
+	Utils.log("2size", cv.size)
 	place_all()
 	update_display()
+	Utils.log("3size", cv.size)
 
 func place_all():
 	for i in range(self.play_pile.size()):

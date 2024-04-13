@@ -22,11 +22,7 @@ const mods = {
 		"name": "Treason",
 		"effects":
 		[
-			{
-				"target": Target.Human,
-				"effect":
-				{"type": "active", "name": "treason", "value": 1, "active_trigger": "turn_over"},
-			},
+			{"target": Target.Human, "effect": {"id": "treason", "tier": 1}},
 		],
 		"description":
 		"At the end of your turn, one of your regions is converted to an enemy's side."
@@ -39,15 +35,10 @@ const mods = {
 		[
 			{
 				"target": Target.Human,
-				"effect":
-				{
-					"type": "resource",
-					"name": "cards_playable_per_turn",
-					"value": "3",
-				},
+				"effect": {"id": "prison", "tier": 2},
 			},
 		],
-		"description": "Only play up to three cards per turn."
+		"description": "Only play up to 4 cards per turn."
 	},
 	Mod.NeptuneCurse:
 	{
@@ -55,16 +46,7 @@ const mods = {
 		"name": "Neptune's Curse",
 		"effects":
 		[
-			{
-				"target": Target.Human,
-				"effect":
-				{
-					"type": "active",
-					"name": "sink_random_self_tiles",
-					"value": 1,
-					"active_trigger": "card_played"
-				},
-			},
+			{"target": Target.Human, "effect": {"id": "sink_random_self_tiles", "tier": 2}},
 		],
 		"description": "Every time you play a card, Neptune randomly sinks one of your tiles."
 	},
@@ -76,8 +58,7 @@ const mods = {
 		[
 			{
 				"target": Target.Enemies,
-				"effect":
-				{"type": "resource", "name": "units_per_tile", "value": "units_per_tile * 1.5"},
+				"effect": {"id": "conscription", "tier": 1},
 			}
 		],
 		"description": "Enemy troops regenerate twice as fast."
@@ -90,8 +71,7 @@ const mods = {
 		[
 			{
 				"target": Target.Enemies,
-				"effect":
-				{"type": "resource", "name": "units_per_tile", "value": "units_per_tile * 2"},
+				"effect": {"id": "conscription", "tier": 2},
 			}
 		],
 		"description": "Enemy troops regenerate three times as fast."
@@ -100,28 +80,14 @@ const mods = {
 	{
 		"level": 2,
 		"name": "Godless",
-		"effects":
-		[
-			{
-				"target": Target.Human,
-				"effect":
-				{"type": "resource", "name": "faith_per_turn", "value": "faith_per_turn - 1"},
-			}
-		],
+		"effects": [{"target": Target.Human, "effect": {"id": "godless", "tier": 1}}],
 		"description": "Generate one less faith per turn."
 	},
 	Mod.GodForsaken:
 	{
 		"level": 3,
 		"name": "Godforsaken",
-		"effects":
-		[
-			{
-				"target": Target.Human,
-				"effect":
-				{"type": "resource", "name": "faith_per_turn", "value": "faith_per_turn - 2"},
-			}
-		],
+		"effects": [{"target": Target.Human, "effect": {"id": "godless", "tier": 2}}],
 		"description": "Generate two less faith per turn."
 	},
 	Mod.Famine:
@@ -132,8 +98,7 @@ const mods = {
 		[
 			{
 				"target": Target.Human,
-				"effect":
-				{"type": "resource", "name": "units_per_tile", "value": "units_per_tile * 0.5"},
+				"effect": {"id": "famine", "tier": 1},
 			}
 		],
 		"description": "Your troops regenerate half as fast."
@@ -147,7 +112,7 @@ const mods = {
 			{
 				"target": Target.Human,
 				"effect":
-				{"type": "resource", "name": "cards_per_turn", "value": "cards_per_turn - 2"},
+				{"id": "cardless", "tier": 2},
 			}
 		],
 		"description": "Draw two less cards per turn."

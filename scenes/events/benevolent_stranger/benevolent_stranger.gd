@@ -9,9 +9,9 @@ var picked : bool = false
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	for i in range(3):
-		var card = Cards.data.keys()[randi() % Cards.data.size()]
+		var card = Cards.all_cards().pick_random()
 		var cv = card_view_prefab.instantiate()
-		cv.card = Cards.get_instance(card)
+		cv.card = Cards.get_card(card)
 		cv.is_static = true
 		cv.picked.connect(Callable(self, "pick_card"))
 		cards_container.add_child(cv)

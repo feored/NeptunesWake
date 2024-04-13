@@ -10,7 +10,7 @@ var coords : Vector2i = Map.START
 func _init():
 	map = Map.new()
 	for card_id in STARTING_DECK:
-		var card  = Cards.get_instance(card_id)
+		var card  = Cards.get_card(card_id)
 		self.deck.push_back(card)
 
 func get_open_nodes():
