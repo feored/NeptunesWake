@@ -134,10 +134,10 @@ func config():
 	#self.card_description.text = "[center]" + self.card.description + "[/center]"
 	self.card_cost.text = str(self.card.cost)
 	self.exhaust_label.visible = self.card.exhaust
-	# for effect in self.card.effects:
-	# 	var effect_view = effect_prefab.instantiate()
-	# 	effect_view.effect = effect
-	# 	self.effect_container.add_child(effect_view)
+	for effect in self.card.effects:
+		var effect_view = effect_prefab.instantiate()
+		effect_view.init(effect)
+		self.effect_container.add_child(effect_view)
 	if not self.is_static:
 		self.mouse_entered.connect(Callable(self, "_on_mouse_entered"))
 		self.mouse_exited.connect(Callable(self, "_on_mouse_exited"))
