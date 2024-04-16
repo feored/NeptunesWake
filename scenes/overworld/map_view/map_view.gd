@@ -28,7 +28,7 @@ func clear():
 
 func scroll_to_floor():
 	var tween_pos = self.create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
-	var new_y =  coords_to_btnpos(Vector2(Info.run.get_floor(), 0)).y - Constants.VIEWPORT_SIZE.y/2
+	var new_y =  coords_to_btnpos(Vector2(Info.run.get_floor(), 0)).y - get_viewport().content_scale_size.y/2
 	print( coords_to_btnpos(Vector2(Info.run.get_floor(), 0)))
 	tween_pos.tween_property(self, "scroll_vertical", new_y, 0.25)
 	

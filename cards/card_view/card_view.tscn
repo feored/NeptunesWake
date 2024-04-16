@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bgm1rdglwaad5"]
+[gd_scene load_steps=10 format=3 uid="uid://bgm1rdglwaad5"]
 
 [ext_resource type="Theme" uid="uid://3t61g0061mea" path="res://assets/theme.tres" id="1_7fcci"]
 [ext_resource type="Script" path="res://cards/card_view/card_view.gd" id="2_3yo7v"]
@@ -23,8 +23,18 @@ anti_aliasing = false
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xvcwb"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kg3mi"]
+content_margin_left = 5.0
+content_margin_top = 0.0
+content_margin_right = 5.0
+bg_color = Color(0.156863, 0.156863, 0.156863, 0.843137)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
 [node name="PowerCard" type="PanelContainer"]
-custom_minimum_size = Vector2(140, 200)
+custom_minimum_size = Vector2(250, 350)
 offset_right = 140.0
 offset_bottom = 200.0
 pivot_offset = Vector2(83, 122)
@@ -54,7 +64,7 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_xvcwb")
 
 [node name="PowerIcon" type="TextureRect" parent="MarginContainer/Front/PanelContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(85, 48)
+custom_minimum_size = Vector2(0, 75)
 layout_mode = 2
 mouse_filter = 2
 texture = ExtResource("3_5h4kn")
@@ -73,6 +83,8 @@ layout_mode = 2
 [node name="PowerName" type="Label" parent="MarginContainer/Front/PanelContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/normal = SubResource("StyleBoxFlat_kg3mi")
 text = "Sink"
 horizontal_alignment = 1
 vertical_alignment = 1

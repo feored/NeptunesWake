@@ -55,7 +55,9 @@ func _ready():
 	self.mods_scroll_container.add_child(mod_list)
 	
 	self.game.started = true
-	self.world.camera.move_instant(self.world.map_to_local(closest_player_tile_coords()))
+	Utils.log("Formerly ", self.world.map_to_local(closest_player_tile_coords()))
+	Utils.log("Moving to pos: ", self.world.coords_to_pos(closest_player_tile_coords()))
+	self.world.camera.move_instant(self.world.coords_to_pos(closest_player_tile_coords()) * self.world.camera.zoom)
 	self.deck.card_played = use_card
 	
 	prepare_turn()
@@ -100,7 +102,7 @@ func handle_tile_card(event):
 			self.mouse_item.try_place(tile_hovered, self.world.tiles.keys())
 		elif mouse_state == MouseState.Emerge:
 			self.mouse_item.try_emerge(tile_hovered, self.world.tiles.keys())
-		self.mouse_item.position = self.world.map_to_local(tile_hovered)
+		self.mouse_item.position = self.world.map_to_local_zoom(tile_hovered)
 	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		var tile_hovered = world.global_pos_to_coords(event.position)
 		if self.mouse_state == MouseState.Sink:
@@ -141,7 +143,7 @@ func handle_building(event):
 			self.mouse_item.self_modulate = Color(0.5, 1, 0.5)
 		else:
 			self.mouse_item.self_modulate = Color(1, 0.5, 0.5)
-		self.mouse_item.position = self.world.map_to_local(coords_hovered)
+		self.mouse_item.position = self.world.map_to_local_zoom(coords_hovered)
 	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		if !world.tiles.has(coords_hovered):
 			messenger.set_message("You can only build on land, my lord.")
@@ -173,7 +175,7 @@ func handle_reinforcements(event):
 				self.mouse_item.self_modulate = Color(1, 0.5, 0.5)
 		else:
 			self.mouse_item.self_modulate = Color(1, 0.5, 0.5)
-		self.mouse_item.position = self.world.map_to_local(coords_hovered)
+		self.mouse_item.position = self.world.map_to_local_zoom(coords_hovered)
 	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		if !world.tiles.has(coords_hovered):
 			messenger.set_message("You can't send reinforcements to the sea, my lord.")
@@ -203,7 +205,7 @@ func handle_sacrifice(event):
 			self.mouse_item.self_modulate = Color(0.5, 1, 0.5)
 		else:
 			self.mouse_item.self_modulate = Color(1, 0.5, 0.5)
-		self.mouse_item.position = self.world.map_to_local(coords_hovered)
+		self.mouse_item.position = self.world.map_to_local_zoom(coords_hovered)
 	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		if !world.tiles.has(coords_hovered):
 			messenger.set_message("There are no people to sacrifice here, my lord.")
@@ -276,7 +278,7 @@ func _on_turn_button_pressed():
 
 	var tile_camera_move = closest_player_tile_coords()
 	if tile_camera_move != Constants.NULL_COORDS:
-		await self.world.camera.move_smoothed(self.world.map_to_local(tile_camera_move), 5)
+		await self.world.camera.move_smoothed(self.world.map_to_local_zoom(tile_camera_move), 5)
 
 	## Faith generation
 	self.prepare_turn()
@@ -322,6 +324,7 @@ func compute_effect(effect):
 			return effect.value 
 		_:
 			Utils.log("Unknown active effect: %s" % effect.target)
+			return "UNKNOWN"
 			
 
 func use_card(cardView):

@@ -1,12 +1,12 @@
 extends Control
 
 
-const CARD_SIZE = Vector2(166, 244)
+const CARD_SIZE = Vector2(250, 350)
 const CARD_SPACING : float = 125
-const CENTER = Vector2(Constants.VIEWPORT_SIZE.x / 2.0 - CARD_SIZE.x/2.0, 425.0)
-const POSITION_CURVE = preload("res://cards/card_view/position_curve.tres")
-const DRAW_POS = Vector2(-100, 440)
-const DISCARD_POS = Vector2(1060, 440) 
+@onready var viewport_size = get_viewport().content_scale_size
+@onready var CENTER = Vector2(viewport_size.x / 2.0 - CARD_SIZE.x/2.0, viewport_size.y - CARD_SIZE.y)
+@onready var DRAW_POS = Vector2(-CARD_SIZE.x, viewport_size.y - CARD_SIZE.y)
+@onready var DISCARD_POS = Vector2(viewport_size.x + CARD_SIZE.x, viewport_size.y - CARD_SIZE.y)
 
 const card_prefab = preload("res://cards/card_view/card_view.tscn")
 

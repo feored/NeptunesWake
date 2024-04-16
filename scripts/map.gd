@@ -37,6 +37,8 @@ const NORMAL_MAPS = {
 	"homebase.json" : 2,
 	"rings.json" : 2,
 	"triforce.json" : 1,
+	"prison.json" : 2,
+	"rockandhardplace.json": 2
 }
 
 const BOSS_MAPS = [

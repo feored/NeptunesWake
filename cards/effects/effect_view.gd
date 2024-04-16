@@ -36,8 +36,10 @@ func config():
 	
 	self.duration_label.text = str(self.effect.duration)
 	self.duration_trigger_label.text = "[" + Effect.Trigger.keys()[self.effect.duration_trigger] + "]"
-	if self.effect.duration == 0:
+	if self.effect.duration_trigger == Effect.Trigger.Instant or self.effect.duration == 0:
 		self.duration_container.hide()
+	# if self.effect.duration == 0:
+	# 	self.duration_container.hide()
 	
 	self.type_label.text = self.type_short[self.effect.type]
 	self.tier_label.text = "T" + str(self.effect.tier)

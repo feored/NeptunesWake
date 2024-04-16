@@ -135,6 +135,7 @@ script = ExtResource("2_priir")
 [node name="MainCamera" type="Camera2D" parent="."]
 unique_name_in_owner = true
 anchor_mode = 0
+zoom = Vector2(2, 2)
 limit_left = -100000
 limit_top = -100000
 limit_right = 100000

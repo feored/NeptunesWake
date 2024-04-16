@@ -330,7 +330,10 @@ func _process(_delta):
 	pass
 
 func get_real_pos(pos):
-	return Vector2(pos.x + camera.position.x, pos.y + camera.position.y)
+	return pos/camera.zoom + camera.position
+
+func map_to_local_zoom(coords):
+	return self.map_to_local(coords)#* camera.zoom - camera.position
 
 func global_pos_to_coords(pos):
 	return self.local_to_map(self.to_local(get_real_pos(pos)))

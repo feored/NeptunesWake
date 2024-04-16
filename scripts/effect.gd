@@ -31,6 +31,7 @@ var cost: int
 var level: int
 var effect_id: String
 var tier: int
+var tooltip: String = ""
 
 
 func _to_string():
@@ -129,6 +130,7 @@ func _init(init_id: String, init_tier: int):
 	self.value = e.value
 	self.cost = e.cost
 	self.level = e.level
+	self.tooltip = e.tooltip
 
 # Three types of effects: Power, Actve, and Resource.
 # Powers are things that require player interaction. They are limited to one per card.

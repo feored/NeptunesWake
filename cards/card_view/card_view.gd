@@ -22,6 +22,8 @@ const HOVER_Z_INDEX = 1
 var shape_prefab = preload("res://scenes/shapes/shape_gui.tscn")
 const effect_prefab = preload("res://cards/effects/effect_view.tscn")
 
+var compute_effect : Callable
+
 var buyable: bool = true
 var tweens = []
 var card : Card
@@ -29,6 +31,16 @@ var state : State = State.Idle
 var card_ready : bool = false
 var base_position : Vector2
 var is_static : bool = false
+
+func gen_tooltip(e):
+	Utils.log("Generating tooltip for " + str(e))
+	var tooltip = e.tooltip
+	if "_VALUE_" in tooltip:
+		tooltip = tooltip.replace("_VALUE_", str(e.value))
+	if "_COMPUTE_" in tooltip:
+		var new_value = self.compute_effect.call(e) if self.compute_effect.is_valid() else str(e.value)
+		tooltip = tooltip.replace("_COMPUTE_", new_value)
+	return tooltip
 
 func check_finished():
 	for t in self.tweens:
@@ -135,9 +147,16 @@ func config():
 	self.card_cost.text = str(self.card.cost)
 	self.exhaust_label.visible = self.card.exhaust
 	for effect in self.card.effects:
-		var effect_view = effect_prefab.instantiate()
-		effect_view.init(effect)
-		self.effect_container.add_child(effect_view)
+		# var effect_view = effect_prefab.instantiate()
+		# effect_view.init(effect)
+		# self.effect_container.add_child(effect_view)
+		var label = Label.new()
+		label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		label.text = self.gen_tooltip(effect)
+		self.effect_container.add_child(label)
+
+
 	if not self.is_static:
 		self.mouse_entered.connect(Callable(self, "_on_mouse_entered"))
 		self.mouse_exited.connect(Callable(self, "_on_mouse_exited"))

@@ -42,11 +42,18 @@ theme = ExtResource("5_5yrco")
 script = ExtResource("4_nj60x")
 
 [node name="DiscardPileButton" type="Button" parent="UI/Deck"]
-layout_mode = 2
-offset_left = 839.0
-offset_top = 465.0
-offset_right = 942.0
-offset_bottom = 486.0
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -177.0
+offset_top = -100.0
+offset_right = -50.0
+offset_bottom = -67.0
+grow_horizontal = 0
+grow_vertical = 0
 theme = ExtResource("5_5yrco")
 text = "Discard Pile"
 alignment = 2
@@ -65,11 +72,15 @@ text = "0"
 vertical_alignment = 1
 
 [node name="DrawPileButton" type="Button" parent="UI/Deck"]
-layout_mode = 2
-offset_left = 16.0
-offset_top = 464.0
-offset_right = 119.0
-offset_bottom = 485.0
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 50.0
+offset_top = -100.0
+offset_right = 156.0
+offset_bottom = -67.0
+grow_vertical = 0
 theme = ExtResource("5_5yrco")
 text = "Draw Pile"
 alignment = 2
@@ -147,10 +158,14 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_u2eju")
 text = "End Turn"
 
 [node name="Faith" type="TextureRect" parent="UI"]
-offset_left = 33.0
-offset_top = 359.0
-offset_right = 97.0
-offset_bottom = 423.0
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 60.0
+offset_top = -280.0
+offset_right = 124.0
+offset_bottom = -216.0
+grow_vertical = 0
 theme = ExtResource("5_5yrco")
 texture = ExtResource("13_mjhrf")
 stretch_mode = 5

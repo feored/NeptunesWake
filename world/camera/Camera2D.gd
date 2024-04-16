@@ -3,92 +3,69 @@ extends Camera2D
 
 var active = true
 
-var LIMIT_X_NEGATIVE = Constants.CAMERA_CENTER.x - Constants.VIEWPORT_SIZE.x * 0.5
-var LIMIT_X_POSITIVE = Constants.CAMERA_CENTER.x + Constants.VIEWPORT_SIZE.x * 0.5
-var LIMIT_Y_NEGATIVE = Constants.CAMERA_CENTER.y - Constants.VIEWPORT_SIZE.y * 0.5 * 16/9
-var LIMIT_Y_POSITIVE = Constants.CAMERA_CENTER.y + Constants.VIEWPORT_SIZE.y * 0.5 * 16/9
-
-
-const POSITION_SMOOTHED_SPEED = 5.0
-const POSITION_SMOOTHED_SPEED_SKIP = 10.0
-
 @onready var viewport_size = get_viewport().content_scale_size
-var start_position = Constants.NULL_POS
-var is_dragging = false
+@onready var camera_center = -viewport_size/2
 
 
+@onready var LIMIT_X_NEGATIVE = camera_center.x - viewport_size.x * 0.5
+@onready var LIMIT_X_POSITIVE = camera_center.x + viewport_size.x * 0.5
+@onready var LIMIT_Y_NEGATIVE = camera_center.y - viewport_size.y * 0.5 * 16/9
+@onready var LIMIT_Y_POSITIVE = camera_center.y + viewport_size.y * 0.5 * 16/9
 
-func _ready():
-	if self.position == Vector2.ZERO:
-		self.position = Constants.CAMERA_CENTER
-	self.position_smoothing_enabled = false
-	self.position_smoothing_speed = Constants.CAMERA_SPEED
+const CAMERA_SPEED = 10
+const CAMERA_SPEED_SKIP = 50
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _physics_process(_delta):
-	if not active or Settings.input_locked:
+var zoom_speed = 0.1
+var min_zoom = Vector2(1, 1)
+var max_zoom = Vector2(4, 4)
+var panning = false
+var pan_speed = 0.1
+
+func _input(event):
+	if Settings.input_locked:
 		return
-	var new_position = self.position
-	if Input.is_action_pressed("map_left"):
-		new_position = Vector2(self.position.x - Constants.CAMERA_SPEED/2, self.position.y)
-	elif Input.is_action_pressed("map_right"):
-		new_position = Vector2(self.position.x + Constants.CAMERA_SPEED/2, self.position.y)
-	if Input.is_action_pressed("map_up"):
-		new_position = Vector2(self.position.x, self.position.y  - Constants.CAMERA_SPEED/2)
-	elif Input.is_action_pressed("map_down"):
-		new_position = Vector2(self.position.x,  self.position.y + Constants.CAMERA_SPEED/2)
-	if new_position.x < LIMIT_X_NEGATIVE:
-		new_position.x = LIMIT_X_NEGATIVE
-	elif new_position.x > LIMIT_X_POSITIVE:
-		new_position.x = LIMIT_X_POSITIVE
-	if new_position.y < LIMIT_Y_NEGATIVE:
-		new_position.y = LIMIT_Y_NEGATIVE
-	elif new_position.y > LIMIT_Y_POSITIVE:
-		new_position.y = LIMIT_Y_POSITIVE
-	self.position = new_position
+	if event.is_action_released('zoom_in'):
+		zoom_camera(zoom_speed, event.position)
+	if event.is_action_released('zoom_out'):
+		zoom_camera(-zoom_speed, event.position)
 
-
-
-func move():
-	if not active:
-		return
-	var local_mouse_pos = get_local_mouse_position()
-	var new_position = position + (start_position - local_mouse_pos)
-	if new_position.x < LIMIT_X_NEGATIVE:
-		new_position.x = LIMIT_X_NEGATIVE
-	elif new_position.x > LIMIT_X_POSITIVE:
-		new_position.x = LIMIT_X_POSITIVE
-	if new_position.y < LIMIT_Y_NEGATIVE:
-		new_position.y = LIMIT_Y_NEGATIVE
-	elif new_position.y > LIMIT_Y_POSITIVE:
-		new_position.y = LIMIT_Y_POSITIVE
-	self.position = new_position
-	return local_mouse_pos
 
 func _unhandled_input(event):
 	if Settings.input_locked:
 		return
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
-			if event.pressed:
-				start_position = get_local_mouse_position()
-				is_dragging = true
-			else:
-				start_position = Constants.NULL_POS
-				is_dragging = false
-	elif event is InputEventMouseMotion and is_dragging:
-		if start_position != Constants.NULL_POS:
-			start_position = move()
+			self.panning = event.pressed
+	elif event is InputEventMouseMotion and self.panning:
+		self.position -= event.relative / zoom
+
+func zoom_camera(zoom_factor, mouse_position):
+	var prev_zoom = zoom
+	var new_zoom = clamp(zoom + ( zoom * zoom_factor), min_zoom, max_zoom)
+	var new_pos = self.position - ((viewport_size * 0.5) - mouse_position ) * (zoom - prev_zoom)
+	var tween = self.create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN).set_parallel()
+	tween.tween_property(self, "zoom", new_zoom, zoom_speed)
+	tween.tween_property(self, "position", new_pos, zoom_speed)
+	#self.zoom = 
+	#self.position -= ((viewport_size * 0.5) - mouse_position ) * (zoom - prev_zoom)
+	
+
+
+func _ready():
+	if self.position == Vector2.ZERO:
+		self.position = camera_center
+	self.position_smoothing_enabled = false
+	self.position_smoothing_speed = CAMERA_SPEED
 
 func move_instant(target):
 	if not active:
 		return
-	is_dragging = false
+	self.panning = false
 	self.position = target - Vector2(self.viewport_size/2)
 
 func skip(val: bool):
 	if self.position_smoothing_enabled:
-		self.position_smoothing_speed = POSITION_SMOOTHED_SPEED_SKIP if val else POSITION_SMOOTHED_SPEED
+		self.position_smoothing_speed = CAMERA_SPEED_SKIP if val else CAMERA_SPEED
 
 
 func move_smoothed(target, precision = 1):
@@ -96,10 +73,10 @@ func move_smoothed(target, precision = 1):
 		return
 	if !Settings.get_setting(Settings.Setting.AutoCameraFocus):
 		return
-	is_dragging = false
+	self.panning = false
 	self.position_smoothing_enabled = true
 	self.position = target - Vector2(self.viewport_size/2)
-	self.position_smoothing_speed = POSITION_SMOOTHED_SPEED_SKIP if Settings.skipping else POSITION_SMOOTHED_SPEED
+	self.position_smoothing_speed = CAMERA_SPEED_SKIP if Settings.skipping else CAMERA_SPEED
 	var arrived_center = target
 	while abs((arrived_center - get_screen_center_position()).length_squared()) > precision:
 		await Utils.wait(0.1)

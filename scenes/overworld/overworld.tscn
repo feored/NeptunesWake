@@ -10,7 +10,10 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nfs5d"]
 bg_color = Color(0.788235, 0.705882, 0.592157, 1)
 
-[node name="Overworld" type="Control"]
+[node name="Overworld" type="CanvasLayer"]
+script = ExtResource("1_jmjyb")
+
+[node name="Control" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -18,7 +21,60 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_5sf0l")
-script = ExtResource("1_jmjyb")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 47.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="EventContainer" type="PanelContainer" parent="Control/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MapView" type="ScrollContainer" parent="Control/VBoxContainer/EventContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("4_f2e7b")
+
+[node name="LinesPanel" type="Panel" parent="Control/VBoxContainer/EventContainer/MapView"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 1200)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_nfs5d")
+script = ExtResource("5_ocmwk")
+
+[node name="FloorLabel" type="Label" parent="Control/VBoxContainer/EventContainer/MapView/LinesPanel"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -42.0
+offset_bottom = 16.0
+grow_horizontal = 0
+text = "Floor 0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Bar" type="PanelContainer" parent="Control/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/VBoxContainer/Bar"]
+layout_mode = 2
+
+[node name="DeckViewBtn" type="Button" parent="Control/VBoxContainer/Bar/HBoxContainer"]
+layout_mode = 2
+text = "View Deck"
 
 [node name="EscMenu" parent="." instance=ExtResource("3_3h7bd")]
 
@@ -39,60 +95,7 @@ drag_bottom_margin = 0.9
 editor_draw_limits = true
 editor_draw_drag_margin = true
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 0
-
-[node name="EventContainer" type="PanelContainer" parent="VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="MapView" type="ScrollContainer" parent="VBoxContainer/EventContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 3
-script = ExtResource("4_f2e7b")
-
-[node name="LinesPanel" type="Panel" parent="VBoxContainer/EventContainer/MapView"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 1200)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_nfs5d")
-script = ExtResource("5_ocmwk")
-
-[node name="FloorLabel" type="Label" parent="VBoxContainer/EventContainer/MapView/LinesPanel"]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -42.0
-offset_bottom = 16.0
-grow_horizontal = 0
-text = "Floor 0"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Bar" type="PanelContainer" parent="VBoxContainer"]
-layout_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Bar"]
-layout_mode = 2
-
-[node name="DeckViewBtn" type="Button" parent="VBoxContainer/Bar/HBoxContainer"]
-layout_mode = 2
-text = "View Deck"
-
 [node name="DeckView" parent="." instance=ExtResource("5_j7lb7")]
 unique_name_in_owner = true
 
-[connection signal="pressed" from="VBoxContainer/Bar/HBoxContainer/DeckViewBtn" to="." method="_on_deck_view_btn_pressed"]
+[connection signal="pressed" from="Control/VBoxContainer/Bar/HBoxContainer/DeckViewBtn" to="." method="_on_deck_view_btn_pressed"]

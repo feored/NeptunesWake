@@ -1,7 +1,6 @@
 [gd_resource type="Theme" load_steps=39 format=3 uid="uid://3t61g0061mea"]
 
 [ext_resource type="Texture2D" uid="uid://uamowdvuuon1" path="res://assets/ui/button/browbtn_disabled.png" id="1_5pqjh"]
-[ext_resource type="FontFile" uid="uid://dnejlqr6sbicq" path="res://assets/monogram-extended.ttf" id="1_u5pme"]
 [ext_resource type="Texture2D" uid="uid://1mbqef17366m" path="res://assets/ui/button/brownbtn_hover.png" id="2_4g4df"]
 [ext_resource type="Texture2D" uid="uid://drx370mkl3yiq" path="res://assets/ui/button/brownbtn.png" id="3_lr335"]
 [ext_resource type="Texture2D" uid="uid://ca52yledtg5sa" path="res://assets/ui/button/brownbtn_pressed.png" id="4_xu0cu"]
@@ -16,6 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://bk5tm4qxaq37f" path="res://assets/ui/slider/hslider.png" id="12_ljghr"]
 [ext_resource type="Texture2D" uid="uid://dj628alce4iv3" path="res://assets/ui/panel/wood.png" id="13_2hkqj"]
 [ext_resource type="Texture2D" uid="uid://cyykdcc1bjmr4" path="res://assets/ui/tooltip.png" id="14_t00pf"]
+[ext_resource type="FontFile" uid="uid://cgq0qbi8yg7ii" path="res://assets/monogram-2.ttf" id="16_3rb3j"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bnvqk"]
 content_margin_left = 8.0
@@ -151,7 +151,8 @@ axis_stretch_vertical = 2
 
 [resource]
 default_base_scale = 1.0
-default_font = ExtResource("1_u5pme")
+default_font = ExtResource("16_3rb3j")
+default_font_size = 32
 Button/styles/disabled = SubResource("StyleBoxTexture_bnvqk")
 Button/styles/focus = SubResource("StyleBoxEmpty_30h70")
 Button/styles/hover = SubResource("StyleBoxTexture_y36yn")

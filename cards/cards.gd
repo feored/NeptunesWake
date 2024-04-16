@@ -28,7 +28,6 @@ func get_card(id: String):
 
 
 func get_effect_tree(id: String):
-	Utils.log("Getting effect tree for " + id)
 	return self.effects.filter(func(e): return e.id == id)[0]
 
 func all_cards():
