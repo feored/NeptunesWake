@@ -61,7 +61,7 @@ func move_instant(target):
 	if not active:
 		return
 	self.panning = false
-	self.position = target - Vector2(self.viewport_size/2)
+	self.position = target - Vector2(self.viewport_size)/self.zoom/2
 
 func skip(val: bool):
 	if self.position_smoothing_enabled:

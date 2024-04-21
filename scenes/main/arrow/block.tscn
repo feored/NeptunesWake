@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://babaa30uq6gb0"]
+
+[ext_resource type="Texture2D" uid="uid://baoiappalx4b7" path="res://assets/icons/chevron.png" id="1_35yde"]
+
+[node name="Block" type="Sprite2D"]
+modulate = Color(0.207843, 1, 0.0313726, 1)
+rotation = -1.5708
+texture = ExtResource("1_35yde")

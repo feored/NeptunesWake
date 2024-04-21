@@ -2,6 +2,7 @@ extends Node2D
 
 const shape_prefab = preload("res://world/tiles/highlight/shape.tscn")
 const mod_list_prefab = preload("res://scenes/overworld/mod_view/mod_list.tscn")
+const arrow_prefab = preload("res://scenes/main/arrow/arrow.tscn")
 
 @onready var world = $"World"
 @onready var messenger = %Message
@@ -12,13 +13,10 @@ const mod_list_prefab = preload("res://scenes/overworld/mod_view/mod_list.tscn")
 @onready var mods_scroll_container = %ModsScrollContainer
 
 var used_card = null
-var current = {
-	"building": Constants.Building.None,
-	"reinforcements": 0
-}
 
 enum MouseState {
 	None,
+	Aim,
 	Sink,
 	Sacrifice,
 	Reinforce,
@@ -57,8 +55,9 @@ func _ready():
 	self.game.started = true
 	Utils.log("Formerly ", self.world.map_to_local(closest_player_tile_coords()))
 	Utils.log("Moving to pos: ", self.world.coords_to_pos(closest_player_tile_coords()))
-	self.world.camera.move_instant(self.world.coords_to_pos(closest_player_tile_coords()) * self.world.camera.zoom)
+	self.world.camera.move_instant(self.world.coords_to_pos(closest_player_tile_coords()))
 	self.deck.card_played = use_card
+	self.deck.compute_effect = compute_effect
 	
 	prepare_turn()
 
@@ -95,132 +94,124 @@ func clear_mouse_state():
 		self.used_card.highlight(false)
 		self.used_card = null	
 
-func handle_tile_card(event):
-	if event is InputEventMouseMotion:
-		var tile_hovered = world.global_pos_to_coords(event.position)
-		if mouse_state == MouseState.Sink:
-			self.mouse_item.try_place(tile_hovered, self.world.tiles.keys())
-		elif mouse_state == MouseState.Emerge:
-			self.mouse_item.try_emerge(tile_hovered, self.world.tiles.keys())
-		self.mouse_item.position = self.world.map_to_local_zoom(tile_hovered)
-	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		var tile_hovered = world.global_pos_to_coords(event.position)
-		if self.mouse_state == MouseState.Sink:
-			handle_sink(tile_hovered)
-		elif self.mouse_state == MouseState.Emerge:
-			handle_emerge(tile_hovered)
-		else:
-			clear_mouse_state()
+func validate_emerge(mouse_pos, effect):
+	var coords_hovered = world.global_pos_to_coords(mouse_pos)
+	var s = Shape.new()
+	s.init_with_json_coords(effect.computed_value)
+	return s.emergeable(coords_hovered, self.world.tiles.keys())
 
-func handle_emerge(tile_hovered):
-	if self.mouse_item.emergeable(tile_hovered, self.world.tiles.keys()):
-		var action = Action.new(Action.Type.Emerge, {'value': [self.mouse_item.adjusted_shape_coords(tile_hovered)]})
+func try_emerge(mouse_pos, effect):
+	var coords_hovered = world.global_pos_to_coords(mouse_pos)
+	var s = Shape.new()
+	s.init_with_json_coords(effect.computed_value)
+	if s.emergeable(coords_hovered, self.world.tiles.keys()):
+		var action = Action.new(Action.Type.Emerge, {'value': [s.adjusted_shape_coords(coords_hovered)]})
+		await apply_action(action)
 		if self.used_card != null:
 			card_used(self.used_card)
-		self.clear_mouse_state()
-		await apply_action(action)
 	else:
 		messenger.set_message("You can only raise land from the sea, my lord.")
+	clear_mouse_state()
+
+
+func validate_sink(mouse_pos, effect):
+	var coords_hovered = world.global_pos_to_coords(mouse_pos)
+	var s = Shape.new()
+	s.init_with_json_coords(effect.computed_value)
+	return s.placeable(coords_hovered, self.world.tiles.keys())
+
+func try_sink(mouse_pos, effect):
+	var coords_hovered = world.global_pos_to_coords(mouse_pos)
+	var s = Shape.new()
+	s.init_with_json_coords(effect.computed_value)
+	if s.placeable(coords_hovered, self.world.tiles.keys()):
+		var tiles_to_sink = s.adjusted_shape_coords(coords_hovered).filter(func(t): return self.world.tiles.has(t))
+		var action = Action.new(Action.Type.Sink, {'value' : tiles_to_sink})
+		await apply_action(action)
+		if self.used_card != null:
+			card_used(self.used_card)
+	else:
+		messenger.set_message("You cannot sink that which is already sunk, my lord.")
+	clear_mouse_state()
+
+func validate_building(mouse_pos, _effect):
+	var coords_hovered = world.global_pos_to_coords(mouse_pos)
+	return world.tiles.has(coords_hovered)\
+		and world.tiles[coords_hovered].data.team == self.game.human.team\
+		and world.tiles[coords_hovered].data.building == Constants.Building.None
+
+func try_building(mouse_pos, effect):
+	var coords_hovered = world.global_pos_to_coords(mouse_pos)
+	if !world.tiles.has(coords_hovered):
+		messenger.set_message("You can only build on land, my lord.")
 		clear_mouse_state()
-
-func handle_sink(tile_hovered):
-	var tiles_to_sink = self.mouse_item.adjusted_shape_coords(tile_hovered).filter(func(t): return self.world.tiles.has(t))
-	var action = Action.new(Action.Type.Sink, {'value' : tiles_to_sink})
-	if self.used_card != null:
-		card_used(self.used_card)
-	self.clear_mouse_state()
-	await apply_action(action)
-
-
-func handle_building(event):
-	var coords_hovered = world.global_pos_to_coords(event.position)
-	var buildable = func(coords):
-		return world.tiles.has(coords)\
-		and world.tiles[coords].data.team == self.game.human.team\
-		and world.tiles[coords].data.building == Constants.Building.None
-	if event is InputEventMouseMotion:
-		if buildable.call(coords_hovered):
-			self.mouse_item.self_modulate = Color(0.5, 1, 0.5)
-		else:
-			self.mouse_item.self_modulate = Color(1, 0.5, 0.5)
-		self.mouse_item.position = self.world.map_to_local_zoom(coords_hovered)
-	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		if !world.tiles.has(coords_hovered):
-			messenger.set_message("You can only build on land, my lord.")
-			clear_mouse_state()
-			return
-		if self.world.tiles[coords_hovered].data.team != self.game.human.team:
-			messenger.set_message("You cam only build on territory you own, my lord.")
-			clear_mouse_state()
-			return
-		if self.world.tiles[coords_hovered].data.building != Constants.Building.None:
-			messenger.set_message("There is already a construction there, my lord.")
-			clear_mouse_state()
-			return
-		var action = Action.new(Action.Type.Build, {"coords": coords_hovered, "building": self.current.building})
-		current.building = Constants.Building.None
-		await self.apply_action(action)
-		card_used(self.used_card)
+		return
+	if self.world.tiles[coords_hovered].data.team != self.game.human.team:
+		messenger.set_message("You can only build on territory you own, my lord.")
 		clear_mouse_state()
+		return
+	if self.world.tiles[coords_hovered].data.building != Constants.Building.None:
+		messenger.set_message("There is already a construction there, my lord.")
+		clear_mouse_state()
+		return
+	var action = Action.new(Action.Type.Build, {"coords": coords_hovered, "building": effect.value})
+	await self.apply_action(action)
+	card_used(self.used_card)
+	clear_mouse_state()
 	
-
-func handle_reinforcements(event):
-	var coords_hovered = world.global_pos_to_coords(event.position)
-	if event is InputEventMouseMotion:
-		if world.tiles.has(coords_hovered):
-			if self.world.tiles[coords_hovered].data.team == self.game.human.team or (
+func validate_reinforcements(mouse_pos, _effect):
+	var coords_hovered = world.global_pos_to_coords(mouse_pos)
+	if self.world.tiles.has(coords_hovered):
+		if self.world.tiles[coords_hovered].data.team == self.game.human.team or (
 				self.world.tiles[coords_hovered].data.team == Constants.NULL_TEAM and self.game.human.compute("reinforce_neutral") != 0):
-				self.mouse_item.self_modulate = Color(0.5, 1, 0.5)
-			else:
-				self.mouse_item.self_modulate = Color(1, 0.5, 0.5)
-		else:
-			self.mouse_item.self_modulate = Color(1, 0.5, 0.5)
-		self.mouse_item.position = self.world.map_to_local_zoom(coords_hovered)
-	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		if !world.tiles.has(coords_hovered):
+				return true
+	return false
+
+func try_reinforcements(mouse_pos, effect):
+	var coords_hovered = world.global_pos_to_coords(mouse_pos)
+	if !world.tiles.has(coords_hovered):
 			messenger.set_message("You can't send reinforcements to the sea, my lord.")
 			clear_mouse_state()
 			return
-		if self.world.tiles[coords_hovered].data.team != self.game.human.team:
-			if self.world.tiles[coords_hovered].data.team == Constants.NULL_TEAM:
-				if self.game.human.compute("reinforce_neutral") == 0:
-					messenger.set_message("You cannot send reinforcements to a neutral region!")
-					clear_mouse_state()
-					return
-			else:
-				messenger.set_message("You cannot send reinforcements to the enemy!")
+	if self.world.tiles[coords_hovered].data.team != self.game.human.team:
+		if self.world.tiles[coords_hovered].data.team == Constants.NULL_TEAM:
+			if self.game.human.compute("reinforce_neutral") == 0:
+				messenger.set_message("You cannot send reinforcements to a neutral region!")
 				clear_mouse_state()
 				return
-		var region_reinforced = self.world.tiles[coords_hovered].data.region
-		var action = Action.new(Action.Type.Reinforce, {"region": region_reinforced, "value": self.current.reinforcements})
-		await self.apply_action(action)
-		if self.used_card != null:
-			card_used(self.used_card)
-		clear_mouse_state()
-
-func handle_sacrifice(event):
-	var coords_hovered = world.global_pos_to_coords(event.position)
-	if event is InputEventMouseMotion:
-		if world.tiles.has(coords_hovered) and self.world.tiles[coords_hovered].data.team == self.game.human.team:
-			self.mouse_item.self_modulate = Color(0.5, 1, 0.5)
 		else:
-			self.mouse_item.self_modulate = Color(1, 0.5, 0.5)
-		self.mouse_item.position = self.world.map_to_local_zoom(coords_hovered)
-	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		if !world.tiles.has(coords_hovered):
-			messenger.set_message("There are no people to sacrifice here, my lord.")
+			messenger.set_message("You cannot send reinforcements to the enemy!")
 			clear_mouse_state()
 			return
-		if self.world.tiles[coords_hovered].data.team != self.game.human.team:
-			messenger.set_message("You cannot sacrifice the people of a territory you don't own, my lord.")
-			clear_mouse_state()
-			return
-		var region_sacrificed = self.world.tiles[coords_hovered].data.region
-		var action = Action.new(Action.Type.Sacrifice, {"region": region_sacrificed})
-		await self.apply_action(action)
-		if self.used_card != null:
-			card_used(self.used_card)
+	var region_reinforced = self.world.tiles[coords_hovered].data.region
+	var action = Action.new(Action.Type.Reinforce, {"region": region_reinforced, "value": effect.computed_value})
+	await self.apply_action(action)
+	if self.used_card != null:
+		card_used(self.used_card)
+	clear_mouse_state()
+
+func validate_sacrifice(mouse_pos, _effect):
+	var coords_hovered = world.global_pos_to_coords(mouse_pos)
+	if world.tiles.has(coords_hovered) and self.world.tiles[coords_hovered].data.team == self.game.human.team:
+		return true
+	return false
+
+func try_sacrifice(mouse_pos, _effect):
+	var coords_hovered = world.global_pos_to_coords(mouse_pos)
+	if !world.tiles.has(coords_hovered):
+		messenger.set_message("There are no people to sacrifice here, my lord.")
 		clear_mouse_state()
+		return
+	if self.world.tiles[coords_hovered].data.team != self.game.human.team:
+		messenger.set_message("You cannot sacrifice the people of a territory you don't own, my lord.")
+		clear_mouse_state()
+		return
+	var region_sacrificed = self.world.tiles[coords_hovered].data.region
+	var action = Action.new(Action.Type.Sacrifice, {"region": region_sacrificed})
+	await self.apply_action(action)
+	if self.used_card != null:
+		card_used(self.used_card)
+	clear_mouse_state()
 			
 		
 
@@ -235,25 +226,6 @@ func _unhandled_input(event):
 		## Right click to cancel
 		if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
 			clear_mouse_state()
-		elif event is InputEventMouse:
-			match self.mouse_state:
-				MouseState.Sink:
-					await handle_tile_card(event)
-					return
-				MouseState.Emerge:
-					await handle_tile_card(event)
-					return
-				MouseState.Sacrifice:
-					await handle_sacrifice(event)
-					return
-				MouseState.Build:
-					await handle_building(event)
-					return
-				MouseState.Reinforce:
-					await handle_reinforcements(event)
-					return
-				_:
-					pass
 		var coords_clicked = world.global_pos_to_coords(event.position)
 		if world.tiles.has(coords_clicked):
 			if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
@@ -278,7 +250,7 @@ func _on_turn_button_pressed():
 
 	var tile_camera_move = closest_player_tile_coords()
 	if tile_camera_move != Constants.NULL_COORDS:
-		await self.world.camera.move_smoothed(self.world.map_to_local_zoom(tile_camera_move), 5)
+		await self.world.camera.move_smoothed(self.world.map_to_local(tile_camera_move), 5)
 
 	## Faith generation
 	self.prepare_turn()
@@ -294,14 +266,20 @@ func _on_cards_selected(cards):
 	Settings.input_locked = false
 	lock_controls(false)
 
+func calc_shape(init_coords, bonus):
+	var s = Shape.new()
+	s.init_with_json_coords(init_coords)
+	s.add_bonus(int(bonus))
+	return s.coords.keys()
+
 func compute_effect(effect):
 	match effect.target:
 		"sacrifice":
 			return effect.value
 		"emerge":
-			return effect.value + self.game.current_player.compute("flat_sink_bonus")
+			return calc_shape(effect.value, self.game.current_player.compute("flat_emerge_bonus"))
 		"sink":
-			return effect.value + self.game.current_player.compute("flat_sink_bonus")
+			return calc_shape(effect.value, self.game.current_player.compute("flat_sink_bonus"))
 		"build":
 			return effect.value
 		"reinforcements":
@@ -313,19 +291,53 @@ func compute_effect(effect):
 		"faith":
 			return effect.value 
 		"sink_random_self_tiles":
-			return effect.value + self.game.current_player.compute("flat_sink_bonus")
+			return calc_shape(effect.value, self.game.current_player.compute("flat_sink_bonus"))
 		"sink_random_tiles":
-			return effect.value + self.game.current_player.compute("flat_sink_bonus")
+			return calc_shape(effect.value, self.game.current_player.compute("flat_sink_bonus"))
 		"emerge_random_tiles":
-			return effect.value + self.game.current_player.compute("flat_emerge_bonus")
+			return calc_shape(effect.value, self.game.current_player.compute("flat_emerge_bonus"))
 		"treason":
 			return effect.value 
 		"renewal":
 			return effect.value 
 		_:
 			Utils.log("Unknown active effect: %s" % effect.target)
-			return "UNKNOWN"
+			return 0
 			
+
+
+func create_arrow(cv):
+	Utils.log("Starting aiming")
+	self.mouse_state = MouseState.Aim
+	var new_canvas_layer = CanvasLayer.new()
+	var arrow = arrow_prefab.instantiate()
+	arrow.effect = cv.card.effects.filter(func(e): return e.type == Effect.Type.Power)[0]
+	arrow.canceled.connect(func(): clear_mouse_state())
+	arrow.start_point = cv.position + cv.size / 2
+	arrow.world = self.world
+	match arrow.effect.target:
+		"reinforcements":
+			arrow.validate_function = validate_reinforcements
+			arrow.try_function = try_reinforcements
+		"sacrifice":
+			arrow.validate_function = validate_sacrifice
+			arrow.try_function = try_sacrifice
+		"build":
+			arrow.validate_function = validate_building
+			arrow.try_function = try_building
+		"sink":
+			arrow.validate_function = validate_sink
+			arrow.try_function = try_sink
+		"emerge":
+			arrow.validate_function = validate_emerge
+			arrow.try_function = try_emerge
+		_:
+			Utils.log("Unknown active effect: %s" % arrow.effect.target)
+			arrow.queue_free()
+	
+	self.add_child(new_canvas_layer)
+	new_canvas_layer.add_child(arrow)
+
 
 func use_card(cardView):
 	var cards_playable_per_turn = self.game.human.compute("cards_playable_per_turn")
@@ -339,24 +351,7 @@ func use_card(cardView):
 	Utils.log("Card %s used" % cardView.card.name)
 	var play_powers = cardView.card.effects.filter(func(e): return e.type == Effect.Type.Power)
 	if play_powers.size() > 0:
-		var play_power = play_powers[0]
-		match play_power.target:
-			"reinforcements":
-				set_reinforcements(play_power.value)
-			"sacrifice":
-				set_sacrifice()
-			"build":
-				set_building(play_power.value)
-			"sink":
-				var s = Shape.new()
-				s.init_with_json_coords(play_power.value)
-				s.add_bonus(self.game.human.compute("flat_sink_bonus"))
-				set_shape(s.coords.keys(), MouseState.Sink)
-			"emerge":
-				var s = Shape.new()
-				s.init_with_json_coords(play_power.value)
-				s.add_bonus(self.game.human.compute("flat_emerge_bonus"))
-				set_shape(s.coords.keys(), MouseState.Emerge)
+		create_arrow(cardView)
 	else:
 		self.card_used(cardView)
 
@@ -549,37 +544,6 @@ func load_map(map_regions):
 	for region in self.world.regions.values():
 		if region.data.team != Constants.NULL_TEAM and region.data.team != self.game.human.team:
 			region.generate_units(self.game.player_from_team(region.data.team).compute("units_per_tile"))
-
-func set_shape(shape_coords, mode):
-	self.mouse_item = shape_prefab.instantiate()
-	self.mouse_item.init_with_coords(shape_coords)
-	self.world.add_child(mouse_item)
-	self.mouse_item.global_position = get_viewport().get_mouse_position()
-	self.mouse_state = mode
-
-func set_sacrifice():
-	self.mouse_item = Sprite2D.new()
-	self.mouse_item.texture = load("res://assets/icons/skull.png")
-	self.world.add_child(mouse_item)
-	self.mouse_item.global_position = get_viewport().get_mouse_position()
-	self.mouse_state = MouseState.Sacrifice
-
-func set_reinforcements(new_reinforcements):
-	self.mouse_item = Sprite2D.new()
-	self.mouse_item.texture = load("res://assets/icons/Plus.png")
-	self.current.reinforcements = new_reinforcements + self.game.current_player.compute("flat_reinforce_bonus")
-	self.world.add_child(mouse_item)
-	self.mouse_item.global_position = get_viewport().get_mouse_position()
-	self.mouse_state = MouseState.Reinforce
-
-func set_building(building):
-	var b = Constants.BUILDING_ENUM[building]
-	self.mouse_item = Sprite2D.new()
-	self.mouse_item.texture = Constants.BUILDINGS[b].texture
-	self.current.building = b
-	self.world.add_child(mouse_item)
-	self.mouse_item.global_position = get_viewport().get_mouse_position()
-	self.mouse_state = MouseState.Build
 
 func fast_forward(val):
 	Settings.skip(val)

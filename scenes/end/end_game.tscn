@@ -33,7 +33,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ImagePanel" type="PanelContainer" parent="CanvasLayer/PanelContainer/VBoxContainer"]
-custom_minimum_size = Vector2(256, 256)
+custom_minimum_size = Vector2(512, 512)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -47,9 +47,8 @@ stretch_mode = 5
 
 [node name="Label2" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer"]
 layout_mode = 2
-text = "You have done all that Neptune asked of you,
-and you live out the rest of your days peacefully
-in his divine abode overlooking the sea.
+text = "You have done all that Neptune asked of you, and you live out
+the rest of your days peacefully in his divine abode overlooking the sea.
 Yet you dream of another adventure..."
 horizontal_alignment = 1
 vertical_alignment = 1

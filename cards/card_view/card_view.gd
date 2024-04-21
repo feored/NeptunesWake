@@ -38,8 +38,11 @@ func gen_tooltip(e):
 	if "_VALUE_" in tooltip:
 		tooltip = tooltip.replace("_VALUE_", str(e.value))
 	if "_COMPUTE_" in tooltip:
-		var new_value = self.compute_effect.call(e) if self.compute_effect.is_valid() else str(e.value)
-		tooltip = tooltip.replace("_COMPUTE_", new_value)
+		tooltip = tooltip.replace("_COMPUTE_", str(e.computed_value))
+	if "_VALUEARRAY_" in tooltip:
+		tooltip = tooltip.replace("_VALUEARRAY_", str(e.value.size()))
+	if "_COMPUTEARRAY_" in tooltip:
+		tooltip = tooltip.replace("_COMPUTEARRAY_", str(e.computed_value.size()))
 	return tooltip
 
 func check_finished():
@@ -189,3 +192,22 @@ func _on_mouse_exited():
 			self.clear_tweens()
 		self.animate(base_position, 0, BASE_Z_INDEX)
 		self.state = CardView.State.Idle
+
+func compute_effects():
+	for effect in self.card.effects:
+		effect.computed_value = self.compute_effect.call(effect)
+	if self.is_node_ready():
+		regen_tooltips()
+
+func regen_tooltips():
+	for child in self.effect_container.get_children():
+		child.queue_free()
+	for effect in self.card.effects:
+		# var effect_view = effect_prefab.instantiate()
+		# effect_view.init(effect)
+		# self.effect_container.add_child(effect_view)
+		var label = Label.new()
+		label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		label.text = self.gen_tooltip(effect)
+		self.effect_container.add_child(label)

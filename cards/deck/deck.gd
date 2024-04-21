@@ -2,7 +2,7 @@ extends Control
 
 
 const CARD_SIZE = Vector2(250, 350)
-const CARD_SPACING : float = 125
+const CARD_SPACING : float = CARD_SIZE.x
 @onready var viewport_size = get_viewport().content_scale_size
 @onready var CENTER = Vector2(viewport_size.x / 2.0 - CARD_SIZE.x/2.0, viewport_size.y - CARD_SIZE.y)
 @onready var DRAW_POS = Vector2(-CARD_SIZE.x, viewport_size.y - CARD_SIZE.y)
@@ -16,10 +16,11 @@ const card_prefab = preload("res://cards/card_view/card_view.tscn")
 @onready var draw_pile_deck : Control
 
 var card_played : Callable
+var compute_effect : Callable
 
 var draw_pile = []
 var discard_pile = []
-var play_pile = []
+var hand = []
 var exhausted = []
 
 # Called when the node enters the scene tree for the first time.
@@ -27,6 +28,11 @@ func _ready():
 	for c in Info.run.deck:
 		self.draw_pile.push_back(c)
 	self.draw_pile.shuffle()
+	Effects.triggered.connect(compute_all_effects)
+
+func compute_all_effects():
+	for c in self.hand:
+		c.compute_effects()
 
 func draw_multiple(amount: int):
 	for i in range(amount):
@@ -47,6 +53,8 @@ func draw():
 	var cardView = card_prefab.instantiate()
 	cardView.state = CardView.State.DrawnOrDiscarded
 	cardView.card = self.draw_pile.pop_front()
+	cardView.compute_effect = self.compute_effect
+	cardView.compute_effects()
 	self.add_card(cardView)
 	await Utils.wait(Constants.DECK_SHORT_TIMER)
 	cardView.card_ready = true
@@ -56,28 +64,24 @@ func draw():
 func add_card(cv):
 	cv.disconnect_picked()
 	cv.picked.connect(func(cv): card_played.call(cv))
-	Utils.log("Before size", cv.size)
 	add_child(cv)
-	Utils.log("1size", cv.size)
 	cv.position = DRAW_POS
-	self.play_pile.append(cv)
-	Utils.log("2size", cv.size)
+	self.hand.append(cv)
 	place_all()
 	update_display()
-	Utils.log("3size", cv.size)
 
 func place_all():
-	for i in range(self.play_pile.size()):
-		var card_placement = place_card(self.play_pile[i])
-		self.play_pile[i].base_position = card_placement[0]
-		self.play_pile[i].move(card_placement[0])
-		#self.play_pile[i].rotation_degrees = card_placement[1]
+	for i in range(self.hand.size()):
+		var card_placement = place_card(self.hand[i])
+		self.hand[i].base_position = card_placement[0]
+		self.hand[i].move(card_placement[0])
+		#self.hand[i].rotation_degrees = card_placement[1]
 
 func discard(cardView):
-	var card_id = self.play_pile.find(cardView)
+	var card_id = self.hand.find(cardView)
 	Utils.log("Discarding card: ", card_id)
 	if card_id != -1:
-		self.play_pile.remove_at(card_id)
+		self.hand.remove_at(card_id)
 		self.discard_pile.push_back(cardView.card)
 		await cardView.discard(DISCARD_POS)
 		Effects.trigger(Effect.Trigger.CardDiscarded)
@@ -85,9 +89,9 @@ func discard(cardView):
 	update_display()
 
 func exhaust(cardView):
-	var card_id = self.play_pile.find(cardView)
+	var card_id = self.hand.find(cardView)
 	if card_id != -1:
-		self.play_pile.remove_at(card_id)
+		self.hand.remove_at(card_id)
 		self.exhausted.push_back(cardView.card)
 		cardView.queue_free()
 		self.place_all()
@@ -96,24 +100,24 @@ func exhaust(cardView):
 	update_display()
 
 func discard_random(amount: int):
-	var drawn_copy = self.play_pile.duplicate()
+	var drawn_copy = self.hand.duplicate()
 	drawn_copy.shuffle()
 	var to_del = min(drawn_copy.size(), amount)
 	for i in range(to_del):
 		await self.discard(drawn_copy[i])
 
 func discard_all():
-	while self.play_pile.size() > 0:
-		await discard(self.play_pile[0])
-	self.play_pile.clear()
+	while self.hand.size() > 0:
+		await discard(self.hand[0])
+	self.hand.clear()
 
 
 func place_card(card):
-	var id = self.play_pile.find(card)
-	var total = self.play_pile.size()
+	var id = self.hand.find(card)
+	var total = self.hand.size()
 	var middle = floor(total / 2.0)
 	var num = id - middle
-	var spacing = CARD_SPACING if play_pile.size() <= 3 else (CARD_SPACING - 12.5 * (play_pile.size() - 3))
+	var spacing = CARD_SPACING if hand.size() <= 3 else (CARD_SPACING - 12.5 * (hand.size() - 3))
 	var x = CENTER.x + num * spacing
 	var to_sample
 	if total <= 1:
@@ -126,7 +130,7 @@ func place_card(card):
 	
 
 func update_faith(new_faith):
-	for card in self.play_pile:
+	for card in self.hand:
 		card.set_buyable(card.card.cost <= new_faith)
 
 

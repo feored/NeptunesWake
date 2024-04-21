@@ -32,6 +32,7 @@ var level: int
 var effect_id: String
 var tier: int
 var tooltip: String = ""
+var computed_value: Variant
 
 
 func _to_string():

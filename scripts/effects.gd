@@ -1,12 +1,17 @@
 extends Node
 
 signal apply_active(e : Effect)
+signal triggered
 
 var get_current_player : Callable
 
 var effects: Dictionary = {}
 var global_effects = []
 
+var targets = {
+	"flat_reinforce_bonus": ["reinforcements"],
+	"flat_sink_bonus": ["sink", "sink_random_tiles"]
+}
 
 
 func init(players, get_current_player_func):
@@ -23,6 +28,8 @@ func add(e : Effect, p : Player = null):
 		self.apply_active.emit(e)
 	else:
 		self.effects[p].push_back(e)
+		#self.list_changed(e)
+	self.triggered.emit()
 	
 func add_global(e : Effect):
 	if e.type == Effect.Type.Active and e.active_trigger == Effect.Trigger.Instant:
@@ -37,12 +44,14 @@ func trigger(t: Effect.Trigger):
 			if e.active_trigger == t:
 				Utils.log("Triggering effect: " + str(e))
 				self.apply_active.emit(e)
-	var reduce_duration = func(arr):
+	var reduce_duration = func(arr, trig = false):
 		for e in arr:
 			e.duration -= 1
 			if e.duration <= 0:
 				arr.erase(e)
-				Utils.log("Effect " + str(e) + " has expired")
+				# if trig:
+				# 	self.list_changed(e)
+
 	Utils.log("Triggered: " + str(Effect.Trigger.keys()[t]))
 	var p = self.get_current_player.call()
 
@@ -57,3 +66,11 @@ func trigger(t: Effect.Trigger):
 
 	var global_duration_affected = self.global_effects.filter(func (e): return e.duration_trigger == t)
 	reduce_duration.call(global_duration_affected)
+
+	self.triggered.emit()
+
+# # when the list of the current player changes, notify the deck to recompute
+# # effect values and update display. This should send the resource that was affected
+# # so that only card related to that effect are recomputed
+# func list_changed(e):
+# 	self.triggered.emit(e)

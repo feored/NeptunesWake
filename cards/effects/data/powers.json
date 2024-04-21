@@ -110,7 +110,7 @@
 				],
 				"cost": 1,
 				"level": 1,
-				"tooltip": "Sink _VALUE_ (_COMPUTE_) tiles. The affected regions will lose units in proportion."
+				"tooltip": "Sink _VALUEARRAY_ (_COMPUTEARRAY_) tiles. The affected regions will lose units in proportion."
 			},
 			{
 				"type": "power",
@@ -131,7 +131,7 @@
 				],
 				"cost": 2,
 				"level": 3,
-				"tooltip": "Sink _VALUE_ (_COMPUTE_) tiles. The affected regions will lose units in proportion."
+				"tooltip": "Sink _VALUEARRAY_ (_COMPUTEARRAY_) tiles. The affected regions will lose units in proportion."
 			}
 		]
 	},
@@ -150,7 +150,7 @@
 				],
 				"cost": 1,
 				"level": 1,
-				"tooltip": "Emerge _VALUE_ (_COMPUTE_) tiles. The affected regions will lose units in proportion."
+				"tooltip": "Emerge _VALUEARRAY_ (_COMPUTEARRAY_) tiles. The affected regions will lose units in proportion."
 			},
 			{
 				"type": "power",
@@ -171,7 +171,7 @@
 				],
 				"cost": 2,
 				"level": 3,
-				"tooltip": "Emerge _VALUE_ (_COMPUTE_) tiles. The affected regions will lose units in proportion."
+				"tooltip": "Emerge _VALUEARRAY_ (_COMPUTEARRAY_) tiles. The affected regions will lose units in proportion."
 			}
 		]
 	}

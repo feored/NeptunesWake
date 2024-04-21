@@ -23,7 +23,7 @@
 				"target": "emerge_random_tiles",
 				"value": 3,
 				"active_trigger": "instant",
-				"tooltip": "Emerge _VALUE_ (_COMPUTE_) random tiles from the sea.",
+				"tooltip": "Emerge _VALUEARRAY_ (_COMPUTEARRAY_) random tiles from the sea.",
 				"cost": 1,
 				"level": 1
 			},
@@ -32,7 +32,7 @@
 				"target": "emerge_random_tiles",
 				"value": 5,
 				"active_trigger": "instant",
-				"tooltip": "Emerge _VALUE_ (_COMPUTE_) random tiles from the sea.",
+				"tooltip": "Emerge _VALUEARRAY_ (_COMPUTEARRAY_) random tiles from the sea.",
 				"cost": 2,
 				"level": 3
 			},
@@ -41,7 +41,7 @@
 				"target": "emerge_random_tiles",
 				"value": 7,
 				"active_trigger": "instant",
-				"tooltip": "Emerge _VALUE_ (_COMPUTE_) random tiles from the sea.",
+				"tooltip": "Emerge _VALUEARRAY_ (_COMPUTEARRAY_) random tiles from the sea.",
 				"cost": 3,
 				"level": 5
 			},
@@ -50,7 +50,7 @@
 				"target": "emerge_random_tiles",
 				"value": 10,
 				"active_trigger": "instant",
-				"tooltip": "Emerge _VALUE_ (_COMPUTE_) random tiles from the sea.",
+				"tooltip": "Emerge _VALUEARRAY_ (_COMPUTEARRAY_) random tiles from the sea.",
 				"cost": 4,
 				"level": 7
 			},
@@ -59,7 +59,7 @@
 				"target": "emerge_random_tiles",
 				"value": 7,
 				"active_trigger": "turn_over",
-				"tooltip": "Emerge _VALUE_ (_COMPUTE_) random tiles from the sea.",
+				"tooltip": "Emerge _VALUEARRAY_ (_COMPUTEARRAY_) random tiles from the sea.",
 				"cost": 5,
 				"exhaust": true,
 				"level": 10
@@ -75,7 +75,7 @@
 				"target": "sink_random_tiles",
 				"value": 3,
 				"active_trigger": "instant",
-				"tooltip": "Sink _VALUE_ (_COMPUTE_) random tiles. Affected regions will lose units in proportion.",
+				"tooltip": "Sink _VALUEARRAY_ (_COMPUTEARRAY_) random tiles. Affected regions will lose units in proportion.",
 				"cost": 1,
 				"level": 1
 			},
@@ -84,7 +84,7 @@
 				"target": "sink_random_tiles",
 				"value": 5,
 				"active_trigger": "instant",
-				"tooltip": "Sink _VALUE_ (_COMPUTE_) random tiles. Affected regions will lose units in proportion.",
+				"tooltip": "Sink _VALUEARRAY_ (_COMPUTEARRAY_) random tiles. Affected regions will lose units in proportion.",
 				"cost": 2,
 				"level": 3
 			},
@@ -93,7 +93,7 @@
 				"target": "sink_random_tiles",
 				"value": 7,
 				"active_trigger": "instant",
-				"tooltip": "Sink _VALUE_ (_COMPUTE_) random tiles. Affected regions will lose units in proportion.",
+				"tooltip": "Sink _VALUEARRAY_ (_COMPUTEARRAY_) random tiles. Affected regions will lose units in proportion.",
 				"cost": 3,
 				"level": 5
 			},
@@ -102,7 +102,7 @@
 				"target": "sink_random_tiles",
 				"value": 10,
 				"active_trigger": "instant",
-				"tooltip": "Sink _VALUE_ (_COMPUTE_) random tiles. Affected regions will lose units in proportion.",
+				"tooltip": "Sink _VALUEARRAY_ (_COMPUTEARRAY_) random tiles. Affected regions will lose units in proportion.",
 				"cost": 4,
 				"level": 7
 			},
@@ -111,7 +111,7 @@
 				"target": "sink_random_tiles",
 				"value": 7,
 				"active_trigger": "turn_over",
-				"tooltip": "Sink _VALUE_ (_COMPUTE_) random tiles. Affected regions will lose units in proportion.",
+				"tooltip": "Sink _VALUEARRAY_ (_COMPUTEARRAY_) random tiles. Affected regions will lose units in proportion.",
 				"cost": 5,
 				"exhaust": true,
 				"level": 10
@@ -126,6 +126,7 @@
 				"type": "active",
 				"target": "sink_random_self_tiles",
 				"value": 1,
+				"tooltip": "Sink _VALUEARRAY_ (_COMPUTEARRAY_) random tiles you own.",
 				"active_trigger": "turn_over",
 				"cost": -1,
 				"level": 1
@@ -133,6 +134,7 @@
 			{
 				"type": "active",
 				"target": "sink_random_self_tiles",
+				"tooltip": "Sink _VALUEARRAY_ (_COMPUTEARRAY_) random tiles you own.",
 				"value": 1,
 				"active_trigger": "card_played",
 				"cost": -3,

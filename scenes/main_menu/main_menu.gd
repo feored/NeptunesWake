@@ -31,9 +31,10 @@ func _ready():
 
 	self.world.init(Callable(self, "no_message"))
 #	self.world.regionLabelsParent.hide()
-	self.world.camera.active = false
 	self.world.clear_island()
 	self.world.generate_island()
+	self.world.camera.move_instant(self.world.coords_to_pos(Constants.WORLD_CENTER))
+	self.world.camera.active = false
 	self.world.world_ready.connect(Callable(self, "sink"))
 
 	settingsContainer.disappear = func():
