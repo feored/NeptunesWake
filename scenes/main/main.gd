@@ -17,11 +17,6 @@ var used_card = null
 enum MouseState {
 	None,
 	Aim,
-	Sink,
-	Sacrifice,
-	Reinforce,
-	Emerge,
-	Build,
 	Move
 }
 
@@ -91,7 +86,9 @@ func clear_mouse_state():
 	clear_selected_region()
 	self.mouse_state = MouseState.None
 	if self.used_card != null:
+		self.used_card.is_being_used = false
 		self.used_card.highlight(false)
+		self.used_card.unhover()
 		self.used_card = null	
 
 func validate_emerge(mouse_pos, effect):
@@ -111,7 +108,7 @@ func try_emerge(mouse_pos, effect):
 			card_used(self.used_card)
 	else:
 		messenger.set_message("You can only raise land from the sea, my lord.")
-	clear_mouse_state()
+	self.mouse_state = MouseState.None
 
 
 func validate_sink(mouse_pos, effect):
@@ -132,7 +129,7 @@ func try_sink(mouse_pos, effect):
 			card_used(self.used_card)
 	else:
 		messenger.set_message("You cannot sink that which is already sunk, my lord.")
-	clear_mouse_state()
+	self.mouse_state = MouseState.None
 
 func validate_building(mouse_pos, _effect):
 	var coords_hovered = world.global_pos_to_coords(mouse_pos)
@@ -144,20 +141,20 @@ func try_building(mouse_pos, effect):
 	var coords_hovered = world.global_pos_to_coords(mouse_pos)
 	if !world.tiles.has(coords_hovered):
 		messenger.set_message("You can only build on land, my lord.")
-		clear_mouse_state()
+		self.mouse_state = MouseState.None
 		return
 	if self.world.tiles[coords_hovered].data.team != self.game.human.team:
 		messenger.set_message("You can only build on territory you own, my lord.")
-		clear_mouse_state()
+		self.mouse_state = MouseState.None
 		return
 	if self.world.tiles[coords_hovered].data.building != Constants.Building.None:
 		messenger.set_message("There is already a construction there, my lord.")
-		clear_mouse_state()
+		self.mouse_state = MouseState.None
 		return
 	var action = Action.new(Action.Type.Build, {"coords": coords_hovered, "building": effect.value})
 	await self.apply_action(action)
 	card_used(self.used_card)
-	clear_mouse_state()
+	self.mouse_state = MouseState.None
 	
 func validate_reinforcements(mouse_pos, _effect):
 	var coords_hovered = world.global_pos_to_coords(mouse_pos)
@@ -188,7 +185,7 @@ func try_reinforcements(mouse_pos, effect):
 	await self.apply_action(action)
 	if self.used_card != null:
 		card_used(self.used_card)
-	clear_mouse_state()
+	self.mouse_state = MouseState.None
 
 func validate_sacrifice(mouse_pos, _effect):
 	var coords_hovered = world.global_pos_to_coords(mouse_pos)
@@ -211,7 +208,7 @@ func try_sacrifice(mouse_pos, _effect):
 	await self.apply_action(action)
 	if self.used_card != null:
 		card_used(self.used_card)
-	clear_mouse_state()
+	self.mouse_state = MouseState.None
 			
 		
 
@@ -222,6 +219,8 @@ func _unhandled_input(event):
 		fast_forward(false)
 	elif event is InputEventMouse:
 		if Settings.input_locked or !self.game.started:
+			return
+		if self.mouse_state == MouseState.Aim:
 			return
 		## Right click to cancel
 		if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
@@ -307,13 +306,14 @@ func compute_effect(effect):
 
 
 func create_arrow(cv):
+	cv.is_being_used = true
 	Utils.log("Starting aiming")
 	self.mouse_state = MouseState.Aim
 	var new_canvas_layer = CanvasLayer.new()
 	var arrow = arrow_prefab.instantiate()
 	arrow.effect = cv.card.effects.filter(func(e): return e.type == Effect.Type.Power)[0]
 	arrow.canceled.connect(func(): clear_mouse_state())
-	arrow.start_point = cv.position + cv.size / 2
+	arrow.start_point = Vector2(cv.position.x + cv.size.x / 2, cv.position.y)
 	arrow.world = self.world
 	match arrow.effect.target:
 		"reinforcements":

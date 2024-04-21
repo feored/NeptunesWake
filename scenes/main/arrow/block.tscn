@@ -5,4 +5,5 @@
 [node name="Block" type="Sprite2D"]
 modulate = Color(0.207843, 1, 0.0313726, 1)
 rotation = -1.5708
+scale = Vector2(3, 3)
 texture = ExtResource("1_35yde")

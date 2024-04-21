@@ -31,6 +31,7 @@ var state : State = State.Idle
 var card_ready : bool = false
 var base_position : Vector2
 var is_static : bool = false
+var is_being_used : bool = false
 
 func gen_tooltip(e):
 	Utils.log("Generating tooltip for " + str(e))
@@ -186,7 +187,12 @@ func _on_mouse_entered():
 		self.state = CardView.State.Hovered
 
 func _on_mouse_exited():
+	if self.is_being_used:
+		return
 	## Mouse actually exited
+	unhover()
+	
+func unhover():
 	if self.state == State.Hovered:
 		if not self.card_ready:
 			self.clear_tweens()
