@@ -15,7 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://bk5tm4qxaq37f" path="res://assets/ui/slider/hslider.png" id="12_ljghr"]
 [ext_resource type="Texture2D" uid="uid://dj628alce4iv3" path="res://assets/ui/panel/wood.png" id="13_2hkqj"]
 [ext_resource type="Texture2D" uid="uid://cyykdcc1bjmr4" path="res://assets/ui/tooltip.png" id="14_t00pf"]
-[ext_resource type="FontFile" uid="uid://cgq0qbi8yg7ii" path="res://assets/monogram-2.ttf" id="16_3rb3j"]
+[ext_resource type="FontFile" uid="uid://dwe3fhdfsyth6" path="res://assets/Beholden-Regular.ttf" id="16_d48sa"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bnvqk"]
 content_margin_left = 8.0
@@ -151,8 +151,8 @@ axis_stretch_vertical = 2
 
 [resource]
 default_base_scale = 1.0
-default_font = ExtResource("16_3rb3j")
-default_font_size = 32
+default_font = ExtResource("16_d48sa")
+default_font_size = 24
 Button/styles/disabled = SubResource("StyleBoxTexture_bnvqk")
 Button/styles/focus = SubResource("StyleBoxEmpty_30h70")
 Button/styles/hover = SubResource("StyleBoxTexture_y36yn")

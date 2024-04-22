@@ -106,6 +106,7 @@ layout_mode = 2
 text = "Settings"
 
 [node name="MapEditorBtn" type="Button" parent="CanvasLayer/Control/CenterContainer/VBoxContainer/ButtonContainer/buttons"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Map Editor"
 

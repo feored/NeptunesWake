@@ -23,9 +23,9 @@ class Island:
 
 
 
-const MAP_WIDTH = 5
-const MAP_HEIGHT = 5
-const MAP_PATHS = 7
+const MAP_WIDTH = 6
+const MAP_HEIGHT = 15
+const MAP_PATHS = 6
 
 ## Maps
 

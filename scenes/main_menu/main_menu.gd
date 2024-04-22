@@ -12,6 +12,7 @@ var scenarioPrefab = preload("res://scenes/scenario/scenario.tscn")
 @onready var logo = %Logo
 @onready var versionLabel = %VersionLabel
 @onready var deck_view = %DeckView
+@onready var map_editor_btn = %MapEditorBtn
 
 enum State{
 	Main,
@@ -68,6 +69,8 @@ func show_state(state):
 			self.returnButton.hide()
 			self.settingsContainer.show()
 			self.logo.hide()
+	if not OS.is_debug_build():
+		self.map_editor_btn.hide()
 
 
 func sink(_coords = Vector2.ZERO):

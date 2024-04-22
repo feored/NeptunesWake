@@ -5,7 +5,7 @@ var visited = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass  # Replace with function body.
+	self.custom_minimum_size = Vector2(0, Map.MAP_HEIGHT * 100 + 200)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -39,11 +39,11 @@ func gen_tooltip(e):
 	if "_VALUE_" in tooltip:
 		tooltip = tooltip.replace("_VALUE_", str(e.value))
 	if "_COMPUTE_" in tooltip:
-		tooltip = tooltip.replace("_COMPUTE_", str(e.computed_value))
+		tooltip = tooltip.replace("_COMPUTE_", str(e.value if e.computed_value == null else e.computed_value))
 	if "_VALUEARRAY_" in tooltip:
 		tooltip = tooltip.replace("_VALUEARRAY_", str(e.value.size()))
 	if "_COMPUTEARRAY_" in tooltip:
-		tooltip = tooltip.replace("_COMPUTEARRAY_", str(e.computed_value.size()))
+		tooltip = tooltip.replace("_COMPUTEARRAY_", str(e.value.size() if e.computed_value == null else e.computed_value.size()))
 	return tooltip
 
 func check_finished():
@@ -191,7 +191,7 @@ func _on_mouse_exited():
 		return
 	## Mouse actually exited
 	unhover()
-	
+
 func unhover():
 	if self.state == State.Hovered:
 		if not self.card_ready:

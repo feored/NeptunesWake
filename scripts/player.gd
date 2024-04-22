@@ -7,6 +7,7 @@ var resources: Dictionary = DEFAULT_RESOURCES.duplicate()
 var cards_in_use: Array = []
 var is_bot: bool = false
 var bot: Bot = null
+var gold : int = 0
 
 
 func _to_string():
@@ -23,7 +24,7 @@ const DEFAULT_RESOURCES = {
 	"reinforce_neutral": 0,
 	"flat_reinforce_bonus": 0,
 	"flat_sink_bonus": 0,
-	"flat_emerge_bonus": 0
+	"flat_emerge_bonus": 0,
 	}
 
 func compute(r : String):
