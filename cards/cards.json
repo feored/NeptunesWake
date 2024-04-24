@@ -342,5 +342,31 @@
 		"cost": 0,
 		"icon": "res://cards/images/skull.png",
 		"exhaust": false
+	},
+	"NeptunesMark": {
+		"id": "NeptunesMark",
+		"name": "Neptune's Mark",
+		"effects": [
+			{
+				"id": "mark",
+				"tier": 1
+			}
+		],
+		"cost": 2,
+		"icon": "res://cards/images/wave.png",
+		"exhaust": false
+	},
+	"TychesMark": {
+		"id": "TychesMark",
+		"name": "Tyche's Mark",
+		"effects": [
+			{
+				"id": "mark_random",
+				"tier": 2
+			}
+		],
+		"cost": 2,
+		"icon": "res://cards/images/wave.png",
+		"exhaust": false
 	}
 }

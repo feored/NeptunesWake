@@ -93,6 +93,21 @@ func clear_mouse_state():
 		self.used_card.unhover()
 		self.used_card = null	
 
+
+func validate_mark(mouse_pos, effect):
+	var coords_hovered = world.global_pos_to_coords(mouse_pos)
+	return world.tiles.has(coords_hovered)
+
+func try_mark(mouse_pos, effect):
+	var coords_hovered = world.global_pos_to_coords(mouse_pos)
+	var region_hovered = world.tiles[coords_hovered].data.region
+	var all_region_tiles = world.regions[region_hovered].data.tiles
+	var action = Action.new(Action.Type.Mark, {"value": all_region_tiles})
+	await apply_action(action)
+	if self.used_card != null:
+		card_used(self.used_card)
+	self.mouse_state = MouseState.None
+
 func validate_emerge(mouse_pos, effect):
 	var coords_hovered = world.global_pos_to_coords(mouse_pos)
 	var s = Shape.new()
@@ -267,7 +282,7 @@ func _on_cards_selected(cards):
 	Settings.input_locked = false
 	lock_controls(false)
 
-func calc_shape(init_coords, bonus):
+func calc_shape(init_coords, bonus = 0):
 	var s = Shape.new()
 	s.init_with_json_coords(init_coords)
 	s.add_bonus(int(bonus))
@@ -303,7 +318,11 @@ func compute_effect(effect):
 		"treason":
 			return effect.value 
 		"renewal":
-			return effect.value 
+			return effect.value
+		"mark":
+			return effect.value
+		"mark_random":
+			return calc_random_shape(effect.value)
 		_:
 			Utils.log("Unknown active effect: %s" % effect.target)
 			return 0
@@ -336,6 +355,9 @@ func create_arrow(cv):
 		"emerge":
 			arrow.validate_function = validate_emerge
 			arrow.try_function = try_emerge
+		"mark":
+			arrow.validate_function = validate_mark
+			arrow.try_function = try_mark
 		_:
 			Utils.log("Unknown active effect: %s" % arrow.effect.target)
 			arrow.queue_free()
@@ -539,6 +561,9 @@ func apply_action(action : Action):
 				self.world.regions[treason.region].set_team(treason.new_team)
 				self.world.regions[treason.region].update()
 			messenger.set_message("Regions of %s have defected to the enemy!" % Constants.TEAM_NAMES[game.current_player.team])
+		Action.Type.Mark:
+			for mark in action.data.value:
+				self.world.tiles[mark].mark()
 		Action.Type.None:
 			pass
 		_:

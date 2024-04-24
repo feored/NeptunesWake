@@ -59,6 +59,15 @@ static func renewal(_effect, world, game):
 	var own_regions = world.regions.values().filter(func(r): return r.data.team == game.current_player.team).map(func(r): return r.data.id)
 	return Action.new(Action.Type.Renewal, {'value': own_regions})
 	
+static func mark_random(effect, world, _game):
+	var nb = effect.value
+	var all_tiles = world.tiles.values()
+	var marked = []
+	all_tiles.shuffle()
+	for i in range(nb):
+		var tile = all_tiles.pop_front()
+		marked.push_back(tile.data.coords)
+	return Action.new(Action.Type.Mark, {'value': marked})
 
 static func apply(effect, world, game):
 	return Callable(Actives, effect.target).call(effect, world, game) 

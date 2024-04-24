@@ -80,7 +80,6 @@ func _input(event):
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			try_function.call(event.position, self.effect)
 			self.queue_free()
-	
 
 
 func set_icon(icon):
@@ -112,3 +111,5 @@ func init():
 			self.mouse_item = Shape.new()
 			self.mouse_item.init_with_json_coords(self.effect.computed_value)
 			self.set_mouse_item()
+		"mark":
+			self.set_icon("res://assets/icons/skull.png")

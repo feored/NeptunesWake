@@ -279,5 +279,38 @@
 				"tooltip": "Two random regions defect to the enemy."
 			}
 		]
+	},
+	{
+		"id": "mark_random",
+		"name": "Random Mark",
+		"tiers": [
+			{
+				"type": "active",
+				"target": "mark_random",
+				"value": 2,
+				"active_trigger": "instant",
+				"cost": 1,
+				"level": 1,
+				"tooltip": "Mark _VALUE_ (_COMPUTE_) random tiles."
+			},
+			{
+				"type": "active",
+				"target": "mark_random",
+				"value": 5,
+				"active_trigger": "instant",
+				"cost": 2,
+				"level": 3,
+				"tooltip": "Mark _VALUE_ (_COMPUTE_) random tiles."
+			},
+			{
+				"type": "active",
+				"target": "mark_random",
+				"value": 10,
+				"active_trigger": "instant",
+				"cost": 3,
+				"level": 5,
+				"tooltip": "Mark _VALUE_ (_COMPUTE_) random tiles."
+			}
+		]
 	}
 ]

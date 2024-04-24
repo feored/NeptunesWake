@@ -15,7 +15,7 @@ func _ready():
 	if not Info.lost:
 		self.rewards.show()
 		self.loss.hide()
-		self.reward_gold = Info.run.get_floor() * Utils.rng.randi_range(8,12)
+		self.reward_gold = (Info.run.get_floor()+1) * Utils.rng.randi_range(5,15)
 		self.gold_label.text = str(self.reward_gold)
 		for i in range(3):
 			var card = Cards.all_cards().pick_random()

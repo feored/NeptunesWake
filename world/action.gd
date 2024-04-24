@@ -9,6 +9,7 @@ enum Type {
 	Sacrifice,
 	Reinforce,
 	Build,
+	Mark,
 	RandomDiscard,
 	Draw,
 	Faith,

@@ -174,5 +174,19 @@
 				"tooltip": "Emerge _VALUEARRAY_ (_COMPUTEARRAY_) tiles. The affected regions will lose units in proportion."
 			}
 		]
+	},
+	{
+		"id": "mark",
+		"name": "Mark",
+		"tiers": [
+			{
+				"type": "power",
+				"target": "mark",
+				"value": 0,
+				"tooltip": "Mark a region with Neptune's power. The region will be sunk at the end of the next turn.",
+				"cost": 3,
+				"level": 5
+			}
+		]
 	}
 ]
