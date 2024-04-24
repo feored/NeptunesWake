@@ -2,8 +2,14 @@ extends Control
 signal event_over
 
 @onready var deck_view = %DeckView
+@onready var pick_card_button = %PickCardButton
 var picked : bool = false
 
+const COST = 25
+
+
+func _ready():
+	pick_card_button.disabled = Info.run.gold < COST
 
 func _on_pick_card_button_pressed():
 	deck_view.card_picked.connect(Callable(self, "card_picked"))
@@ -17,6 +23,7 @@ func card_picked(card):
 	picked = true
 	deck_view.hide()
 	Info.run.deck.erase(card)
+	Info.run.gold -= COST
 	over()
 
 

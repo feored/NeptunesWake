@@ -53,7 +53,7 @@ text = "You hear about a respected ancient oracle during your travels.
 
  Intrigued, you seek out this oracle, finding them nestled in the ruins of a forgotten city.
 
-As you approach, they offer to grant you a boon: the chance to remove one card of your choice from your deck. "
+They offer you the chance to remove one card of your choice from your deck for the modest price of 25 drachme."
 horizontal_alignment = 1
 autowrap_mode = 3
 
@@ -67,6 +67,7 @@ theme_override_constants/separation = 30
 alignment = 1
 
 [node name="PickCardButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Pick a Card"

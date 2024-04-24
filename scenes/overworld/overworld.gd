@@ -8,9 +8,9 @@ var current_event : Node = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	self.update_view()
 	if Info.run.is_beaten():
 		SceneTransition.change_scene(SceneTransition.SCENE_END)
-	self.drachme_label.text = str(Info.run.gold)
 	self.map_view.event_started.connect(func(e): start_event(e))
 	self.map_view.show()
 
@@ -31,7 +31,11 @@ func end_event():
 	self.map_view.show()
 	self.map_view.scroll_to_floor()
 	self.current_event.queue_free()
+	self.update_view()
 
+
+func update_view():
+	self.drachme_label.text = str(Info.run.gold)
 
 func _on_deck_view_btn_pressed():
 	self.deck_view.init(Info.run.deck)
