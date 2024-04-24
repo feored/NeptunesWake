@@ -39,7 +39,6 @@ const NORMAL_MAPS = {
 	"triforce.json" : 1,
 	"prison.json" : 2,
 	"rockandhardplace.json": 2,
-	"teepee.json": 3
 }
 
 const BOSS_MAPS = [

@@ -52,6 +52,8 @@ func add_tile(coord: Vector2i):
 func add_bonus(bonus):
 	for i in range(bonus):
 		var possible = []
+		if self.coords.size() == 0:
+			possible.push_back(Vector2i(0, 0))
 		for coord in self.coords.keys():
 			for c in Utils.get_surrounding_cells(coord):
 				if !self.coords.has(c):

@@ -458,7 +458,7 @@ func play_global_turn():
 func prepare_turn():
 	self.generate_units(self.game.human.team)
 	self.game.human.resources.faith = self.game.human.compute("faith_per_turn") + self.world.tiles.values().filter(func(t): return t.data.team == self.game.human.team and t.data.building == Constants.Building.Temple).size()
-	self.game.human.resources.card_played = 0
+	self.game.human.resources.cards_played = 0
 	self.update_faith_player()
 	await self.deck.draw_multiple(self.game.human.compute("cards_per_turn"))
 	self.deck.update_faith(self.game.human.resources.faith)

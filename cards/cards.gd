@@ -24,7 +24,7 @@ func read_into(path):
 
 
 func get_card(id: String):
-	return Card.new(self.cards[id])
+	return Card.from_json(self.cards[id])
 
 
 func get_effect_tree(id: String):
