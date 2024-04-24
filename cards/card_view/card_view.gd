@@ -81,9 +81,7 @@ func animate(new_pos, new_rotation, new_z_index):
 	# Utils.log("Animating card to " + str(new_pos) + " " + str(new_rotation) + " " + str(new_z_index))
 
 func move(new_pos, call_when_finished = null):
-
 	## used for draw/discard
-
 	if self.tweens.size() > 0:
 		clear_tweens()
 	var tween_pos = self.create_tween().set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_parallel()

@@ -29,6 +29,8 @@ var cards_to_pick = 1
 
 var game : Game
 
+var over : bool = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Settings.input_locked = false
@@ -364,6 +366,8 @@ func card_used(cv):
 	self.used_card = null
 	self.game.human.resources.cards_played += 1
 	Effects.trigger(Effect.Trigger.CardPlayed)
+	if self.over:
+		return
 	if cv.card.exhaust:
 		self.deck.exhaust(cv)
 	else:
@@ -392,9 +396,11 @@ func check_win_condition():
 			messenger.set_message(Constants.TEAM_NAMES[player.team] + " has been wiped from the island!")
 	if self.game.human.eliminated:
 		Info.lost = true
-		SceneTransition.change_scene(SceneTransition.SCENE_REWARD)
+		self.over = true
+		await SceneTransition.change_scene(SceneTransition.SCENE_REWARD)
 	elif self.game.players.filter(func(p): return !p.eliminated).size() < 2:
-		SceneTransition.change_scene(SceneTransition.SCENE_REWARD)
+		self.over = true
+		await SceneTransition.change_scene(SceneTransition.SCENE_REWARD)
 
 func clear_selected_region():
 	if selected_region != null:
@@ -442,7 +448,7 @@ func play_global_turn():
 		self.game.next_player()
 
 	await self.world.sink_marked()
-	check_win_condition()
+	await check_win_condition()
 	await self.world.mark_tiles(self.game.global_turn)
 	
 
@@ -487,6 +493,8 @@ func generate_units(team):
 			world.regions[region].generate_units(self.game.current_player.compute("units_per_tile"))
 
 func apply_action(action : Action):
+	if over:
+		return
 	self.game.actions_history.append(action)
 	match action.type:
 		Action.Type.Move:
@@ -532,7 +540,7 @@ func apply_action(action : Action):
 			pass
 		_:
 			Utils.log("Unknown action: %s" % action)
-	check_win_condition()
+	await check_win_condition()
 
 func update_faith_player():
 	self.deck.update_faith(self.game.human.resources.faith)

@@ -34,6 +34,6 @@ func score():
 	}
 	for m in self.map.map.values():
 		if m.visited:
-			total_score["Modifiers"] += m.level
+			total_score["Modifiers"] += m.level * 10
 	return total_score
 
