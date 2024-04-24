@@ -392,9 +392,9 @@ func check_win_condition():
 			messenger.set_message(Constants.TEAM_NAMES[player.team] + " has been wiped from the island!")
 	if self.game.human.eliminated:
 		Info.lost = true
-		await SceneTransition.change_scene(SceneTransition.SCENE_REWARD)
+		SceneTransition.change_scene(SceneTransition.SCENE_REWARD)
 	elif self.game.players.filter(func(p): return !p.eliminated).size() < 2:
-		await SceneTransition.change_scene(SceneTransition.SCENE_REWARD)
+		SceneTransition.change_scene(SceneTransition.SCENE_REWARD)
 
 func clear_selected_region():
 	if selected_region != null:
@@ -515,9 +515,9 @@ func apply_action(action : Action):
 			if !game.current_player.is_bot:
 				self.update_faith_player()
 		Action.Type.RandomDiscard:
-			await self.deck.discard_random(action.data.value)
+			self.deck.discard_random(action.data.value)
 		Action.Type.Draw:
-			await self.deck.draw_multiple(action.data.value)
+			self.deck.draw_multiple(action.data.value)
 		Action.Type.Renewal:
 			for region_id in action.data.value:
 				self.world.regions[region_id].set_used(false)

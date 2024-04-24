@@ -7,8 +7,6 @@ var resources: Dictionary = DEFAULT_RESOURCES.duplicate()
 var cards_in_use: Array = []
 var is_bot: bool = false
 var bot: Bot = null
-var gold : int = 0
-
 
 func _to_string():
 	return "Player " + str(team)

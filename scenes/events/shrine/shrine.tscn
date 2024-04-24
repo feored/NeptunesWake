@@ -34,6 +34,7 @@ layout_mode = 2
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 240)
 layout_mode = 2
+size_flags_vertical = 3
 
 [node name="PanelContainer2" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -45,6 +46,7 @@ expand_mode = 3
 stretch_mode = 5
 
 [node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Tales whispered by locals draw you to the desolate shrine of a forgotten mischievous god.

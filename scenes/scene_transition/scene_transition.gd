@@ -16,13 +16,14 @@ func _ready():
 	self.texture_rect.hide()
 
 func change_scene(target: String) -> void:
+	Engine.time_scale = 0
 	#animation_player.play("fade_out")
 	#await animation_player.animation_finished
 	await self.set_screenshot()
 	self.fade_in()
 	self.fade_out()
 	get_tree().change_scene_to_file(target)
-	
+	Engine.time_scale = 1
 
 func fade_in():
 	self.texture_rect.show()

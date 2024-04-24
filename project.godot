@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Neptune's Wake"
 run/main_scene="res://scenes/main_menu/main_menu.tscn"
-config/features=PackedStringArray("4.1", "Forward Plus")
+config/features=PackedStringArray("4.2", "Forward Plus")
 boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/image="res://assets/gikobox.png"
 boot_splash/fullsize=false
@@ -41,9 +41,7 @@ Effects="*res://scripts/effects.gd"
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
-window/size/window_width_override=1920
-window/size/window_height_override=1080
-window/stretch/mode="viewport"
+window/stretch/mode="canvas_items"
 mouse_cursor/custom_image="res://assets/ui/cursor_triangle_16.png"
 mouse_cursor/tooltip_position_offset=Vector2(4, 4)
 

@@ -10,8 +10,8 @@ const CARD_SPACING : float = CARD_SIZE.x
 
 const card_prefab = preload("res://cards/card_view/card_view.tscn")
 
-@onready var draw_pile_label : Label = %DrawPileLabel
-@onready var discard_pile_label : Label = %DiscardPileLabel
+@onready var draw_pile_button : Button = %DrawPileButton
+@onready var discard_pile_button : Button = %DiscardPileButton
 @onready var deck_view = %DeckView
 @onready var draw_pile_deck : Control
 
@@ -135,8 +135,8 @@ func update_faith(new_faith):
 
 
 func update_display():
-	self.draw_pile_label.text = str(self.draw_pile.size())
-	self.discard_pile_label.text = str(self.discard_pile.size())
+	self.draw_pile_button.text = str(self.draw_pile.size()) + " - Draw"
+	self.discard_pile_button.text = str(self.discard_pile.size()) + " - Discard"
 
 func _on_discard_pile_button_pressed():
 	self.deck_view.init(self.discard_pile)

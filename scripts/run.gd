@@ -6,6 +6,8 @@ const STARTING_DECK = ["Offering", "Sacrifice", "Flood", "Creation", "CretanArch
 var deck : Array[Card] = []
 var map : Map
 var coords : Vector2i = Map.START
+var gold : int = 0
+
 
 func _init():
 	map = Map.new()
@@ -24,3 +26,14 @@ func get_floor():
 
 func is_beaten():
 	return self.map.boss.visited
+
+func score():
+	var total_score = {
+		"Wealth": self.gold,
+		"Modifiers": 0,
+	}
+	for m in self.map.map.values():
+		if m.visited:
+			total_score["Modifiers"] += m.level
+	return total_score
+

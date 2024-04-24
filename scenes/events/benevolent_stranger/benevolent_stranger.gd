@@ -20,9 +20,6 @@ func _ready():
 		#await Utils.wait(Constants.DECK_LONG_TIMER)
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
 
 func pick_card(cv):
 	if picked:

@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://4w2dg1ct8qs0"]
+[gd_scene load_steps=6 format=3 uid="uid://4w2dg1ct8qs0"]
 
 [ext_resource type="Theme" uid="uid://3t61g0061mea" path="res://assets/theme.tres" id="1_yo68c"]
 [ext_resource type="Script" path="res://scenes/run_reward/run_reward.gd" id="2_7q2bo"]
 [ext_resource type="StyleBox" uid="uid://dosxsnv8rmhmx" path="res://scenes/events/event_panel_bg.tres" id="2_u1yn7"]
 [ext_resource type="Texture2D" uid="uid://fy3t8ltfti4o" path="res://scenes/run_reward/defeat.png" id="4_4e4jk"]
+[ext_resource type="Texture2D" uid="uid://b2emgrojalhab" path="res://assets/icons/coins.png" id="4_s6u0x"]
 
 [node name="run_reward" type="Control"]
 process_mode = 3
@@ -34,6 +35,7 @@ theme_override_constants/margin_bottom = 50
 
 [node name="Rewards" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 theme_override_constants/separation = 25
 alignment = 1
@@ -45,6 +47,20 @@ theme_override_constants/outline_size = 5
 text = "Rewards"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="DrachmeContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/Rewards"]
+layout_mode = 2
+alignment = 1
+
+[node name="DrachmeLabel" type="Label" parent="PanelContainer/MarginContainer/Rewards/DrachmeContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "54
+"
+
+[node name="DrachmeIcon" type="TextureRect" parent="PanelContainer/MarginContainer/Rewards/DrachmeContainer"]
+layout_mode = 2
+texture = ExtResource("4_s6u0x")
 
 [node name="Label2" type="Label" parent="PanelContainer/MarginContainer/Rewards"]
 layout_mode = 2
@@ -67,7 +83,6 @@ text = "Continue"
 
 [node name="Loss" type="CenterContainer" parent="PanelContainer/MarginContainer"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 
 [node name="VBox" type="VBoxContainer" parent="PanelContainer/MarginContainer/Loss"]
@@ -98,6 +113,23 @@ layout_mode = 2
 texture = ExtResource("4_4e4jk")
 expand_mode = 5
 stretch_mode = 5
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/MarginContainer/Loss/VBox"]
+layout_mode = 2
+
+[node name="ScoreContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/Loss/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/Loss/VBox/ScoreContainer"]
+layout_mode = 2
+theme_override_constants/outline_size = 2
+text = "Score"
+horizontal_alignment = 1
+
+[node name="ScoreLabel" type="Label" parent="PanelContainer/MarginContainer/Loss/VBox/ScoreContainer"]
+unique_name_in_owner = true
+layout_mode = 2
 
 [node name="ContinueLossBtn" type="Button" parent="PanelContainer/MarginContainer/Loss/VBox"]
 layout_mode = 2

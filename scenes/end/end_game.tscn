@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://btigklvjjr03x"]
+[gd_scene load_steps=7 format=3 uid="uid://btigklvjjr03x"]
 
 [ext_resource type="Script" path="res://scenes/end/end_game.gd" id="1_cjoyp"]
 [ext_resource type="Theme" uid="uid://3t61g0061mea" path="res://assets/theme.tres" id="1_cly16"]
 [ext_resource type="PackedScene" uid="uid://pu46mkcjdswb" path="res://scenes/esc_menu/esc_menu.tscn" id="2_f528p"]
 [ext_resource type="PackedScene" uid="uid://b8opucxucl032" path="res://world/world.tscn" id="3_d4uvc"]
 [ext_resource type="Texture2D" uid="uid://rgqhplxpw320" path="res://scenes/end/calm.jpg" id="4_j0d03"]
+[ext_resource type="StyleBox" uid="uid://dosxsnv8rmhmx" path="res://scenes/events/event_panel_bg.tres" id="4_yenf0"]
 
 [node name="EndGame2" type="Node2D"]
 script = ExtResource("1_cjoyp")
@@ -20,32 +21,27 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_cly16")
+theme_override_styles/panel = ExtResource("4_yenf0")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PanelContainer"]
+[node name="Centercontainer" type="CenterContainer" parent="CanvasLayer/PanelContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PanelContainer/Centercontainer"]
 layout_mode = 2
 theme_override_constants/separation = 20
 alignment = 1
 
-[node name="Label" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="CanvasLayer/PanelContainer/Centercontainer/VBoxContainer"]
 layout_mode = 2
 text = "Victory!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ImagePanel" type="PanelContainer" parent="CanvasLayer/PanelContainer/VBoxContainer"]
-custom_minimum_size = Vector2(512, 512)
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/PanelContainer/Centercontainer/VBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme = ExtResource("1_cly16")
+alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/PanelContainer/VBoxContainer/ImagePanel"]
-layout_mode = 2
-texture = ExtResource("4_j0d03")
-expand_mode = 3
-stretch_mode = 5
-
-[node name="Label2" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer"]
+[node name="Label2" type="Label" parent="CanvasLayer/PanelContainer/Centercontainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "You have done all that Neptune asked of you, and you live out
 the rest of your days peacefully in his divine abode overlooking the sea.
@@ -53,11 +49,46 @@ Yet you dream of another adventure..."
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button" type="Button" parent="CanvasLayer/PanelContainer/VBoxContainer"]
+[node name="ImagePanel" type="PanelContainer" parent="CanvasLayer/PanelContainer/Centercontainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(256, 256)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("1_cly16")
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/PanelContainer/Centercontainer/VBoxContainer/HBoxContainer/ImagePanel"]
+layout_mode = 2
+texture = ExtResource("4_j0d03")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="HSeparator" type="HSeparator" parent="CanvasLayer/PanelContainer/Centercontainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ScoreContainer" type="VBoxContainer" parent="CanvasLayer/PanelContainer/Centercontainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="CanvasLayer/PanelContainer/Centercontainer/VBoxContainer/ScoreContainer"]
+layout_mode = 2
+theme_override_constants/outline_size = 2
+text = "Score"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ScoreLabel" type="Label" parent="CanvasLayer/PanelContainer/Centercontainer/VBoxContainer/ScoreContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "5486"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="CanvasLayer/PanelContainer/Centercontainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Continue"
 
 [node name="World" parent="." instance=ExtResource("3_d4uvc")]
 
-[connection signal="pressed" from="CanvasLayer/PanelContainer/VBoxContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/PanelContainer/Centercontainer/VBoxContainer/Button" to="." method="_on_button_pressed"]
