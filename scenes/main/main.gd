@@ -273,6 +273,9 @@ func calc_shape(init_coords, bonus):
 	s.add_bonus(int(bonus))
 	return s.coords.keys()
 
+func calc_random_shape(total):
+	return calc_shape([], total)
+
 func compute_effect(effect):
 	match effect.target:
 		"sacrifice":
@@ -292,11 +295,11 @@ func compute_effect(effect):
 		"faith":
 			return effect.value 
 		"sink_random_self_tiles":
-			return calc_shape(effect.value, self.game.current_player.compute("flat_sink_bonus"))
+			return calc_random_shape(effect.value + self.game.current_player.compute("flat_sink_bonus"))
 		"sink_random_tiles":
-			return calc_shape(effect.value, self.game.current_player.compute("flat_sink_bonus"))
+			return calc_random_shape(effect.value + self.game.current_player.compute("flat_sink_bonus"))
 		"emerge_random_tiles":
-			return calc_shape(effect.value, self.game.current_player.compute("flat_emerge_bonus"))
+			return calc_random_shape(effect.value + self.game.current_player.compute("flat_emerge_bonus"))
 		"treason":
 			return effect.value 
 		"renewal":

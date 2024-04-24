@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://ceoqtlfuehsvd"]
+[gd_scene load_steps=18 format=3 uid="uid://ceoqtlfuehsvd"]
 
 [ext_resource type="Script" path="res://scenes/main/main.gd" id="1_osaxm"]
 [ext_resource type="PackedScene" uid="uid://pu46mkcjdswb" path="res://scenes/esc_menu/esc_menu.tscn" id="2_pam5e"]
@@ -7,7 +7,11 @@
 [ext_resource type="Theme" uid="uid://3t61g0061mea" path="res://assets/theme.tres" id="5_5yrco"]
 [ext_resource type="PackedScene" uid="uid://drjdjumbfief5" path="res://cards/deck/deck_view.tscn" id="6_7d42u"]
 [ext_resource type="Texture2D" uid="uid://vv0nl83x0ldq" path="res://assets/icons/forward.png" id="6_7usvn"]
+[ext_resource type="Texture2D" uid="uid://c212io5yyck3x" path="res://cards/deck/cards_diagonal_flip.png" id="6_rhuyp"]
+[ext_resource type="Texture2D" uid="uid://daiva0ld8x5xg" path="res://cards/deck/cards_diagonal.png" id="7_6flvt"]
+[ext_resource type="Texture2D" uid="uid://c21vky8im5mlv" path="res://cards/deck/cards_diagonal_flip_hover.png" id="7_47vxr"]
 [ext_resource type="Script" path="res://scenes/main/Message.gd" id="7_y3mfw"]
+[ext_resource type="Texture2D" uid="uid://bkvqblt1epgp1" path="res://cards/deck/cards_diagonal_hover.png" id="9_sxlud"]
 [ext_resource type="Texture2D" uid="uid://n7uttbbffjfx" path="res://assets/icons/faith_bg.png" id="13_mjhrf"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7ox3a"]
@@ -41,7 +45,7 @@ mouse_filter = 2
 theme = ExtResource("5_5yrco")
 script = ExtResource("4_nj60x")
 
-[node name="DiscardPileButton" type="Button" parent="UI/Deck"]
+[node name="DiscardPileButton" type="TextureButton" parent="UI/Deck"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 3
@@ -55,11 +59,26 @@ offset_right = -50.0
 offset_bottom = -67.0
 grow_horizontal = 0
 grow_vertical = 0
+tooltip_text = "Discard Pile"
 theme = ExtResource("5_5yrco")
-text = "0 Discard Pile"
-alignment = 2
+texture_normal = ExtResource("6_rhuyp")
+texture_hover = ExtResource("7_47vxr")
+stretch_mode = 5
 
-[node name="DrawPileButton" type="Button" parent="UI/Deck"]
+[node name="DiscardPileLabel" type="Label" parent="UI/Deck/DiscardPileButton"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+text = "9"
+horizontal_alignment = 2
+
+[node name="DrawPileButton" type="TextureButton" parent="UI/Deck"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 2
@@ -70,9 +89,23 @@ offset_top = -100.0
 offset_right = 156.0
 offset_bottom = -67.0
 grow_vertical = 0
+tooltip_text = "Draw Pile"
 theme = ExtResource("5_5yrco")
-text = "0 Draw Pile"
-alignment = 2
+texture_normal = ExtResource("7_6flvt")
+texture_hover = ExtResource("9_sxlud")
+stretch_mode = 5
+
+[node name="DrawPileLabel" type="Label" parent="UI/Deck/DrawPileButton"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+text = "4"
 
 [node name="DeckView" parent="UI/Deck" instance=ExtResource("6_7d42u")]
 unique_name_in_owner = true
