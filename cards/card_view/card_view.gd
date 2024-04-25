@@ -198,7 +198,7 @@ func unhover():
 		self.state = CardView.State.Idle
 
 func compute_effects():
-	for effect in self.card.effects:
+	for effect in self.card.effects.filter(func(e): return e.type != Effect.Type.Resource):
 		effect.computed_value = self.compute_effect.call(effect)
 	if self.is_node_ready():
 		regen_tooltips()

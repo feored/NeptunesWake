@@ -293,6 +293,8 @@ func calc_random_shape(total):
 
 func compute_effect(effect):
 	match effect.target:
+		"reinforcements":
+			return effect.value + self.game.current_player.compute("flat_reinforce_bonus")
 		"sacrifice":
 			return effect.value
 		"emerge":

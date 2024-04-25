@@ -131,7 +131,7 @@ func gen_layout():
 
 func _init():
 	var layout = self.gen_layout()
-	print_layout(layout)
+	# print_layout(layout)
 	self.boss = self.create_boss()
 	self.map = self.add_boss(self.layout_to_map(layout), self.boss)
 
