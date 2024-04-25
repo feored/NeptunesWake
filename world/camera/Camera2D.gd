@@ -21,18 +21,14 @@ var max_zoom = Vector2(4, 4)
 var panning = false
 var pan_speed = 0.1
 
-func _input(event):
+
+func _unhandled_input(event):
 	if Settings.input_locked:
 		return
 	if event.is_action_released('zoom_in'):
 		zoom_camera(zoom_speed, event.position)
 	if event.is_action_released('zoom_out'):
 		zoom_camera(-zoom_speed, event.position)
-
-
-func _unhandled_input(event):
-	if Settings.input_locked:
-		return
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			self.panning = event.pressed

@@ -128,24 +128,22 @@ func try_emerge(mouse_pos, effect):
 	self.mouse_state = MouseState.None
 
 
-func validate_sink(mouse_pos, effect):
-	var coords_hovered = world.global_pos_to_coords(mouse_pos)
-	var s = Shape.new()
-	s.init_with_json_coords(effect.computed_value)
-	return s.placeable(coords_hovered, self.world.tiles.keys())
+func validate_sink(_mouse_pos, _effect):
+	# var coords_hovered = world.global_pos_to_coords(mouse_pos)
+	# var s = Shape.new()
+	# s.init_with_json_coords(effect.computed_value)
+	# return s.placeable(coords_hovered, self.world.tiles.keys())
+	return true
 
 func try_sink(mouse_pos, effect):
 	var coords_hovered = world.global_pos_to_coords(mouse_pos)
 	var s = Shape.new()
 	s.init_with_json_coords(effect.computed_value)
-	if s.placeable(coords_hovered, self.world.tiles.keys()):
-		var tiles_to_sink = s.adjusted_shape_coords(coords_hovered).filter(func(t): return self.world.tiles.has(t))
-		var action = Action.new(Action.Type.Sink, {'value' : tiles_to_sink})
-		await apply_action(action)
-		if self.used_card != null:
-			card_used(self.used_card)
-	else:
-		messenger.set_message("You cannot sink that which is already sunk, my lord.")
+	var tiles_to_sink = s.adjusted_shape_coords(coords_hovered).filter(func(t): return self.world.tiles.has(t))
+	var action = Action.new(Action.Type.Sink, {'value' : tiles_to_sink})
+	await apply_action(action)
+	if self.used_card != null:
+		card_used(self.used_card)
 	self.mouse_state = MouseState.None
 
 func validate_building(mouse_pos, _effect):
