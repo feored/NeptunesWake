@@ -63,12 +63,16 @@ func apply_active(effect):
 	await self.apply_action(action)
 
 func add_mod_effect(e):
+	if e.target == MapMods.Target.World:
+		var instanced_effect = Effect.new(e.effect.id, e.effect.tier)
+		Effects.add_global(instanced_effect)
+		return
 	var players_to_apply = []
 	if e.target == MapMods.Target.Human:
 		players_to_apply = [self.game.human]
 	elif e.target == MapMods.Target.Enemies:
 		players_to_apply = self.game.players.filter(func(p): return p.team != self.game.human.team)
-	elif e.target == Constants.Target.All:
+	elif e.target == MapMods.Target.All:
 		players_to_apply = self.game.players
 	for player in players_to_apply:
 		var instanced_effect = Effect.new(e.effect.id, e.effect.tier)
@@ -94,11 +98,11 @@ func clear_mouse_state():
 		self.used_card = null	
 
 
-func validate_mark(mouse_pos, effect):
+func validate_mark(mouse_pos, _effect):
 	var coords_hovered = world.global_pos_to_coords(mouse_pos)
 	return world.tiles.has(coords_hovered)
 
-func try_mark(mouse_pos, effect):
+func try_mark(mouse_pos, _effect):
 	var coords_hovered = world.global_pos_to_coords(mouse_pos)
 	var region_hovered = world.tiles[coords_hovered].data.region
 	var all_region_tiles = world.regions[region_hovered].data.tiles
@@ -289,16 +293,21 @@ func calc_shape(init_coords, bonus = 0):
 func calc_random_shape(total):
 	return calc_shape([], total)
 
-func compute_effect(effect):
+func compute_effect(effect, global = false):
+	var computed = func(res):
+		var player = self.game.current_player
+		if global:
+			player = self.game.global
+		return player.compute(res)
 	match effect.target:
 		"reinforcements":
-			return effect.value + self.game.current_player.compute("flat_reinforce_bonus")
+			return effect.value + computed.call("flat_reinforce_bonus")
 		"sacrifice":
 			return effect.value
 		"emerge":
-			return calc_shape(effect.value, self.game.current_player.compute("flat_emerge_bonus"))
+			return calc_shape(effect.value, computed.call("flat_emerge_bonus"))
 		"sink":
-			return calc_shape(effect.value, self.game.current_player.compute("flat_sink_bonus"))
+			return calc_shape(effect.value, computed.call("flat_sink_bonus"))
 		"build":
 			return effect.value
 		"reinforcements":
@@ -310,11 +319,11 @@ func compute_effect(effect):
 		"faith":
 			return effect.value 
 		"sink_random_self_tiles":
-			return calc_random_shape(effect.value + self.game.current_player.compute("flat_sink_bonus"))
+			return calc_random_shape(effect.value + computed.call("flat_sink_bonus"))
 		"sink_random_tiles":
-			return calc_random_shape(effect.value + self.game.current_player.compute("flat_sink_bonus"))
+			return calc_random_shape(effect.value + computed.call("flat_sink_bonus"))
 		"emerge_random_tiles":
-			return calc_random_shape(effect.value + self.game.current_player.compute("flat_emerge_bonus"))
+			return calc_random_shape(effect.value + computed.call("flat_emerge_bonus"))
 		"treason":
 			return effect.value 
 		"renewal":
@@ -578,8 +587,11 @@ func load_map(map_regions):
 	self.world.clear_island()
 	self.world.load_regions(map_regions)
 	for region in self.world.regions.values():
-		if region.data.team != Constants.NULL_TEAM and region.data.team != self.game.human.team:
-			region.generate_units(self.game.player_from_team(region.data.team).compute("units_per_tile"))
+		if region.data.team != self.game.human.team:
+			if region.data.team != Constants.NULL_TEAM:
+				region.generate_units(self.game.player_from_team(region.data.team).compute("units_per_tile"))
+			else:
+				region.generate_units(self.game.global.compute("initial_neutral_units"))
 
 func fast_forward(val):
 	Settings.skip(val)

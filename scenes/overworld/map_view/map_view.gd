@@ -60,7 +60,7 @@ func draw_map():
 			btn.disabled = true
 		if Info.run.map.map[k].visited:
 			lines_panel.visited.push_back(btns[k].position + BTN_SIZE_HALF)
-		btn.pressed.connect(func (): print("HSHSHES"); Utils.log("Chose loc" + str(k)); choose_location(k))
+		btn.pressed.connect(func (): choose_location(k))
 	for k in Info.run.map.map.keys():
 		for end in Info.run.map.map[k].next:
 			lines_panel.coords.push_back([btns[k].position + BTN_SIZE_HALF, btns[end].position + BTN_SIZE_HALF])

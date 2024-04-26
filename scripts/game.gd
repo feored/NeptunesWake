@@ -4,6 +4,7 @@ class_name Game
 var turn: int = 0
 var global_turn: int = 0
 var players: Array = []
+var global = Global.new()
 var current_player: Player
 var human : Player
 var started = false

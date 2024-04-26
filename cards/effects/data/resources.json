@@ -374,5 +374,79 @@
 				"tooltip": "Do not generate any units per tile."
 			}
 		]
+	},
+	{
+		"id": "fertile",
+		"name": "Fertile",
+		"tiers": [
+			{
+				"type": "resource",
+				"target": "units_per_tile",
+				"value": "units_per_tile * 2",
+				"cost": 3,
+				"level": 5,
+				"tooltip": "Units generated per tile are doubled."
+			},
+			{
+				"type": "resource",
+				"target": "units_per_tile",
+				"value": "units_per_tile * 3",
+				"cost": 5,
+				"level": 10,
+				"tooltip": "Units generated per tile are tripled."
+			}
+		]
+	},
+	{
+		"id": "drought",
+		"name": "Drought",
+		"tiers": [
+			{
+				"type": "resource",
+				"target": "units_per_tile",
+				"value": "units_per_tile * 0.5",
+				"cost": -1,
+				"level": 1,
+				"tooltip": "Units generated per tile are halved."
+			},
+			{
+				"type": "resource",
+				"target": "units_per_tile",
+				"value": "units_per_tile * 0.25",
+				"cost": -3,
+				"level": 5,
+				"tooltip": "Units generated per tile are quartered."
+			},
+			{
+				"type": "resource",
+				"target": "units_per_tile",
+				"value": "0",
+				"cost": -10,
+				"level": 10,
+				"tooltip": "Do not generate any units per tile."
+			}
+		]
+	},
+	{
+		"id": "initial_neutral_units",
+		"name": "Populous",
+		"tiers": [
+			{
+				"type": "resource",
+				"target": "initial_neutral_units",
+				"value": "initial_neutral_units + 1",
+				"cost": 1,
+				"level": 0,
+				"tooltip": "Neutral regions start with some more units."
+			},
+			{
+				"type": "resource",
+				"target": "initial_neutral_units",
+				"value": "initial_neutral_units + 3",
+				"cost": 2,
+				"level": 3,
+				"tooltip": "Neutral regions start with many more units."
+			}
+		]
 	}
 ]

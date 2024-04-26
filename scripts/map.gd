@@ -30,15 +30,15 @@ const MAP_PATHS = 6
 ## Maps
 
 const NORMAL_MAPS = {
-	"confrontation.json": 0,
-	"blob.json" : 2,
-	"triangles.json" : 1,
-	"fortress.json" : 1,
-	"homebase.json" : 2,
-	"rings.json" : 2,
-	"triforce.json" : 1,
-	"prison.json" : 2,
-	"rockandhardplace.json": 2,
+	"confrontation.json": 1,
+	"fortress.json" : 2,
+	"triangles.json" : 3,
+	"triforce.json" : 4,
+	"rockandhardplace.json": 4,
+	"homebase.json" : 5,
+	"prison.json" : 6,
+	"rings.json" : 6,
+	"blob.json" : 7,
 }
 
 const BOSS_MAPS = [
@@ -52,6 +52,15 @@ const START = Vector2i(-1, -999)
 var map : Dictionary
 var boss : Island
 
+func get_closest_maps(floor_level : int, closest = 3):
+	var closest_maps = []
+	for key in NORMAL_MAPS:
+		closest_maps.push_back([key, abs(NORMAL_MAPS[key] - floor_level)])
+	closest_maps.sort_custom(func (a, b): return a[1] < b[1])
+	closest_maps = closest_maps.map(func (m): return m[0])
+	return closest_maps.slice(0, closest)
+
+
 func get_entrances():
 	return map.keys().filter(func (k): return k.x == 0)
 
@@ -61,8 +70,8 @@ func layout_to_map (layout):
 		var island = Island.new()
 		island.location = Location.Map if Utils.rng.randi()%2 == 0 else Location.Event
 		if island.location == Location.Map:
-			island.path = NORMAL_MAPS.keys().pick_random()
 			island.level = self.gen_level(coords.x)
+			island.path = get_closest_maps(island.level).pick_random()
 			island.mods = self.pick_mods(island.level)
 		else:
 			island.event = Constants.EVENTS.keys().pick_random()

@@ -1,7 +1,7 @@
 class_name MapMods
 extends RefCounted
 
-enum Target { All, Enemies, Human }
+enum Target { World, All, Enemies, Human }
 
 enum Mod {
 	Conscription,
@@ -12,7 +12,9 @@ enum Mod {
 	Scarcity,
 	NeptuneCurse,
 	NeptunePrison,
-	Treason
+	Treason,
+	Populous,
+	Guarded
 }
 
 const mods = {
@@ -90,6 +92,26 @@ const mods = {
 		"effects": [{"target": Target.Human, "effect": {"id": "godless", "tier": 2}}],
 		"description": "Generate two less faith per turn."
 	},
+	Mod.Populous:
+	{
+		"level": 1,
+		"name": "Populous",
+		"effects":
+		[
+			{"target": Target.World, "effect": {"id": "initial_neutral_units", "tier": 1}},
+		],
+		"description": "Neutral regions start with a few units."
+	},
+	Mod.Guarded:
+	{
+		"level": 2,
+		"name": "Guarded",
+		"effects":
+		[
+			{"target": Target.World, "effect": {"id": "initial_neutral_units", "tier": 2}},
+		],
+		"description": "Neutral regions start with many units."
+	},
 	Mod.Famine:
 	{
 		"level": 1,
@@ -111,8 +133,7 @@ const mods = {
 		[
 			{
 				"target": Target.Human,
-				"effect":
-				{"id": "cardless", "tier": 2},
+				"effect": {"id": "cardless", "tier": 2},
 			}
 		],
 		"description": "Draw two less cards per turn."
