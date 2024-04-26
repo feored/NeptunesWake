@@ -71,7 +71,7 @@ func move_smoothed(target, precision = 1):
 		return
 	self.panning = false
 	self.position_smoothing_enabled = true
-	self.position = target - Vector2(self.viewport_size/2)
+	self.position =  target - Vector2(self.viewport_size)/self.zoom/2
 	self.position_smoothing_speed = CAMERA_SPEED_SKIP if Settings.skipping else CAMERA_SPEED
 	var arrived_center = target
 	while abs((arrived_center - get_screen_center_position()).length_squared()) > precision:
