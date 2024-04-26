@@ -144,8 +144,9 @@ func try_sink(mouse_pos, effect):
 	var s = Shape.new()
 	s.init_with_json_coords(effect.computed_value)
 	var tiles_to_sink = s.adjusted_shape_coords(coords_hovered).filter(func(t): return self.world.tiles.has(t))
-	var action = Action.new(Action.Type.Sink, {'value' : tiles_to_sink})
-	await apply_action(action)
+	if tiles_to_sink.size() > 0:
+		var action = Action.new(Action.Type.Sink, {'value' : tiles_to_sink})
+		await apply_action(action)
 	if self.used_card != null:
 		card_used(self.used_card)
 	self.mouse_state = MouseState.None
