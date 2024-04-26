@@ -47,8 +47,6 @@ const BOSS_MAPS = [
 
 const START = Vector2i(-1, -999)
 
-
-
 var map : Dictionary
 var boss : Island
 

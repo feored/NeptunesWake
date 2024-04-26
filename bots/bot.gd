@@ -2,22 +2,16 @@ extends RefCounted
 class_name Bot
 
 var team = 0
-var personality: BotPersonality
 
 func play_turn(_world):
 	pass
 
 
-func _init(init_team, init_personality):
+func _init(init_team):
 	self.team = init_team
-	self.personality = init_personality
 
+func get_regions(world_sim, filter_team):
+	return world_sim.regions.values().filter(func(r): return r.team == filter_team).map(func(r): return r.id)
 
-func get_regions(world, filter_team):
-	return world.regions.values().filter(func(r): return r.team == filter_team)
-
-
-func get_available_regions(world):
-	return self.get_regions(world, self.team).filter(func(r): return r.units > 1 and not r.used)
-
-
+func get_available_regions(world_sim):
+	return world_sim.regions.values().filter(func(r): return r.team == self.team and not r.is_used and r.units > 1).map(func(r): return r.id)

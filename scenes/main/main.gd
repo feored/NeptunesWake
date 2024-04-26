@@ -170,7 +170,7 @@ func try_building(mouse_pos, effect):
 		messenger.set_message("There is already a construction there, my lord.")
 		self.mouse_state = MouseState.None
 		return
-	var action = Action.new(Action.Type.Build, {"coords": coords_hovered, "building": effect.value})
+	var action = Action.new(Action.Type.Build, {"coords": coords_hovered, "building": Constants.BUILDING_ENUM[effect.value]})
 	await self.apply_action(action)
 	card_used(self.used_card)
 	self.mouse_state = MouseState.None
@@ -498,6 +498,7 @@ func play_turn():
 	var playing = true
 	while playing:
 		var thread = Thread.new()
+		Utils.log("PLAYER %s TURN" % self.game.current_player.team)
 		thread.start(self.game.current_player.bot.play_turn.bind(self.world))
 		while thread.is_alive():
 			await Utils.wait(0.1)
@@ -519,12 +520,8 @@ func regions_left(team):
 	return false
 
 func generate_units(team):
-	for region in world.regions:
-		if !is_instance_valid(world.regions[region]):
-			Utils.log("Region %s is not valid" % region)
-			break
-		if world.regions[region].data.team == team:
-			world.regions[region].generate_units(self.game.current_player.compute("units_per_tile"))
+	for region in world.regions.keys().filter(func(r): return world.regions[r].data.team == team):
+		world.regions[region].generate_units(self.game.player_from_team(team).compute("units_per_tile"))
 
 func apply_action(action : Action):
 	if over:

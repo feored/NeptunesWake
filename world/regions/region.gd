@@ -32,7 +32,7 @@ class RegionData:
 		return {"id": self.id, "team": self.team, "tiles": self.tiles, "units": self.units, "is_used": self.is_used}
 	
 	func _to_string():
-		return "Region %s, team %s, %s tiles, %s units" % [str(self.id), str(self.team), str(self.tiles.size()), str(self.units)]
+		return "Region %s, team %s, %s tiles, %s units, %s" % [str(self.id), str(self.team), str(self.tiles.size()), str(self.units), "used" if self.is_used else "unused"]
 	
 	func clone():
 		var new_data = RegionData.new()

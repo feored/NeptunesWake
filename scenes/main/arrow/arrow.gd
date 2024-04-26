@@ -84,7 +84,7 @@ func _input(event):
 
 func set_icon(icon):
 	self.mouse_item = Sprite2D.new()
-	self.mouse_item.texture = load(icon)
+	self.mouse_item.texture = icon
 	# self.current.reinforcements = new_reinforcements + self.game.current_player.compute("flat_reinforce_bonus")
 	self.set_mouse_item()
 
@@ -97,9 +97,9 @@ func set_mouse_item():
 func init():
 	match self.effect.target:
 		"reinforcements":
-			self.set_icon("res://assets/icons/Plus.png")
+			self.set_icon(load("res://assets/icons/Plus.png"))
 		"sacrifice":
-			self.set_icon("res://assets/icons/skull.png")
+			self.set_icon(load("res://assets/icons/skull.png"))
 		"build":
 			var b = Constants.BUILDING_ENUM[self.effect.value]
 			self.set_icon(Constants.BUILDINGS[b].texture)
@@ -112,4 +112,4 @@ func init():
 			self.mouse_item.init_with_json_coords(self.effect.computed_value)
 			self.set_mouse_item()
 		"mark":
-			self.set_icon("res://assets/icons/skull.png")
+			self.set_icon(load("res://assets/icons/skull.png"))

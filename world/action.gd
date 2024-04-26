@@ -31,4 +31,4 @@ func clone():
 
 
 func _to_string():
-	return "Action: " + Action.Type.keys()[self.type]
+	return "Action: " + Action.Type.keys()[self.type] + " : " + str(self.data)

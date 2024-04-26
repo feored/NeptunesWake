@@ -23,7 +23,7 @@ func _init(teams):
 			current_player = player
 			human = player
 		else:
-			player.bot = TerritoryBot.new(team, Personalities.AGGRESSIVE_PERSONALITY)
+			player.bot = AttackBot.new(team)
 
 func get_random_enemy():
 	return self.players.filter(func(p): return p.team != self.current_player.team).pick_random()

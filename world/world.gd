@@ -298,7 +298,7 @@ func move_units(region_from : int, region_to: int, team: int):
 	if not self.regions.has(region_to):
 		Utils.log("Error: invalid region trying to move to %s" % region_to)
 	if self.regions[region_from].data.units <= 1:
-		Utils.log("Error: not enough units to move: %s" % regions[region_from].units)
+		Utils.log("Error: not enough units to move: %s" % regions[region_from].data.units)
 	if not region_to in self.adjacent_regions(region_from):
 		Utils.log("Error: regions are not adjacent")
 
