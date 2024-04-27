@@ -15,37 +15,35 @@ var active = true
 const CAMERA_SPEED = 10
 const CAMERA_SPEED_SKIP = 50
 
-var zoom_speed = 0.1
+var zoom_anim_time = 0.1
+var zoom_factor = 0.05
 var min_zoom = Vector2(1, 1)
 var max_zoom = Vector2(4, 4)
 var panning = false
 var pan_speed = 0.1
 
-
 func _unhandled_input(event):
 	if Settings.input_locked:
 		return
 	if event.is_action_released('zoom_in'):
-		zoom_camera(zoom_speed, event.position)
+		zoom_camera(zoom_factor)
 	if event.is_action_released('zoom_out'):
-		zoom_camera(-zoom_speed, event.position)
+		zoom_camera(-zoom_factor)
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			self.panning = event.pressed
 	elif event is InputEventMouseMotion and self.panning:
 		self.position -= event.relative / zoom
 
-func zoom_camera(zoom_factor, mouse_position):
+func zoom_camera(zf):
 	var prev_zoom = zoom
-	var new_zoom = clamp(zoom + ( zoom * zoom_factor), min_zoom, max_zoom)
-	var new_pos = self.position - ((viewport_size * 0.5) - mouse_position ) * (zoom - prev_zoom)
-	var tween = self.create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN).set_parallel()
-	tween.tween_property(self, "zoom", new_zoom, zoom_speed)
-	tween.tween_property(self, "position", new_pos, zoom_speed)
-	#self.zoom = 
-	#self.position -= ((viewport_size * 0.5) - mouse_position ) * (zoom - prev_zoom)
-	
-
+	var new_zoom = clamp(zoom + ( zoom * zf), min_zoom, max_zoom)
+	var new_pos = self.position + (Vector2(self.viewport_size)/prev_zoom - Vector2(self.viewport_size)/new_zoom)/2 
+	#var tween = self.create_tween().set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN).set_parallel()
+	#tween.tween_property(self, "position", new_pos, zoom_anim_time)
+	#tween.tween_property(self, "zoom", new_zoom, zoom_anim_time)
+	self.zoom = new_zoom
+	self.position = new_pos
 
 func _ready():
 	if self.position == Vector2.ZERO:

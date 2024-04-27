@@ -4,8 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://pu46mkcjdswb" path="res://scenes/esc_menu/esc_menu.tscn" id="3_3h7bd"]
 [ext_resource type="Theme" uid="uid://3t61g0061mea" path="res://assets/theme.tres" id="3_5sf0l"]
 [ext_resource type="Script" path="res://scenes/overworld/map_view/map_view.gd" id="4_f2e7b"]
-[ext_resource type="Texture2D" uid="uid://b2emgrojalhab" path="res://assets/icons/coins.png" id="5_8ingj"]
 [ext_resource type="PackedScene" uid="uid://drjdjumbfief5" path="res://cards/deck/deck_view.tscn" id="5_j7lb7"]
+[ext_resource type="Texture2D" uid="uid://b1tiaenfjsnp" path="res://assets/icons/coin.png" id="5_jptac"]
 [ext_resource type="Script" path="res://scenes/overworld/map_view/lines.gd" id="5_ocmwk"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nfs5d"]
@@ -90,7 +90,8 @@ alignment = 2
 
 [node name="DrachmeIcon" type="TextureRect" parent="Control/VBoxContainer/Bar/MarginContainer/HBoxContainer/Drachme"]
 layout_mode = 2
-texture = ExtResource("5_8ingj")
+tooltip_text = "Drachme"
+texture = ExtResource("5_jptac")
 expand_mode = 3
 stretch_mode = 5
 

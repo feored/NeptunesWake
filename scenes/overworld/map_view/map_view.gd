@@ -3,7 +3,7 @@ signal event_started(event)
 
 const X_OFFSET = 100
 const Y_OFFSET = 100
-const BTN_SIZE = Vector2(32, 32)
+const BTN_SIZE = Vector2(128, 128)
 const BTN_SIZE_HALF = BTN_SIZE / 2
 
 const btnPrefab = preload("res://scenes/overworld/map_view/map_location.tscn")
@@ -16,7 +16,7 @@ var tooltip = null
 
 
 func coords_to_btnpos(coords):
-	return Vector2(X_OFFSET + coords.y * 100,  Y_OFFSET + (Map.MAP_HEIGHT - coords.x) * 100) + Vector2(Utils.rng.randf_range(-20, 20), Utils.rng.randf_range(-10, 10))
+	return Vector2(X_OFFSET + coords.y * (BTN_SIZE.x * 2),  Y_OFFSET + (Map.MAP_HEIGHT - coords.x) * BTN_SIZE.y * 2) + Vector2(Utils.rng.randf_range(-20, 20), Utils.rng.randf_range(-10, 10))
 
 
 func clear():

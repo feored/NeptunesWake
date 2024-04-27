@@ -8,6 +8,8 @@ const MAP_ICON = preload("res://scenes/overworld/map_view/map_icon_blank.png")
 
 const mod_list_prefab = preload("res://scenes/overworld/mod_view/mod_list.tscn")
 
+@onready var label = $Label
+
 var island = null
 
 
@@ -22,7 +24,7 @@ func update_view():
 		self.icon = EVENT_ICON
 	else:
 		self.icon = MAP_ICON
-		self.text = str(island.level)
+		self.label.text = str(island.level)
 
 
 # Called when the node enters the scene tree for the first time.
