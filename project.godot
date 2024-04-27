@@ -46,6 +46,7 @@ mouse_cursor/tooltip_position_offset=Vector2(4, 4)
 
 [gui]
 
+common/snap_controls_to_pixels=false
 timers/tooltip_delay_sec=0.25
 
 [input]

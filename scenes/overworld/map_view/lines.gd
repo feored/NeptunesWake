@@ -17,4 +17,4 @@ func _draw():
 	for c in coords:
 		draw_dashed_line(c[0], c[1], Color.BLACK, 2, 4)
 	for v in visited:
-		draw_arc(v, 30, 0, 360, 100, Color.RED, 3.0, false)
+		draw_arc(v, 64, 0, 360, 100, Color.RED, 3.0, false)

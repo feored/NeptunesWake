@@ -13,13 +13,11 @@ const HOVER_Z_INDEX = 1
 @onready var card_icon : TextureRect = %PowerIcon
 @onready var card_name : Label = %PowerName
 @onready var card_cost : Label = %PowerCost
-@onready var shape_gui = %ShapeGUI
 @onready var front : Control = %Front
 @onready var back : Control = %Back
 @onready var exhaust_label : Label = %ExhaustLabel
 @onready var effect_container : Control = %EffectContainer
 
-var shape_prefab = preload("res://scenes/shapes/shape_gui.tscn")
 const effect_prefab = preload("res://cards/effects/effect_view.tscn")
 
 var compute_effect : Callable
@@ -32,6 +30,7 @@ var card_ready : bool = false
 var base_position : Vector2
 var is_static : bool = false
 var is_being_used : bool = false
+var elapsed : float = Utils.rng.randf() * PI
 
 func gen_tooltip(e):
 	Utils.log("Generating tooltip for " + str(e))
@@ -128,6 +127,16 @@ func mouse_inside():
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	self.config()
+	#if not is_static:
+	# var tween = self.create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN).set_loops()
+	# tween.tween_property(self, "position", Vector2(5, 5), 3)
+	# tween.tween_property(self, "position", Vector2(-5, -5), 3)
+	# 	#tween.tween_property(self, "position", Vector2(0.8, 0.8), 5)
+
+# func _process(delta):
+# 	elapsed += delta
+# 	if self.state == State.Idle and not self.is_static:
+# 		self.get_theme_stylebox_
 
 func config():
 	if self.card == null:
@@ -136,16 +145,6 @@ func config():
 	if self.card.icon != null:
 		self.card_icon.texture = self.card.icon
 	
-	# if self.card.power in ["emerge", "sink"]:
-	# 	var action_type : Action.Type = Action.Type.Emerge if self.card.power == "emerge" else Action.Type.Sink
-	# 	self.shape_gui.init_with_coords(self.card., action_type)
-	# 	self.shape_gui.show()
-	# 	self.card_icon.hide()
-	# else:
-	# 	self.shape_gui.hide()
-	# 	self.card_icon.show()
-	# self.btn.tooltip_text = self.power.description
-	#self.card_description.text = "[center]" + self.card.description + "[/center]"
 	self.card_cost.text = str(self.card.cost)
 	self.exhaust_label.visible = self.card.exhaust
 	for effect in self.card.effects:

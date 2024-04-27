@@ -1,31 +1,49 @@
-[gd_scene load_steps=9 format=3 uid="uid://bgm1rdglwaad5"]
+[gd_scene load_steps=14 format=3 uid="uid://bgm1rdglwaad5"]
 
+[ext_resource type="Shader" path="res://cards/card_view/card_view.gdshader" id="1_5jsps"]
 [ext_resource type="Theme" uid="uid://3t61g0061mea" path="res://assets/theme.tres" id="1_7fcci"]
 [ext_resource type="Script" path="res://cards/card_view/card_view.gd" id="2_3yo7v"]
 [ext_resource type="Texture2D" uid="uid://cndgawjlwcsaq" path="res://cards/images/wave.png" id="3_5h4kn"]
-[ext_resource type="PackedScene" uid="uid://r53ogglkfpl1" path="res://scenes/shapes/shape_gui.tscn" id="4_1o2nn"]
+[ext_resource type="StyleBox" uid="uid://7uiwxfc0pxb7" path="res://cards/card_view/card_view.tres" id="3_pp6fb"]
 [ext_resource type="Texture2D" uid="uid://bxqvi5615lj3b" path="res://assets/icons/trident.png" id="5_r4chv"]
 [ext_resource type="Texture2D" uid="uid://cat4q0bmpcct" path="res://world/tiles/images/grass.png" id="6_0afos"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_giqqo"]
-bg_color = Color(0.0756, 0.09114, 0.12, 1)
+[sub_resource type="Gradient" id="Gradient_7lbgs"]
+colors = PackedColorArray(0.0701451, 0.307947, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_3txvt"]
+noise_type = 3
+fractal_type = 2
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_5x15y"]
+color_ramp = SubResource("Gradient_7lbgs")
+noise = SubResource("FastNoiseLite_3txvt")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dgyqj"]
+shader = ExtResource("1_5jsps")
+shader_parameter/card_color = Color(1, 1, 1, 1)
+shader_parameter/radius = 0.423
+shader_parameter/effectControl = 0.102
+shader_parameter/burnSpeed = 0.076
+shader_parameter/shape = 1.0
+shader_parameter/textureNoise = SubResource("NoiseTexture2D_5x15y")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tdggf"]
+bg_color = Color(0.0745098, 0.0901961, 0.121569, 1)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0.6, 0.811765, 1, 1)
+border_color = Color(0.373939, 0.598961, 0.979485, 1)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
-corner_detail = 4
-shadow_color = Color(0.486275, 0.592157, 0.8, 0.643137)
-shadow_size = 10
-anti_aliasing = false
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xvcwb"]
 
-[node name="PowerCard" type="PanelContainer"]
+[node name="PowerCard" type="Panel"]
+material = SubResource("ShaderMaterial_dgyqj")
 custom_minimum_size = Vector2(250, 350)
 offset_right = 140.0
 offset_bottom = 200.0
@@ -33,29 +51,44 @@ pivot_offset = Vector2(83, 122)
 size_flags_horizontal = 4
 size_flags_vertical = 0
 theme = ExtResource("1_7fcci")
-theme_override_styles/panel = SubResource("StyleBoxFlat_giqqo")
+theme_override_styles/panel = ExtResource("3_pp6fb")
 script = ExtResource("2_3yo7v")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 249.0
+offset_bottom = 349.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
-theme_override_constants/margin_left = 2
-theme_override_constants/margin_top = 2
-theme_override_constants/margin_right = 2
-theme_override_constants/margin_bottom = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
 
-[node name="Front" type="VBoxContainer" parent="MarginContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_tdggf")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/PanelContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Front" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 10
 
-[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/Front"]
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/PanelContainer/MarginContainer/Front"]
 layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_xvcwb")
 
-[node name="PowerIcon" type="TextureRect" parent="MarginContainer/Front/PanelContainer"]
+[node name="PowerIcon" type="TextureRect" parent="MarginContainer/PanelContainer/MarginContainer/Front/PanelContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 75)
 layout_mode = 2
@@ -64,16 +97,7 @@ texture = ExtResource("3_5h4kn")
 expand_mode = 3
 stretch_mode = 6
 
-[node name="CenterContainer" type="CenterContainer" parent="MarginContainer/Front/PanelContainer"]
-visible = false
-layout_mode = 2
-
-[node name="ShapeGUI" parent="MarginContainer/Front/PanelContainer/CenterContainer" instance=ExtResource("4_1o2nn")]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-
-[node name="PowerName" type="Label" parent="MarginContainer/Front/PanelContainer"]
+[node name="PowerName" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/Front/PanelContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -83,12 +107,13 @@ text = "Sink"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="EffectContainer" type="VBoxContainer" parent="MarginContainer/Front"]
+[node name="EffectContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/Front"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_vertical = 0
 mouse_filter = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Front"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/PanelContainer/MarginContainer/Front"]
 layout_mode = 2
 size_flags_vertical = 10
 mouse_filter = 2
@@ -97,17 +122,17 @@ theme_override_constants/margin_top = 0
 theme_override_constants/margin_right = 2
 theme_override_constants/margin_bottom = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Front/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/Front/MarginContainer"]
 layout_mode = 2
 size_flags_stretch_ratio = 0.95
 mouse_filter = 2
 
-[node name="Label" type="Label" parent="MarginContainer/Front/MarginContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/Front/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 text = "Cost"
 
-[node name="ExhaustLabel" type="Label" parent="MarginContainer/Front/MarginContainer/HBoxContainer"]
+[node name="ExhaustLabel" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/Front/MarginContainer/HBoxContainer"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -118,13 +143,13 @@ text = "[Exhausts]"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PowerCost" type="Label" parent="MarginContainer/Front/MarginContainer/HBoxContainer"]
+[node name="PowerCost" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/Front/MarginContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 10
 text = "3"
 
-[node name="Faith" type="TextureRect" parent="MarginContainer/Front/MarginContainer/HBoxContainer"]
+[node name="Faith" type="TextureRect" parent="MarginContainer/PanelContainer/MarginContainer/Front/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(12, 0)
 layout_mode = 2
 mouse_filter = 2
@@ -132,27 +157,23 @@ texture = ExtResource("5_r4chv")
 expand_mode = 3
 stretch_mode = 5
 
-[node name="Back" type="PanelContainer" parent="MarginContainer"]
+[node name="Back" type="PanelContainer" parent="MarginContainer/PanelContainer/MarginContainer"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 mouse_filter = 2
 theme_type_variation = &"GoldPanel"
 
-[node name="CenterContainer" type="CenterContainer" parent="MarginContainer/Back"]
+[node name="CenterContainer" type="CenterContainer" parent="MarginContainer/PanelContainer/MarginContainer/Back"]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/Back/CenterContainer"]
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/PanelContainer/MarginContainer/Back/CenterContainer"]
 layout_mode = 2
 mouse_filter = 2
 texture = ExtResource("6_0afos")
 
-[node name="TextureRect2" type="TextureRect" parent="MarginContainer/Back/CenterContainer"]
+[node name="TextureRect2" type="TextureRect" parent="MarginContainer/PanelContainer/MarginContainer/Back/CenterContainer"]
 layout_mode = 2
 mouse_filter = 2
 texture = ExtResource("5_r4chv")
-
-[node name="PanelContainer" type="PanelContainer" parent="."]
-visible = false
-layout_mode = 2
