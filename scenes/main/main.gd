@@ -11,6 +11,7 @@ const arrow_prefab = preload("res://scenes/main/arrow/arrow.tscn")
 @onready var deck = %Deck
 @onready var faith_label = %FaithLabel
 @onready var mods_scroll_container = %ModsScrollContainer
+@onready var active_effects = %ActiveEffects
 
 var used_card = null
 
@@ -42,6 +43,7 @@ func _ready():
 	self.game = Game.new(Info.current_map.teams.map(func(t): return int(t)))
 	Effects.init(self.game.players, Callable(self.game, "get_current_player"))
 	Effects.apply_active.connect(apply_active)
+	self.active_effects.player = self.game.human
 	self.add_mods(Info.current_mods)
 	self.load_map(Info.current_map.regions)
 	

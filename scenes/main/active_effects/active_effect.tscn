@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://d1ta34tah6wge"]
+
+[ext_resource type="Texture2D" uid="uid://bonmpybeqxulp" path="res://scenes/overworld/map_view/map_icon_blank.png" id="1_hwts4"]
+
+[node name="ActiveEffect" type="TextureRect"]
+texture = ExtResource("1_hwts4")
+expand_mode = 5
+stretch_mode = 5

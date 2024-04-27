@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://ceoqtlfuehsvd"]
+[gd_scene load_steps=19 format=3 uid="uid://ceoqtlfuehsvd"]
 
 [ext_resource type="Script" path="res://scenes/main/main.gd" id="1_osaxm"]
 [ext_resource type="PackedScene" uid="uid://pu46mkcjdswb" path="res://scenes/esc_menu/esc_menu.tscn" id="2_pam5e"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" path="res://scenes/main/Message.gd" id="7_y3mfw"]
 [ext_resource type="Texture2D" uid="uid://bkvqblt1epgp1" path="res://cards/deck/cards_diagonal_hover.png" id="9_sxlud"]
 [ext_resource type="Texture2D" uid="uid://n7uttbbffjfx" path="res://assets/icons/faith_bg.png" id="13_mjhrf"]
+[ext_resource type="Script" path="res://scenes/main/active_effects/active_effects.gd" id="14_emvi1"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7ox3a"]
 
@@ -207,6 +208,20 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_ensp2")
 [node name="ModsScrollContainer" type="ScrollContainer" parent="UI/PanelContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+
+[node name="ActiveEffects" type="VBoxContainer" parent="UI"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 0)
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -180.0
+grow_horizontal = 0
+grow_vertical = 2
+theme = ExtResource("5_5yrco")
+alignment = 1
+script = ExtResource("14_emvi1")
 
 [connection signal="pressed" from="UI/Deck/DiscardPileButton" to="UI/Deck" method="_on_discard_pile_button_pressed"]
 [connection signal="pressed" from="UI/Deck/DrawPileButton" to="UI/Deck" method="_on_draw_pile_button_pressed"]
