@@ -6,7 +6,7 @@ signal picked(card : CardView)
 enum State { Idle, Hovered, Selected, DrawnOrDiscarded}
 
 const COLOR_INVALID = Color(1, 0.5, 0.5)
-const COLOR_VALID = Color(1, 1, 1)
+var COLOR_VALID = Color.hex(0x47a9ff)
 const BASE_Z_INDEX = 0
 const HOVER_Z_INDEX = 1
 
@@ -30,7 +30,6 @@ var card_ready : bool = false
 var base_position : Vector2
 var is_static : bool = false
 var is_being_used : bool = false
-var elapsed : float = Utils.rng.randf() * PI
 
 func gen_tooltip(e):
 	Utils.log("Generating tooltip for " + str(e))
@@ -127,16 +126,6 @@ func mouse_inside():
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	self.config()
-	#if not is_static:
-	# var tween = self.create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN).set_loops()
-	# tween.tween_property(self, "position", Vector2(5, 5), 3)
-	# tween.tween_property(self, "position", Vector2(-5, -5), 3)
-	# 	#tween.tween_property(self, "position", Vector2(0.8, 0.8), 5)
-
-# func _process(delta):
-# 	elapsed += delta
-# 	if self.state == State.Idle and not self.is_static:
-# 		self.get_theme_stylebox_
 
 func config():
 	if self.card == null:

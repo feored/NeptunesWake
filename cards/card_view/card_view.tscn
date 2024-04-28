@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bgm1rdglwaad5"]
+[gd_scene load_steps=15 format=3 uid="uid://bgm1rdglwaad5"]
 
 [ext_resource type="Shader" path="res://cards/card_view/card_view.gdshader" id="1_5jsps"]
 [ext_resource type="Theme" uid="uid://3t61g0061mea" path="res://assets/theme.tres" id="1_7fcci"]
@@ -22,7 +22,7 @@ noise = SubResource("FastNoiseLite_3txvt")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dgyqj"]
 shader = ExtResource("1_5jsps")
 shader_parameter/card_color = Color(1, 1, 1, 1)
-shader_parameter/radius = 0.423
+shader_parameter/radius = 0.411
 shader_parameter/effectControl = 0.102
 shader_parameter/burnSpeed = 0.076
 shader_parameter/shape = 1.0
@@ -30,17 +30,33 @@ shader_parameter/textureNoise = SubResource("NoiseTexture2D_5x15y")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tdggf"]
 bg_color = Color(0.0745098, 0.0901961, 0.121569, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.373939, 0.598961, 0.979485, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0.359333, 0.98, 1)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xvcwb"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i6ojd"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.6, 0.811765, 1, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+corner_detail = 4
+shadow_color = Color(0.486275, 0.592157, 0.8, 0.643137)
+shadow_size = 10
+anti_aliasing = false
 
 [node name="PowerCard" type="Panel"]
 material = SubResource("ShaderMaterial_dgyqj")
@@ -97,6 +113,30 @@ texture = ExtResource("3_5h4kn")
 expand_mode = 3
 stretch_mode = 6
 
+[node name="TextureRect" type="Panel" parent="MarginContainer/PanelContainer/MarginContainer/Front/PanelContainer/PowerIcon"]
+layout_mode = 1
+offset_left = -20.0
+offset_top = -22.0
+offset_right = 16.0
+offset_bottom = 14.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_i6ojd")
+
+[node name="PowerCost" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/Front/PanelContainer/PowerIcon/TextureRect"]
+unique_name_in_owner = true
+modulate = Color(0.28, 0.664, 1, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 10
+theme_override_font_sizes/font_size = 32
+text = "3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="PowerName" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/Front/PanelContainer"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -128,6 +168,7 @@ size_flags_stretch_ratio = 0.95
 mouse_filter = 2
 
 [node name="Label" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/Front/MarginContainer/HBoxContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 0
 text = "Cost"
@@ -143,13 +184,8 @@ text = "[Exhausts]"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PowerCost" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/Front/MarginContainer/HBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 10
-text = "3"
-
 [node name="Faith" type="TextureRect" parent="MarginContainer/PanelContainer/MarginContainer/Front/MarginContainer/HBoxContainer"]
+visible = false
 custom_minimum_size = Vector2(12, 0)
 layout_mode = 2
 mouse_filter = 2
