@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://ceoqtlfuehsvd"]
+[gd_scene load_steps=23 format=3 uid="uid://ceoqtlfuehsvd"]
 
 [ext_resource type="Script" path="res://scenes/main/main.gd" id="1_osaxm"]
 [ext_resource type="PackedScene" uid="uid://pu46mkcjdswb" path="res://scenes/esc_menu/esc_menu.tscn" id="2_pam5e"]
@@ -16,6 +16,20 @@
 [ext_resource type="Script" path="res://scenes/main/active_effects/active_effects.gd" id="14_emvi1"]
 [ext_resource type="Shader" path="res://faith.gdshader" id="14_pw6iu"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bre21"]
+shader = ExtResource("14_pw6iu")
+shader_parameter/line_color = Color(0.49, 0.0931, 0.0931, 1)
+shader_parameter/max_line_thickness = 6.0
+shader_parameter/speed = 1.0
+shader_parameter/offset = 0.45
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7yohb"]
+shader = ExtResource("14_pw6iu")
+shader_parameter/line_color = Color(0.262745, 0.580392, 0.368627, 1)
+shader_parameter/max_line_thickness = 6.0
+shader_parameter/speed = 1.5
+shader_parameter/offset = 1.4
+
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7ox3a"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bwln7"]
@@ -24,8 +38,10 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vyug2"]
 shader = ExtResource("14_pw6iu")
-shader_parameter/line_color = Color(1, 1, 1, 0.733333)
+shader_parameter/line_color = Color(1, 1, 1, 1)
 shader_parameter/max_line_thickness = 5.0
+shader_parameter/speed = 2.0
+shader_parameter/offset = 0.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ensp2"]
 
@@ -54,6 +70,7 @@ script = ExtResource("4_nj60x")
 
 [node name="DiscardPileButton" type="TextureButton" parent="UI/Deck"]
 unique_name_in_owner = true
+material = SubResource("ShaderMaterial_bre21")
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -87,6 +104,7 @@ horizontal_alignment = 2
 
 [node name="DrawPileButton" type="TextureButton" parent="UI/Deck"]
 unique_name_in_owner = true
+material = SubResource("ShaderMaterial_7yohb")
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0

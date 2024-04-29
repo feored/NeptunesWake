@@ -37,8 +37,8 @@ func _ready():
 	Settings.input_locked = false
 	Settings.skipping = false
 	self.world.init(Callable(self.messenger, "set_message"))
-	Music.play_track(Music.Track.World)
-	Sfx.enable_track(Sfx.Track.Sink)
+	Music.play_world()
+	#Sfx.enable_track(Sfx.Track.Sink)
 
 	self.game = Game.new(Info.current_map.teams.map(func(t): return int(t)))
 	Effects.init(self.game.players, Callable(self.game, "get_current_player"))
@@ -50,6 +50,8 @@ func _ready():
 	var mod_list = mod_list_prefab.instantiate()
 	mod_list.init(Info.current_mods)
 	self.mods_scroll_container.add_child(mod_list)
+	if Info.current_mods.size() == 0:
+		self.mods_scroll_container.hide()
 	
 	self.game.started = true
 	Utils.log("Formerly ", self.world.map_to_local(closest_player_tile_coords()))
@@ -459,7 +461,6 @@ func handle_move(clicked_region):
 		if clicked_region.data.team == self.game.human.team:
 			self.selected_region = clicked_region.data.id
 			self.world.regions[selected_region].set_selected(true)
-			Sfx.play(Sfx.Track.Select)
 	else:
 		if clicked_region.data.id not in self.world.adjacent_regions(self.selected_region):
 			clear_mouse_state()
@@ -532,21 +533,26 @@ func apply_action(action : Action):
 	self.game.actions_history.append(action)
 	match action.type:
 		Action.Type.Move:
+			Sfx.play(Sfx.Track.Move)
 			await self.world.move_units(action.data.from, action.data.to, action.data.team)
 		Action.Type.Sink:
 			await self.world.sink_tiles(action.data.value)
 			Effects.trigger(Effect.Trigger.TileSunk)
 		Action.Type.Emerge:
+			Sfx.play(Sfx.Track.Emerge)
 			for tile_array in action.data.value:
 				await self.world.emerge_tiles(tile_array)
 			Effects.trigger(Effect.Trigger.TileEmerged)
 		Action.Type.Sacrifice:
+			Sfx.play(Sfx.Track.Sacrifice)
 			sacrifice_region(action.data.region, game.get_current_player().team)
 			Effects.trigger(Effect.Trigger.RegionSacrificed)
 		Action.Type.Build:
 			self.world.tiles[action.data.coords].set_building(action.data.building)
+			Sfx.play(Sfx.Track.Built)
 			Effects.trigger(Effect.Trigger.BuildingBuilt)
 		Action.Type.Reinforce:
+			Sfx.play(Sfx.Track.Reinforce)
 			self.world.regions[action.data.region].data.units += action.data.value
 			if self.world.regions[action.data.region].data.team == Constants.NULL_TEAM:
 				self.world.regions[action.data.region].set_team(self.game.human.team)

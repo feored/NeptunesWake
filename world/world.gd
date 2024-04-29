@@ -315,6 +315,9 @@ func move_units(region_from : int, region_to: int, team: int):
 		regions[region_to].reinforce(moved_units)
 	else:
 		regions[region_to].attack(moved_units, team)
+		# var is_captured = regions[region_to].data.team == team
+		# if is_captured:
+		# 	Sfx.play(Sfx.Track.RegionCaptured)
 			
 	if not is_player:
 		await Utils.wait(Settings.turn_time)
