@@ -2,25 +2,26 @@ extends Node2D
 
 const LOWEST_VOLUME = -80
 
-enum Track { Boom, Click, Enter, Select, Cancel, Hover }
+enum Track { Sink, Click, Enter, Select, Cancel, Hover, CardDraw, CardDiscard, Coins, Rumble }
 
 const TRACKS = {
-	Track.Boom: preload("res://audio/sfx/Explosion5.wav"),
-	Track.Click: preload("res://audio/sfx/click_02.wav"),
+	Track.Sink: preload("res://audio/sfx/watersplash.wav"),
+	Track.Click: preload("res://audio/sfx/click2.wav"),
 	Track.Enter: preload("res://audio/sfx/enter_13.wav"),
-	Track.Select: preload("res://audio/sfx/click_02.wav"),
-	Track.Cancel: preload("res://audio/sfx/click_04.wav"),
-	Track.Hover: preload("res://audio/sfx/click_06.wav"),
+	Track.Select: preload("res://audio/sfx/switch10.wav"),
+	Track.Cancel: preload("res://audio/sfx/switch10.wav"),
+	Track.Hover: preload("res://audio/sfx/click5.wav"),
+	Track.CardDraw: preload("res://audio/sfx/cardSlide4.wav"),
+	Track.CardDiscard: preload("res://audio/sfx/cardShove2.wav"),
+	Track.Coins: preload("res://audio/sfx/chain_03.ogg"),
+	Track.Rumble: preload("res://audio/sfx/rumble.wav"),
 }
 
 const CUSTOM_VOLUME = {
-	Track.Boom: -12,
-	Track.Hover: -10,
-	Track.Click: -6
 }
 
 const CUSTOM_POLYPHONY = {
-	Track.Boom: 1,
+	Track.Sink: 1
 }
 
 var players = {}

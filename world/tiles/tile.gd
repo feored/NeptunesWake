@@ -149,7 +149,7 @@ func sink():
 	$GPUParticles2D.emitting = true
 	for b in self.borders.keys():
 		self.border_objects[b].hide()
-	Sfx.play(Sfx.Track.Boom)
+	Sfx.play(Sfx.Track.Sink)
 	self.add_child(SINK_ANIMATION.instantiate())
 	self.dissolving = true
 	self.material.set_shader_parameter("active", true)

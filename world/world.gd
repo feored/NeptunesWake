@@ -255,6 +255,7 @@ func mark_tiles(global_turn):
 		else:
 			cur_cell = neighbors[randi() % neighbors.size()]
 		self.tiles[cur_cell].mark()
+	Sfx.play(Sfx.Track.Rumble)
 	if tiles_to_mark > 0:
 		self.messenger.call("Neptune has marked those who are destined to perish.")
 		await Utils.wait(Settings.turn_time)

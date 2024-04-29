@@ -2,13 +2,13 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://co3om0u30kide"
-path="res://.godot/imported/click_02.wav-1681f28707ca157c7833af61eb34bfac.sample"
+uid="uid://clvt2xdk4ijah"
+path="res://.godot/imported/rumble.wav-871b97c22f60b5c5423ba246c479c4c5.sample"
 
 [deps]
 
-source_file="res://audio/sfx/click_02.wav"
-dest_files=["res://.godot/imported/click_02.wav-1681f28707ca157c7833af61eb34bfac.sample"]
+source_file="res://audio/sfx/rumble.wav"
+dest_files=["res://.godot/imported/rumble.wav-871b97c22f60b5c5423ba246c479c4c5.sample"]
 
 [params]
 

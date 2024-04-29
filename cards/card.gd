@@ -25,6 +25,20 @@ func _init(
 	self.exhaust = init_exhaust
 
 
+func _to_string():
+	return (
+		"Card: "
+		+ self.name
+		+ " ("
+		+ self.id
+		+ ")"
+		+ " Cost: "
+		+ str(self.cost)
+		+ " Effects: "
+		+ str(self.effects)
+	)
+
+
 static func from_json(card_json: Dictionary):
 	var all_effects = []
 	for e in card_json["effects"]:

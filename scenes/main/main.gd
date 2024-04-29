@@ -38,7 +38,7 @@ func _ready():
 	Settings.skipping = false
 	self.world.init(Callable(self.messenger, "set_message"))
 	Music.play_track(Music.Track.World)
-	Sfx.enable_track(Sfx.Track.Boom)
+	Sfx.enable_track(Sfx.Track.Sink)
 
 	self.game = Game.new(Info.current_map.teams.map(func(t): return int(t)))
 	Effects.init(self.game.players, Callable(self.game, "get_current_player"))
@@ -322,11 +322,11 @@ func compute_effect(effect, global = false):
 		"faith":
 			return effect.value 
 		"sink_random_self_tiles":
-			return calc_random_shape(effect.value + computed.call("flat_sink_bonus"))
+			return effect.value + computed.call("flat_sink_bonus")
 		"sink_random_tiles":
-			return calc_random_shape(effect.value + computed.call("flat_sink_bonus"))
+			return effect.value + computed.call("flat_sink_bonus")
 		"emerge_random_tiles":
-			return calc_random_shape(effect.value + computed.call("flat_emerge_bonus"))
+			return effect.value + computed.call("flat_emerge_bonus")
 		"treason":
 			return effect.value 
 		"renewal":
@@ -334,7 +334,7 @@ func compute_effect(effect, global = false):
 		"mark":
 			return effect.value
 		"mark_random":
-			return calc_random_shape(effect.value)
+			return effect.value
 		_:
 			Utils.log("Unknown active effect: %s" % effect.target)
 			return 0
@@ -573,6 +573,7 @@ func apply_action(action : Action):
 		Action.Type.Mark:
 			for mark in action.data.value:
 				self.world.tiles[mark].mark()
+			Sfx.play(Sfx.Track.Rumble)
 		Action.Type.None:
 			pass
 		_:

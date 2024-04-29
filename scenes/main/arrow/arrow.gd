@@ -2,7 +2,7 @@ extends Node2D
 signal canceled
 
 const BLOCKS_NUM = 20
-const COLOR_VALID = Color(0, 1, 0)
+const COLOR_VALID = Color(0, 0.64, 0.07)
 const COLOR_INVALID = Color(1, 0, 0)
 const block_prefab = preload("res://scenes/main/arrow/block.tscn")
 
@@ -48,7 +48,10 @@ func organize(mouse_pos):
 		var pos = _quadratic_bezier(start_point, middle_point, mouse_pos, t)
 		self.blocks[i].position = pos
 		if i > 0:
-			self.blocks[i].scale = self.world.camera.zoom
+			self.blocks[i].scale = (
+				self.world.camera.zoom
+				+ ((i / float(BLOCKS_NUM)) - 0.5) * Vector2(1, 1)
+			)
 			self.blocks[i].rotation = ((self.blocks[i].position - self.blocks[i - 1].position).angle())
 	self.mouse_item.position = mouse_pos
 	self.mouse_item.scale = self.world.camera.zoom

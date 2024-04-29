@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://ceoqtlfuehsvd"]
+[gd_scene load_steps=21 format=3 uid="uid://ceoqtlfuehsvd"]
 
 [ext_resource type="Script" path="res://scenes/main/main.gd" id="1_osaxm"]
 [ext_resource type="PackedScene" uid="uid://pu46mkcjdswb" path="res://scenes/esc_menu/esc_menu.tscn" id="2_pam5e"]
@@ -14,12 +14,18 @@
 [ext_resource type="Texture2D" uid="uid://bkvqblt1epgp1" path="res://cards/deck/cards_diagonal_hover.png" id="9_sxlud"]
 [ext_resource type="Texture2D" uid="uid://n7uttbbffjfx" path="res://assets/icons/faith_bg.png" id="13_mjhrf"]
 [ext_resource type="Script" path="res://scenes/main/active_effects/active_effects.gd" id="14_emvi1"]
+[ext_resource type="Shader" path="res://faith.gdshader" id="14_pw6iu"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7ox3a"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bwln7"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_u2eju"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vyug2"]
+shader = ExtResource("14_pw6iu")
+shader_parameter/line_color = Color(1, 1, 1, 0.733333)
+shader_parameter/max_line_thickness = 5.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ensp2"]
 
@@ -168,19 +174,31 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_u2eju")
 text = "End Turn"
 
 [node name="Faith" type="TextureRect" parent="UI"]
+material = SubResource("ShaderMaterial_vyug2")
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 60.0
-offset_top = -280.0
-offset_right = 124.0
-offset_bottom = -216.0
+offset_top = -344.0
+offset_right = 220.0
+offset_bottom = -184.0
 grow_vertical = 0
 theme = ExtResource("5_5yrco")
 texture = ExtResource("13_mjhrf")
-stretch_mode = 5
+stretch_mode = 3
 
-[node name="FaithLabel" type="Label" parent="UI/Faith"]
+[node name="Faith2" type="TextureRect" parent="UI/Faith"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("5_5yrco")
+texture = ExtResource("13_mjhrf")
+stretch_mode = 3
+
+[node name="FaithLabel" type="Label" parent="UI/Faith/Faith2"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15

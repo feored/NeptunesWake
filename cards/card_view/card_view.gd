@@ -169,7 +169,7 @@ func highlight(to_highlight):
 
 func _on_mouse_entered():
 	if self.state == State.Idle and self.card_ready:
-		self.animate(Vector2(self.position.x, self.position.y - 100), 0, HOVER_Z_INDEX)
+		self.animate(Vector2(self.position.x, self.position.y - 50), 0, HOVER_Z_INDEX)
 		self.state = CardView.State.Hovered
 
 func _on_mouse_exited():

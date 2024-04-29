@@ -58,7 +58,7 @@
 				"type": "active",
 				"target": "emerge_random_tiles",
 				"value": 7,
-				"active_trigger": "turn_over",
+				"active_trigger": "instant",
 				"tooltip": "Emerge _VALUE_ (_COMPUTE_) random tiles from the sea.",
 				"cost": 5,
 				"exhaust": true,

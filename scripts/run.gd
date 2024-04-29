@@ -11,9 +11,13 @@ var gold : int = 0
 
 func _init():
 	map = Map.new()
-	for card_id in STARTING_DECK:
-		var card  = Cards.get_card(card_id)
-		self.deck.push_back(card)
+	# for card_id in STARTING_DECK:
+	# 	var card  = Cards.get_card(card_id)
+	# 	self.deck.push_back(card)
+	for i in range(50):
+		var rand_level = max(1, int((Utils.rng.randf_range(1.0, 10.5)**2)/10))
+		Utils.log("rand_level: %d" % rand_level)
+		self.deck.push_back(Cards.generate(rand_level))
 
 func get_open_nodes():
 	if self.coords == Map.START:

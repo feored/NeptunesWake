@@ -32,3 +32,43 @@ func get_effect_tree(id: String):
 
 func all_cards():
 	return self.cards.keys()
+
+func generate(target_level = 3):
+	var available_effects = []
+	for e in self.effects:
+		var ok = true
+		for t in e.tiers:
+			if int(t.cost) < 0:
+				ok = false
+				break
+		if ok:
+			available_effects.push_back(e)
+	var random_effects = []
+	var cost = 0
+	var level = 0
+	while level < target_level:
+		var picked_effect = available_effects.pick_random()
+		var picked_tier = Utils.rng.randi() % picked_effect.tiers.size()
+		var new_effect = Effect.new(picked_effect.id, picked_tier + 1)
+		
+		cost += int(picked_effect.tiers[picked_tier].cost)
+		available_effects.erase(picked_effect)
+		if new_effect.type == Effect.Type.Power:
+			for e in available_effects:
+				for t in e.tiers:
+					if t.type == "power":
+						available_effects.erase(e)
+			random_effects.push_front(new_effect)
+		else:
+			random_effects.push_back(new_effect)
+		level += new_effect.level
+	var card = Card.new(
+		"custom",
+		"Random",
+		random_effects,
+		cost,
+		load("res://cards/images/questionmark2.png")
+	)
+	Utils.log("Generated card: " + card.to_string())
+
+	return card

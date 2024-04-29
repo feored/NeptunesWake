@@ -56,6 +56,7 @@ func draw():
 	cardView.compute_effect = self.compute_effect
 	cardView.compute_effects()
 	self.add_card(cardView)
+	Sfx.play(Sfx.Track.CardDraw)
 	await Utils.wait(Constants.DECK_SHORT_TIMER)
 	cardView.card_ready = true
 	update_display()
@@ -83,6 +84,7 @@ func discard(cardView):
 	if card_id != -1:
 		self.hand.remove_at(card_id)
 		self.discard_pile.push_back(cardView.card)
+		Sfx.play(Sfx.Track.CardDraw)
 		await cardView.discard(DISCARD_POS)
 		Effects.trigger(Effect.Trigger.CardDiscarded)
 	self.place_all()

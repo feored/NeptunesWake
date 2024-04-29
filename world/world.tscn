@@ -104,6 +104,15 @@ layer_0/name = "Water"
 layer_0/z_index = -999
 script = ExtResource("2_priir")
 
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+offset_left = -25000.0
+offset_top = -25000.0
+offset_right = 25000.0
+offset_bottom = 25000.0
+mouse_filter = 2
+color = Color(1, 0.948, 0.88, 1)
+
 [node name="MainCamera" type="Camera2D" parent="."]
 unique_name_in_owner = true
 anchor_mode = 0
