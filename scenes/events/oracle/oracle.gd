@@ -24,6 +24,7 @@ func card_picked(card):
 	deck_view.hide()
 	Info.run.deck.erase(card)
 	Info.run.gold -= COST
+	Sfx.play(Sfx.Track.Coins)
 	over()
 
 

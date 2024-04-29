@@ -11,6 +11,8 @@ func _ready():
 	self.update_view()
 	if Info.run.is_beaten():
 		SceneTransition.change_scene(SceneTransition.SCENE_END)
+		return
+	Sfx.play(Sfx.Track.Paper)
 	self.map_view.event_started.connect(func(e): start_event(e))
 	self.map_view.show()
 

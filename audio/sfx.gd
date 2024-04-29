@@ -2,7 +2,7 @@ extends Node2D
 
 const LOWEST_VOLUME = -80
 
-enum Track { Sink, Click, Enter, Select, Cancel, Hover, CardDraw, CardDiscard, Coins, Rumble }
+enum Track { Sink, Click, Enter, Select, Cancel, Hover, CardDraw, CardDiscard, Coins, Rumble, Paper }
 
 const TRACKS = {
 	Track.Sink: preload("res://audio/sfx/watersplash.wav"),
@@ -15,6 +15,7 @@ const TRACKS = {
 	Track.CardDiscard: preload("res://audio/sfx/cardShove2.wav"),
 	Track.Coins: preload("res://audio/sfx/chain_03.ogg"),
 	Track.Rumble: preload("res://audio/sfx/rumble.wav"),
+	Track.Paper: preload("res://audio/sfx/paper.wav")
 }
 
 const CUSTOM_VOLUME = {
