@@ -13,6 +13,7 @@ var reward_gold : int = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	if not Info.lost:
+		Music.play_track(Music.Track.Victory, true, true)
 		self.rewards.show()
 		self.loss.hide()
 		self.reward_gold = (Info.run.get_floor()+1) * Utils.rng.randi_range(5,15)
@@ -28,6 +29,7 @@ func _ready():
 			cv.flip_in_place()
 			await Utils.wait(Constants.DECK_LONG_TIMER)
 	else:
+		Music.play_track(Music.Track.Defeat, true, true)
 		self.rewards.hide()
 		self.loss.show()
 		self.gen_score()

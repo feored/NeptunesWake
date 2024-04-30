@@ -28,7 +28,7 @@ func _ready():
 	self.show_state(State.Main)
 	#Sfx.disable_track(Sfx.Track.Sink)
 	Sfx.play_ambience(Sfx.Ambience.CalmWind)
-	Music.play_track(Music.Track.Menu)
+	Music.play_loop(Music.Track.Menu)
 	Settings.editor_tile_distinct_mode = false
 
 	self.world.init(Callable(self, "no_message"))

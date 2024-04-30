@@ -1,21 +1,24 @@
 extends RefCounted
 class_name Actives
 
+static func val(e):
+	return e.computed_value if e.computed_value != null else e.value
+
 static func random_discard(effect, _world, _game):
-	return Action.new(Action.Type.RandomDiscard, {'value': effect.computed_value})
+	return Action.new(Action.Type.RandomDiscard, {'value': val(effect)})
 
 static func draw(effect, _world, _game):
-	return Action.new(Action.Type.Draw, {'value': effect.computed_value})
+	return Action.new(Action.Type.Draw, {'value': val(effect)})
 
 static func faith(effect, _world, game):
 	var expression = Expression.new()
-	expression.parse(effect.computed_value, game.current_player.resources.keys())
+	expression.parse(val(effect), game.current_player.resources.keys())
 	var result = expression.execute(game.current_player.resources.values())
 	return Action.new(Action.Type.Faith, {'value': result})
 
 static func sink_random_self_tiles(effect, world, game):
 	var own_tiles = world.tiles.values().filter(func(t): return t.data.team == game.current_player.team)
-	var nb = min(effect.computed_value, own_tiles.size())
+	var nb = min(val(effect), own_tiles.size())
 	var selected = []
 	own_tiles.shuffle()
 	for i in range(nb):
@@ -24,7 +27,7 @@ static func sink_random_self_tiles(effect, world, game):
 
 static func sink_random_tiles(effect, world, _game):
 	var all_tiles = world.tiles.values()
-	var nb = min(effect.computed_value, all_tiles.size())
+	var nb = min(val(effect), all_tiles.size())
 	var selected = []
 	all_tiles.shuffle()
 	for i in range(nb):
@@ -32,7 +35,7 @@ static func sink_random_tiles(effect, world, _game):
 	return Action.new(Action.Type.Sink, {'value': selected})
 
 static func emerge_random_tiles(effect, world, game):
-	var computed_nb = effect.computed_value + game.current_player.compute("flat_emerge_bonus")
+	var computed_nb = val(effect) + game.current_player.compute("flat_emerge_bonus")
 	var all_tiles = world.tiles.values()
 	var emergeable = []
 	for tile in all_tiles:
@@ -44,7 +47,7 @@ static func emerge_random_tiles(effect, world, game):
 	return Action.new(Action.Type.Emerge, {'value': emergeable.slice(0, nb).map(func(c): return [c])})
 	
 static func treason(effect, world, game):
-	var nb_treason = effect.computed_value
+	var nb_treason = val(effect)
 	var own_regions = world.regions.values().filter(func(r): return r.data.team == game.current_player.team)
 	own_regions.shuffle()
 	var regions_treasoned = []
@@ -60,7 +63,7 @@ static func renewal(_effect, world, game):
 	return Action.new(Action.Type.Renewal, {'value': own_regions})
 	
 static func mark_random(effect, world, _game):
-	var nb = effect.computed_value
+	var nb = val(effect)
 	var all_tiles = world.tiles.values()
 	var marked = []
 	all_tiles.shuffle()

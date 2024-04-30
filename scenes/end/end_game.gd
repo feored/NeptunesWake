@@ -8,6 +8,7 @@ func _on_button_pressed():
 
 
 func _ready():
+	Music.play_track(Music.Track.Victory, true, true)
 	gen_score()
 
 func gen_score():

@@ -51,7 +51,7 @@ const CUSTOM_VOLUME = {
 
 const CUSTOM_AMBIENCE_VOLUME = {Ambience.CalmWind: -45}
 
-# const CUSTOM_POLYPHONY = {Track.Sink: 1}
+const CUSTOM_POLYPHONY = {Track.Sink: 1}
 
 var players = {}
 var ambience_players = {}
@@ -64,7 +64,7 @@ func _ready():
 	for key in TRACKS:
 		var player = AudioStreamPlayer.new()
 		player.stream = TRACKS[key]
-		player.max_polyphony = 10  #if key not in CUSTOM_POLYPHONY else CUSTOM_POLYPHONY[key]
+		player.max_polyphony = 10  if key not in CUSTOM_POLYPHONY else CUSTOM_POLYPHONY[key]
 		player.bus = "SFX"
 		if key in CUSTOM_VOLUME:
 			player.volume_db = CUSTOM_VOLUME[key]

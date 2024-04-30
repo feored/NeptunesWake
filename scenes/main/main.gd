@@ -209,7 +209,7 @@ func try_reinforcements(mouse_pos, effect):
 	await self.apply_action(action)
 	if self.used_card != null:
 		card_used(self.used_card)
-	self.mouse_state = MouseState.None
+	self.clear_mouse_state()
 
 func validate_sacrifice(mouse_pos, _effect):
 	var coords_hovered = world.global_pos_to_coords(mouse_pos)
@@ -533,8 +533,8 @@ func apply_action(action : Action):
 	self.game.actions_history.append(action)
 	match action.type:
 		Action.Type.Move:
-			Sfx.play(Sfx.Track.Move)
 			await self.world.move_units(action.data.from, action.data.to, action.data.team)
+			Sfx.play(Sfx.Track.Move)
 		Action.Type.Sink:
 			await self.world.sink_tiles(action.data.value)
 			Effects.trigger(Effect.Trigger.TileSunk)

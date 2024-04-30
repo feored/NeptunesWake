@@ -3,12 +3,15 @@ extends AudioStreamPlayer
 const MIN_VOLUME = -80
 const MIN_CROSSFADE_VOLUME = -50
 const CROSSFADE_TIME = 1
+const FAST_CROSSFADE_TIME = 0.1
 const DEFAULT_VOLUME = 0.0
 
 ## Tracks
-enum Track { Menu, World1, World2, World3, World4, World5, World6 }
+enum Track { Menu, Victory, Defeat, World1, World2, World3, World4, World5, World6 }
 const BGM_TRACKS = {
 	Track.Menu: preload("res://audio/music/suno_2.mp3"),
+	Track.Victory: preload("res://audio/music/victory.mp3"),
+	Track.Defeat: preload("res://audio/music/defeat.mp3"),
 	Track.World1: preload("res://audio/music/suno_1.mp3"),
 	Track.World2: preload("res://audio/music/suno_2.mp3"),
 	Track.World3: preload("res://audio/music/suno_3.mp3"),
@@ -32,13 +35,16 @@ func _ready():
 
 
 
-func play_track(track: Track):
+func play_track(track: Track, loop = false, fast = false):
 	## crossfade
 	if self.stream != null:
 		var tween = self.create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
-		tween.tween_property(self, "volume_db", MIN_CROSSFADE_VOLUME, CROSSFADE_TIME)
-		tween.tween_callback(_play.bind(track))
-		tween.tween_property(self, "volume_db", DEFAULT_VOLUME, CROSSFADE_TIME)
+		tween.tween_property(self, "volume_db", MIN_CROSSFADE_VOLUME, FAST_CROSSFADE_TIME if fast else CROSSFADE_TIME)
+		if loop:
+			tween.tween_callback(play_loop.bind(track))
+		else:
+			tween.tween_callback(_play.bind(track))
+		tween.tween_property(self, "volume_db", DEFAULT_VOLUME, FAST_CROSSFADE_TIME if fast else CROSSFADE_TIME)
 	else:
 		_play(track)
 
@@ -55,6 +61,18 @@ func play_world():
 	timer.timeout.connect(play_world)
 	timer.start(length)
 	play_track(next_track)
+
+func play_loop(track : Track):
+	var length = BGM_TRACKS[track].get_length() - CROSSFADE_TIME
+	if self.timer != null:
+		self.timer.stop()
+		self.timer.queue_free()
+	self.timer = Timer.new()
+	self.add_child(timer)
+	timer.timeout.connect(play_loop.bind(track))
+	timer.start(length)
+	_play(track)
+	
 
 
 func _play(track: Track):

@@ -83,6 +83,7 @@ func _input(event):
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			try_function.call(event.position, self.effect)
 			self.queue_free()
+	get_viewport().set_input_as_handled()
 
 
 func set_icon(icon):
