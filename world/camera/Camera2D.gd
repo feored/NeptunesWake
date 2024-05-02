@@ -9,8 +9,8 @@ var active = true
 
 @onready var LIMIT_X_NEGATIVE = camera_center.x - viewport_size.x * 0.5
 @onready var LIMIT_X_POSITIVE = camera_center.x + viewport_size.x * 0.5
-@onready var LIMIT_Y_NEGATIVE = camera_center.y - viewport_size.y * 0.5 * 16/9
-@onready var LIMIT_Y_POSITIVE = camera_center.y + viewport_size.y * 0.5 * 16/9
+@onready var LIMIT_Y_NEGATIVE = camera_center.y - viewport_size.y * 0.5
+@onready var LIMIT_Y_POSITIVE = camera_center.y + viewport_size.y * 0.5
 
 const CAMERA_SPEED = 10
 const CAMERA_SPEED_SKIP = 50
@@ -33,7 +33,8 @@ func _unhandled_input(event):
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			self.panning = event.pressed
 	elif event is InputEventMouseMotion and self.panning:
-		self.position -= event.relative / zoom
+		var new_pos = self.position - event.relative / self.zoom
+		self.position = new_pos.clamp(Vector2(LIMIT_X_NEGATIVE, LIMIT_Y_NEGATIVE), Vector2(LIMIT_X_POSITIVE, LIMIT_Y_POSITIVE))
 
 func zoom_camera(zf):
 	var prev_zoom = zoom
