@@ -42,7 +42,8 @@ const NORMAL_MAPS = {
 }
 
 const BOSS_MAPS = [
-	"star.json"
+	"star.json",
+	"sinking.json"
 ]
 
 const START = Vector2i(-1, -999)
