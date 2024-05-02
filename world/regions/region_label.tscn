@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bqg467fcdgrbb"]
 
 [ext_resource type="Theme" uid="uid://3t61g0061mea" path="res://assets/theme.tres" id="1_103ft"]
-[ext_resource type="FontFile" uid="uid://dnejlqr6sbicq" path="res://assets/monogram-extended.ttf" id="2_yjgdn"]
+[ext_resource type="FontFile" uid="uid://cgq0qbi8yg7ii" path="res://assets/monogram-2.ttf" id="2_lmvvu"]
 
 [node name="Label" type="Label"]
 offset_right = 6.0
@@ -10,7 +10,7 @@ theme = ExtResource("1_103ft")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 3
-theme_override_fonts/font = ExtResource("2_yjgdn")
+theme_override_fonts/font = ExtResource("2_lmvvu")
 theme_override_font_sizes/font_size = 16
 text = "0"
 horizontal_alignment = 1

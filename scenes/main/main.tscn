@@ -243,6 +243,7 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_ensp2")
 
 [node name="ModsScrollContainer" type="ScrollContainer" parent="UI/PanelContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 
 [node name="ActiveEffects" type="VBoxContainer" parent="UI"]
