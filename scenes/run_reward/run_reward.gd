@@ -16,10 +16,12 @@ func _ready():
 		Music.play_track(Music.Track.Victory, true, true)
 		self.rewards.show()
 		self.loss.hide()
-		self.reward_gold = (Info.run.get_floor()+1) * Utils.rng.randi_range(5,15)
+		self.reward_gold = (Info.run.get_level()) * Utils.rng.randi_range(5,15)
 		self.gold_label.text = str(self.reward_gold)
+		var available_cards = Cards.all_cards()
+		available_cards.shuffle()
 		for i in range(3):
-			var card = Cards.all_cards().pick_random()
+			var card = available_cards.pop_back()
 			var cv = card_view_prefab.instantiate()
 			cv.card = Cards.get_card(card)
 			cv.is_static = true

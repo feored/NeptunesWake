@@ -28,6 +28,9 @@ func get_open_nodes():
 func get_floor():
 	return self.coords.x
 
+func get_level():
+	return self.coords.x + 1
+
 func is_beaten():
 	return self.map.boss.visited
 

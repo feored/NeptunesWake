@@ -1,10 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://cq7hy6rr6dwq3"]
+[gd_scene load_steps=5 format=3 uid="uid://cq7hy6rr6dwq3"]
 
 [ext_resource type="Theme" uid="uid://3t61g0061mea" path="res://assets/theme.tres" id="1_mls37"]
 [ext_resource type="StyleBox" uid="uid://dosxsnv8rmhmx" path="res://scenes/events/event_panel_bg.tres" id="1_rvofw"]
 [ext_resource type="Script" path="res://scenes/events/shrine/shrine.gd" id="2_avgw8"]
 [ext_resource type="Texture2D" uid="uid://ciypbbaof64lc" path="res://scenes/events/shrine/shrine_ruins.jpg" id="4_ju6sk"]
-[ext_resource type="PackedScene" uid="uid://drjdjumbfief5" path="res://cards/deck/deck_view.tscn" id="5_floos"]
 
 [node name="Shrine" type="Control"]
 layout_mode = 3
@@ -30,6 +29,7 @@ layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
 layout_mode = 2
+theme_override_constants/separation = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 240)
@@ -53,9 +53,9 @@ text = "Tales whispered by locals draw you to the desolate shrine of a forgotten
 
 Within its dilapidated walls, you discover a faint glimmer of ancient power still lingering. 
 
-As you approach the heart of the shrine, you are presented with a choice of three blessings.
+As you approach the heart of the shrine, you are presented with a choice of three cards.
 
-Should you choose to refuse the deity's offer, sacrificing a card would let you escape unscathed."
+The mad g od bids you to pick one of his creations."
 horizontal_alignment = 1
 autowrap_mode = 3
 
@@ -64,65 +64,18 @@ layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 6
-theme_override_constants/separation = 30
-alignment = 1
-
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-
-[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/PanelContainer"]
-layout_mode = 2
-text = "Increase the reinforcements value of all unit cards in your deck by 10, but raise their cost by 1."
-
-[node name="PanelContainer2" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/PanelContainer2"]
-layout_mode = 2
-text = "Replace all your /sinking/ type cards with equivalent /emerge/ cards. "
-
-[node name="PanelContainer3" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/PanelContainer3"]
-layout_mode = 2
-text = "Upgrade your /Offering/ cards into /Large Offering/, but remove all /Sacrifice/ cards in your deck."
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-
-[node name="Option1Btn" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
-layout_mode = 2
 size_flags_vertical = 3
-text = "Choose"
+theme_override_constants/separation = 50
 
-[node name="Option2Btn" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
-size_flags_vertical = 3
-text = "Choose"
+text = "Choose a card"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="Option3Btn" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
-layout_mode = 2
-size_flags_vertical = 3
-text = "Choose"
-
-[node name="PickCardButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-text = "Sacrifice a Card"
-
-[node name="DeckView" parent="." instance=ExtResource("5_floos")]
+[node name="CardContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
-
-[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer2/Option1Btn" to="." method="_on_option_1_btn_pressed"]
-[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer2/Option2Btn" to="." method="_on_option_2_btn_pressed"]
-[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer2/Option3Btn" to="." method="_on_option_3_btn_pressed"]
-[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/PickCardButton" to="." method="_on_pick_card_button_pressed"]
+layout_mode = 2
+theme_override_constants/separation = 50
+alignment = 1

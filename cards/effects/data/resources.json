@@ -17,7 +17,7 @@
 				"type": "resource",
 				"target": "flat_sink_bonus",
 				"value": "flat_sink_bonus + 3",
-				"tooltip": "Your sink cards sink three additional tiles for this turn.",
+				"tooltip": "Your sink cards sink 3 additional tiles for this turn.",
 				"duration": 1,
 				"duration_trigger": "turn_over",
 				"cost": 2,
@@ -27,7 +27,7 @@
 				"type": "resource",
 				"target": "flat_sink_bonus",
 				"value": "flat_sink_bonus + 3",
-				"tooltip": "Your sink cards sink three additional tiles for three turns.",
+				"tooltip": "Your sink cards sink 3 additional tiles for 3 turns.",
 				"duration": 3,
 				"duration_trigger": "turn_over",
 				"cost": 3,
@@ -37,7 +37,7 @@
 				"type": "resource",
 				"target": "flat_sink_bonus",
 				"value": "flat_sink_bonus + 5",
-				"tooltip": "Your sink cards sink an additional 5 tiles for three turns.",
+				"tooltip": "Your sink cards sink an additional 5 tiles for 3 turns.",
 				"duration": 3,
 				"duration_trigger": "turn_over",
 				"cost": 4,
@@ -191,7 +191,7 @@
 				"duration_trigger": "turn_over",
 				"cost": 3,
 				"level": 5,
-				"tooltip": "You can reinforce neutral regions, winning them over to your side."
+				"tooltip": "You can reinforce neutral region for this turn, winning them over to your side."
 			},
 			{
 				"type": "resource",

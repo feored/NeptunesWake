@@ -1,71 +1,33 @@
 extends Control
 signal event_over
 
-@onready var deck_view = %DeckView
+@onready var card_container = %CardContainer
+const card_view_prefab = preload("res://cards/card_view/card_view.tscn")
 var picked = false
 
+var card_views = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass  # Replace with function body.
+	for i in range(3):
+		var card = Cards.generate(Info.run.get_level())
+		var cv = card_view_prefab.instantiate()
+		cv.card = card
+		cv.is_static = true
+		cv.picked.connect(Callable(self, "card_picked"))
+		card_container.add_child(cv)
 
 
-func card_picked(card):
+func card_picked(cv):
 	if picked:
 		return
 	picked = true
-	deck_view.hide()
-	Info.run.deck.erase(card)
+	for other_cv in card_views:
+		if other_cv != cv:
+			other_cv.flip_in_place()
+	await Utils.wait(0.5)
+	Info.run.deck.push_back(cv.card)
 	over()
-
-func _on_pick_card_button_pressed():
-	deck_view.card_picked.connect(Callable(self, "card_picked"))
-	deck_view.init(Info.run.deck)
-	deck_view.show()
-
-
-
-func _on_option_1_btn_pressed():
-	for card in Info.run.deck:
-		var is_modified = false
-		for effect in card.effects:
-			if effect.type == Effect.Type.Power and effect.target == "reinforcements":
-				effect.value = effect.value + 10
-				is_modified = true
-		if is_modified:
-			card.cost += 1
-	over()
-
-
-func _on_option_2_btn_pressed():
-	var to_erase = []
-	for card in Info.run.deck:
-		if card.id == "Flood":
-			Info.run.deck.push_back(Cards.get_card("Creation"))
-			to_erase.push_back(card)
-		if card.id == "PrimevalFlood":
-			Info.run.deck.push_back(Cards.get_card("PrimevalCreation"))
-			to_erase.push_back(card)
-	for card in to_erase:
-		Info.run.deck.erase(card)
-	over()
-
-
-func _on_option_3_btn_pressed():
-	var to_erase = []
-	var largeOfferings = 0
-	for card in Info.run.deck:
-		if card.id == "Offering":
-			largeOfferings += 1
-			to_erase.push_back(card)
-		if card.id == "Sacrifice":
-			to_erase.push_back(card)
-	for card in to_erase:
-		Info.run.deck.erase(card)
-	for i in range(largeOfferings):
-		Info.run.deck.push_back(Cards.get_card("LargeOffering"))
-	over()
-
 
 func over():
 	event_over.emit()

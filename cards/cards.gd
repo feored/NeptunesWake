@@ -36,11 +36,10 @@ func all_cards():
 func generate(target_level = 3):
 	var available_effects = []
 	for e in self.effects:
-		var ok = true
+		var ok = false
 		for t in e.tiers:
-			if int(t.cost) < 0:
-				ok = false
-				break
+			if int(t.cost) >= 0 and int(t.level) <= target_level:
+				ok = true
 		if ok:
 			available_effects.push_back(e)
 	var random_effects = []
