@@ -1,6 +1,6 @@
 extends Node
 
-const VERSION = "0.1.2"
+const VERSION = "0.1.3"
 
 ## World constants
 const TILE_SIZE = 24
