@@ -28,6 +28,7 @@ var card : Card
 var state : State = State.Idle
 var card_ready : bool = false
 var base_position : Vector2
+var base_rotation : float
 var is_static : bool = false
 var is_being_used : bool = false
 
@@ -61,7 +62,7 @@ func clear_tweens():
 	self.tweens.clear()
 	self.card_ready = true
 
-func animate(new_pos, new_rotation, new_z_index):
+func animate(new_pos, new_rotation, new_z_index, new_scale):
 	self.card_ready = false
 	if self.tweens.size() > 0:
 		clear_tweens()
@@ -69,7 +70,7 @@ func animate(new_pos, new_rotation, new_z_index):
 	var tween = self.create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN).set_parallel()
 	tween.tween_property(self, "position", new_pos, Constants.DECK_SHORT_TIMER)
 	tween.tween_property(self, "rotation_degrees", new_rotation, Constants.DECK_SHORT_TIMER)
-	tween.tween_property(self, "scale", Vector2(1,1), Constants.DECK_SHORT_TIMER)
+	tween.tween_property(self, "scale", new_scale, Constants.DECK_SHORT_TIMER)
 	tween.tween_property(self, "z_index", new_z_index, Constants.DECK_SHORT_TIMER)
 
 	self.tweens = [tween]
@@ -169,7 +170,7 @@ func highlight(to_highlight):
 
 func _on_mouse_entered():
 	if self.state == State.Idle and self.card_ready:
-		self.animate(Vector2(self.position.x, self.position.y - 50), 0, HOVER_Z_INDEX)
+		self.animate(Vector2(self.position.x, self.position.y - 50), 0, HOVER_Z_INDEX, Vector2(1, 1))
 		self.state = CardView.State.Hovered
 
 func _on_mouse_exited():
@@ -182,7 +183,7 @@ func unhover():
 	if self.state == State.Hovered:
 		if not self.card_ready:
 			self.clear_tweens()
-		self.animate(base_position, 0, BASE_Z_INDEX)
+		self.animate(base_position, 0, BASE_Z_INDEX, Vector2(1, 1))
 		self.state = CardView.State.Idle
 
 func compute_effects():

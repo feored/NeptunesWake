@@ -18,6 +18,7 @@ const card_prefab = preload("res://cards/card_view/card_view.tscn")
 var card_played : Callable
 var compute_effect : Callable
 
+
 var draw_pile = []
 var discard_pile = []
 var hand = []
@@ -75,6 +76,7 @@ func place_all():
 	for i in range(self.hand.size()):
 		var card_placement = place_card(self.hand[i])
 		self.hand[i].base_position = card_placement[0]
+		#self.hand[i].base_rotation = card_placement[1]
 		self.hand[i].move(card_placement[0])
 		#self.hand[i].rotation_degrees = card_placement[1]
 
@@ -126,9 +128,9 @@ func place_card(card):
 		to_sample = 00
 	else:
 		to_sample = id / (total - 1.0)
-	var y = CENTER.y #- POSITION_CURVE.sample(to_sample)
+	var y = CENTER.y #+ (num*num)* 5#- POSITION_CURVE.sample(to_sample)
 	# print("x: ", x, "y: ", y, "to_sample: ", to_sample)
-	return [Vector2(x, y), 0]#2 * num]
+	return [Vector2(x, y),0]# 2 * num]
 	
 
 func update_faith(new_faith):

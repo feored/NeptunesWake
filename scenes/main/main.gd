@@ -114,7 +114,7 @@ func try_mark(mouse_pos, _effect):
 	await apply_action(action)
 	if self.used_card != null:
 		card_used(self.used_card)
-	self.mouse_state = MouseState.None
+	self.clear_mouse_state()
 
 func validate_emerge(mouse_pos, effect):
 	var coords_hovered = world.global_pos_to_coords(mouse_pos)
@@ -133,7 +133,7 @@ func try_emerge(mouse_pos, effect):
 			card_used(self.used_card)
 	else:
 		messenger.set_message("You can only raise land from the sea, my lord.")
-	self.mouse_state = MouseState.None
+	self.clear_mouse_state()
 
 
 func validate_sink(_mouse_pos, _effect):
@@ -153,7 +153,7 @@ func try_sink(mouse_pos, effect):
 		await apply_action(action)
 	if self.used_card != null:
 		card_used(self.used_card)
-	self.mouse_state = MouseState.None
+	self.clear_mouse_state()
 
 func validate_building(mouse_pos, _effect):
 	var coords_hovered = world.global_pos_to_coords(mouse_pos)
@@ -165,20 +165,20 @@ func try_building(mouse_pos, effect):
 	var coords_hovered = world.global_pos_to_coords(mouse_pos)
 	if !world.tiles.has(coords_hovered):
 		messenger.set_message("You can only build on land, my lord.")
-		self.mouse_state = MouseState.None
+		self.clear_mouse_state()
 		return
 	if self.world.tiles[coords_hovered].data.team != self.game.human.team:
 		messenger.set_message("You can only build on territory you own, my lord.")
-		self.mouse_state = MouseState.None
+		self.clear_mouse_state()
 		return
 	if self.world.tiles[coords_hovered].data.building != Constants.Building.None:
 		messenger.set_message("There is already a construction there, my lord.")
-		self.mouse_state = MouseState.None
+		self.clear_mouse_state()
 		return
 	var action = Action.new(Action.Type.Build, {"coords": coords_hovered, "building": Constants.BUILDING_ENUM[effect.value]})
 	await self.apply_action(action)
 	card_used(self.used_card)
-	self.mouse_state = MouseState.None
+	self.clear_mouse_state()
 	
 func validate_reinforcements(mouse_pos, _effect):
 	var coords_hovered = world.global_pos_to_coords(mouse_pos)
@@ -232,7 +232,7 @@ func try_sacrifice(mouse_pos, _effect):
 	await self.apply_action(action)
 	if self.used_card != null:
 		card_used(self.used_card)
-	self.mouse_state = MouseState.None
+	self.clear_mouse_state()
 			
 		
 
@@ -566,6 +566,7 @@ func apply_action(action : Action):
 			self.deck.discard_random(action.data.value)
 		Action.Type.Draw:
 			self.deck.draw_multiple(action.data.value)
+			self.deck.update_faith(self.game.human.resources.faith)
 		Action.Type.Renewal:
 			for region_id in action.data.value:
 				self.world.regions[region_id].set_used(false)

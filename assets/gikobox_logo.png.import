@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b6h415hplqqhh"
-path="res://.godot/imported/gikobox.png-97011165fc100fe95ed6f95a4ecce1ea.ctex"
+uid="uid://cwsn32w4yroff"
+path="res://.godot/imported/gikobox_logo.png-e7674dc96d60cc6493e6415afdb9709f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/gikobox.png"
-dest_files=["res://.godot/imported/gikobox.png-97011165fc100fe95ed6f95a4ecce1ea.ctex"]
+source_file="res://assets/gikobox_logo.png"
+dest_files=["res://.godot/imported/gikobox_logo.png-e7674dc96d60cc6493e6415afdb9709f.ctex"]
 
 [params]
 

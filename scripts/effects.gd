@@ -16,6 +16,7 @@ var targets = {
 
 func init(players, get_current_player_func):
 	self.effects.clear()
+	self.global_effects.clear()
 	self.get_current_player = get_current_player_func
 	for p in players:
 		self.effects[p] = []
