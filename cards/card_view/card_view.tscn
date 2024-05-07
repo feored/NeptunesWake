@@ -137,12 +137,11 @@ text = "3"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PowerName" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/Front/PanelContainer"]
+[node name="PowerName" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/Front"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 12
+theme_override_colors/font_color = Color(0.3612, 0.702047, 0.86, 1)
 text = "Sink"
 horizontal_alignment = 1
 vertical_alignment = 1

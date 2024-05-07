@@ -132,6 +132,35 @@
 				"cost": 2,
 				"level": 3,
 				"tooltip": "Sink _VALUEARRAY_ (_COMPUTEARRAY_) tiles. The affected regions will lose units in proportion."
+			},
+			{
+				"type": "power",
+				"target": "sink",
+				"value": [
+					[
+						0,
+						0
+					],
+					[
+						1,
+						0
+					],
+					[
+						0,
+						1
+					],
+					[
+						1,
+						1
+					],
+					[
+						-1,
+						0
+					]
+				],
+				"cost": 3,
+				"level": 5,
+				"tooltip": "Sink _VALUEARRAY_ (_COMPUTEARRAY_) tiles. The affected regions will lose units in proportion."
 			}
 		]
 	},

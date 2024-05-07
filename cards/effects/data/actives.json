@@ -135,10 +135,19 @@
 				"type": "active",
 				"target": "sink_random_self_tiles",
 				"tooltip": "Sink _VALUE_ (_COMPUTE_) random tiles you own.",
-				"value": 1,
+				"value": 3,
 				"active_trigger": "card_played",
 				"cost": -3,
 				"level": 5
+			},
+			{
+				"type": "active",
+				"target": "sink_random_self_tiles",
+				"tooltip": "Sink _VALUE_ (_COMPUTE_) random tiles you own.",
+				"value": 5,
+				"active_trigger": "card_played",
+				"cost": -5,
+				"level": 7
 			}
 		]
 	},

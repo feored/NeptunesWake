@@ -352,5 +352,48 @@
 		"cost": 2,
 		"icon": "res://cards/images/wave.png",
 		"exhaust": false
+	},
+	"MightOfPyrrhus": {
+		"id": "MightOfPyrrhus",
+		"name": "Might of Pyrrhus",
+		"effects": [
+			{
+				"id": "sink_random_self_tiles",
+				"tier": 2
+			},
+			{
+				"id": "sink",
+				"tier": 3
+			}
+		],
+		"cost": 2,
+		"icon": "res://cards/images/wave.png",
+		"exhaust": false
+	},
+	"NeptunesBlessing": {
+		"id": "NeptunesBlessing",
+		"name": "Neptune's Blessing",
+		"effects": [
+			{
+				"id": "flat_sink_bonus",
+				"tier": 5
+			}
+		],
+		"cost": 3,
+		"icon": "res://cards/images/wave.png",
+		"exhaust": true
+	},
+	"Alchemy": {
+		"id": "Alchemy",
+		"name": "Alchemy",
+		"effects": [
+			{
+				"id": "sink",
+				"tier": 4
+			}
+		],
+		"cost": 3,
+		"icon": "res://cards/images/wave.png",
+		"exhaust": false
 	}
 }
