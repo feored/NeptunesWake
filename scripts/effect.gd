@@ -111,7 +111,8 @@ func _init(init_id: String, init_tier: int):
 	self.effect_id = init_id
 	self.name = e_tree.name
 	self.tier = init_tier
-
+	
+	Utils.log("Trying to build effect : " + init_id + " of tier: " + str(init_tier))
 	var e = e_tree.tiers[init_tier - 1]
 
 	self.duration = 0 if not e.has("duration") else e["duration"]

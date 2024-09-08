@@ -49,7 +49,6 @@ var data: RegionData = RegionData.new()
 var tile_objs: Dictionary = {}
 var label = null
 
-
 func save():
 	var base = self.data.save()
 	base.tiles.clear()
@@ -109,6 +108,7 @@ func update():
 	if self.data.tiles.size() < 1:
 		self.delete()
 		return
+	self.recalc_max()
 	self.label.position = self.coords_to_pos.call(self.center_tile()) - self.label.size / 2  ## size of the label
 	if Constants.DEBUG_REGION:
 		self.label.set_text(str(self.data.units) + "(" + str(self.data.id) + ")")
@@ -150,6 +150,9 @@ func remove_tile(coords, delete_child = false, should_update = true):
 		self.update()
 	
 
+func recalc_max():
+	var max = 10 * self.data.tiles.size()
+	self.data.units = min(self.data.units, max)
 
 func random_in_region():
 	return self.data.tiles[randi() % self.data.tiles.size()]

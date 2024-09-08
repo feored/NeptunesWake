@@ -4,7 +4,7 @@ class_name Global
 var resources: Dictionary = DEFAULT_RESOURCES.duplicate()
 
 const DEFAULT_RESOURCES = {
-	"initial_neutral_units": 0,
+	"initial_neutral_units": 1,
 	}
 
 func compute(r : String):
