@@ -22,7 +22,7 @@ const DATA = {
 		"attack": {"min": 0.75, "max": 1.25},
 		"defense": 1,
 		"symbol": "T",
-		# "texture": preload("res://assets/icons/Thete.png"),
+		"icon": "res://world/regions/icons/pick.png",
 		"tooltip": "The Thetes were the lowest social class of citizens in Ancient Greece.",
 	},
 	Type.Psilos:
@@ -32,7 +32,7 @@ const DATA = {
 		"attack": {"min": 1, "max": 3},
 		"defense": 2,
 		"symbol": "P",
-		# "texture": preload("res://assets/icons/Psilos.png"),
+		"icon": "res://world/regions/icons/bow.png",
 		"tooltip":
 		"The Psiloi were the light infantry of the Ancient Greek armies. They usually acted as skirmishers, were equipped with ranged weapons and did not wear armor.",
 	},
@@ -43,7 +43,7 @@ const DATA = {
 		"symbol": "H",
 		"attack": {"min": 1, "max": 3},
 		"defense": 3,
-		# "texture": preload("res://assets/icons/Hoplite.png"),
+		"icon": "res://world/regions/icons/spear.png",
 		"tooltip": "The Hoplites were the heavily armed infantry of the Ancient Greek armies.",
 	},
 	Type.Hippeus:
@@ -53,7 +53,7 @@ const DATA = {
 		"symbol": "C",
 		"attack": {"min": 3, "max": 5},
 		"defense": 4,
-		# "texture": preload("res://assets/icons/Hippeus.png"),
+		"icon": "res://world/regions/icons/sword.png",
 		"tooltip": "The Hippeis were the cavalry of the Ancient Greek armies.",
 	},
 }

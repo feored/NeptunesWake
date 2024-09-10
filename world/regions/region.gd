@@ -105,16 +105,17 @@ func sacrifice():
 
 
 func update_label():
-    self.label.position = self.coords_to_pos.call(self.center_tile()) - self.label.size / 2  ## size of the label
+    
     var text = ""
     for troop in self.data.troops:
         if troop.count > 0:
-            text += str(troop.count) + Troops.DATA[troop.type]["symbol"] + " "
+            text += str(troop.count) + "[img]" + Troops.DATA[troop.type]["icon"] + "[/img] "
     if text == "":
         text = "0"
     if Constants.DEBUG_REGION:
         text += "(" + str(self.data.id) + ")"
     self.label.set_text(text)
+    self.label.position = self.coords_to_pos.call(self.center_tile()) - self.label.size / 2  ## size of the label
 
 func update():
     #Utils.log("Start update", self.data.id)
