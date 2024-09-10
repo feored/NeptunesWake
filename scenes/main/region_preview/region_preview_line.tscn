@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://cv0xblysn3isr"]
+
+[ext_resource type="Script" path="res://scenes/main/region_preview/region_preview_line.gd" id="1_vlhjp"]
+[ext_resource type="Texture2D" uid="uid://c1hickjbjsnmv" path="res://world/regions/icons/pick.png" id="2_r5485"]
+
+[node name="Line" type="HBoxContainer"]
+script = ExtResource("1_vlhjp")
+
+[node name="Qty" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+text = "19"
+
+[node name="Icon" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("2_r5485")
+stretch_mode = 5
+
+[node name="Power" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Power: 19-25"

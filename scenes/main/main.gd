@@ -12,6 +12,7 @@ const arrow_prefab = preload("res://scenes/main/arrow/arrow.tscn")
 @onready var faith_label = %FaithLabel
 @onready var mods_scroll_container = %ModsScrollContainer
 @onready var active_effects = %ActiveEffects
+@onready var region_preview = %RegionPreview
 
 var used_card = null
 
@@ -251,10 +252,15 @@ func _unhandled_input(event):
 			clear_mouse_state()
 		var coords_clicked = world.global_pos_to_coords(event.position)
 		if world.tiles.has(coords_clicked):
+			if world.tiles[coords_clicked].data.region != self.region_preview.current_region_id:
+				region_preview.setup(self.world.regions[world.tiles[coords_clicked].data.region])
 			if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 				if mouse_state != MouseState.Move:
 					clear_mouse_state()
 				handle_move(self.world.get_tile_region(coords_clicked))
+		else:
+			if region_preview.visible:
+				region_preview.cleanup()
 
 func lock_controls(val : bool):
 	self.endTurnButton.disabled = val
