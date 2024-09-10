@@ -12,15 +12,16 @@ var psilos: int
 var hoplites: int
 var hippeis: int
 
-var current: Type = Type.Thete
+var current: int = 0
 
 const DATA = {
 	Type.Thete:
 	{
 		"id": Type.Thete,
 		"name": "Thete",
-		"attack": {"min": 2, "max": 10},
+		"attack": {"min": 0.75, "max": 1.25},
 		"defense": 1,
+		"symbol": "T",
 		# "texture": preload("res://assets/icons/Thete.png"),
 		"tooltip": "The Thetes were the lowest social class of citizens in Ancient Greece.",
 	},
@@ -30,6 +31,7 @@ const DATA = {
 		"name": "Psilos",
 		"attack": {"min": 1, "max": 3},
 		"defense": 2,
+		"symbol": "P",
 		# "texture": preload("res://assets/icons/Psilos.png"),
 		"tooltip":
 		"The Psiloi were the light infantry of the Ancient Greek armies. They usually acted as skirmishers, were equipped with ranged weapons and did not wear armor.",
@@ -38,6 +40,7 @@ const DATA = {
 	{
 		"id": Type.Hoplite,
 		"name": "Hoplite",
+		"symbol": "H",
 		"attack": {"min": 1, "max": 3},
 		"defense": 3,
 		# "texture": preload("res://assets/icons/Hoplite.png"),
@@ -47,6 +50,7 @@ const DATA = {
 	{
 		"id": Type.Hippeus,
 		"name": "Hippeus",
+		"symbol": "C",
 		"attack": {"min": 3, "max": 5},
 		"defense": 4,
 		# "texture": preload("res://assets/icons/Hippeus.png"),
@@ -56,18 +60,18 @@ const DATA = {
 
 
 func _iter_init(_arg):
-	current = Type.Thete
+	current = 0
 	return true
 
 
 func _iter_next(_arg):
-	current = (current as int + 1) as Type
-	return (current as int) < (Type.Hippeus as int)
+	current += 1
+	return current < Type.keys().size()
 
 
 func _iter_get(_arg):
 	var troop = Troop.new()
-	troop.type = current
+	troop.type = current as Type
 	troop.count = self.get_unit(current)
 	return troop
 

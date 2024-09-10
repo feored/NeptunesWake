@@ -501,19 +501,13 @@ func prepare_turn():
 func play_turn():
 	var playing = true
 	while playing:
-		var thread = Thread.new()
 		Utils.log("PLAYER %s TURN" % self.game.current_player.team)
-		thread.start(self.game.current_player.bot.play_turn.bind(self.world))
-		while thread.is_alive():
-			await Utils.wait(0.1)
-		# var bot_actions = thread.wait_to_finish()
-		var bot_actions = self.game.current_player.bot.play_turn(self.world) ## use for debugging
-		for bot_action in bot_actions:
-			if bot_action.type == Action.Type.None:
-				playing = false
-				break
-			await apply_action(bot_action)
-			await Utils.wait(Settings.turn_time)
+		var bot_action = self.game.current_player.bot.play_turn(self.world)
+		if bot_action == null:
+			playing = false
+			break
+		await apply_action(bot_action)
+		await Utils.wait(Settings.turn_time)
 	self.world.clear_regions_used()
 	await Utils.wait(Settings.turn_time)
 

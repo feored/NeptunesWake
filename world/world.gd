@@ -2,6 +2,9 @@ extends TileMap
 
 signal world_ready
 var messenger = null
+
+var damage_label_prefab = preload("res://world/regions/damage_label.tscn")
+
 @onready var regions_parent = $Regions
 @onready var camera = $"%MainCamera"
 @onready var animation_player = $AnimationPlayer
@@ -314,11 +317,21 @@ func move_units(region_from : int, region_to: int, team: int):
     if regions[region_from].data.team == regions[region_to].data.team:
         regions[region_to].reinforce(moved_units)
     else:
-        regions[region_to].attack(moved_units, team)
+        var info = regions[region_to].attack(moved_units, team)
+        var damage_label1 = damage_label_prefab.instantiate()
+        damage_label1.position = self.coords_to_pos(self.regions[region_from].center_tile())
+        damage_label1.init(info[0])
+        self.add_child(damage_label1)
+
+        var damage_label2 = damage_label_prefab.instantiate()
+        damage_label2.position = self.coords_to_pos(self.regions[region_to].center_tile())
+        damage_label2.init(info[1])
+        self.add_child(damage_label2)
+
         # var is_captured = regions[region_to].data.team == team
         # if is_captured:
         # 	Sfx.play(Sfx.Track.RegionCaptured)
-            
+        messenger.call("%s has attacked dealing %s damage (%s defense) and %s." % [Constants.TEAM_NAMES[team], info[0], info[1], "won" if info[2] else "lost"])
     if not is_player:
         await Utils.wait(Settings.turn_time)
 

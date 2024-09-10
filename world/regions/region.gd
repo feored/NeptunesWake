@@ -104,17 +104,25 @@ func sacrifice():
     self.update()
 
 
+func update_label():
+    self.label.position = self.coords_to_pos.call(self.center_tile()) - self.label.size / 2  ## size of the label
+    var text = ""
+    for troop in self.data.troops:
+        if troop.count > 0:
+            text += str(troop.count) + Troops.DATA[troop.type]["symbol"] + " "
+    if text == "":
+        text = "0"
+    if Constants.DEBUG_REGION:
+        text += "(" + str(self.data.id) + ")"
+    self.label.set_text(text)
+
 func update():
     #Utils.log("Start update", self.data.id)
     #Utils.log("Tiles:", self.data.tiles)
     if self.data.tiles.size() < 1:
         self.delete()
         return
-    self.label.position = self.coords_to_pos.call(self.center_tile()) - self.label.size / 2  ## size of the label
-    if Constants.DEBUG_REGION:
-        self.label.set_text(str(self.data.troops.total()) + "(" + str(self.data.id) + ")")
-    else:
-        self.label.set_text(str(self.data.troops.total()))
+    self.update_label()
     self.update_borders()
 
 
@@ -178,26 +186,33 @@ func surviving_troops(starting_troops, damage):
 func attack(attackers, team):
     var total_attack_value = 0
     for troop in attackers:
-        total_attack_value += troop.count * Utils.rng.randi_range(Troops.DATA[troop.type]["attack"]["min"], Troops.DATA[troop.type]["attack"]["max"])
+        Utils.log("Troop: %s, count: %s" % [str(troop.type), str(troop.count)])
+        total_attack_value += troop.count * Utils.rng.randf_range(Troops.DATA[troop.type]["attack"]["min"], Troops.DATA[troop.type]["attack"]["max"])
+    
+    total_attack_value = round(total_attack_value)
 
     var total_defense_value = 0
     for troop in self.data.troops:
         total_defense_value += troop.count * Troops.DATA[troop.type]["defense"]
 
+    var captured = false
     Utils.log("##############Attack value: %s, Defense value: %s" % [str(total_attack_value), str(total_defense_value)])
     if total_attack_value > total_defense_value:
         ## we lose
         self.data.troops = surviving_troops(attackers, total_defense_value)
-        self.set_team(team)
-        Effects.trigger(Effect.Trigger.RegionGained)
+        if self.data.troops.total() > 0:
+            captured = true
+            self.set_team(team)
+            Effects.trigger(Effect.Trigger.RegionGained)
     else:
         ## we hold on
         self.data.troops = surviving_troops(self.data.troops, total_attack_value)
     self.update()
+    return [total_attack_value, total_defense_value, captured]
 
 
 func reinforce_card(num_reinforcements):
-    self.data.troops.thetes += num_reinforcements
+    self.data.troops.psilos += num_reinforcements
     self.update()
 
 func reinforce(new_troops):
