@@ -44,22 +44,22 @@ func simulate(action: Action):
 
 
 func move_units(from, to, team):
-	var moved_units = self.regions[from].units - 1  #max(1, regions[from].units/2)
-	self.regions[from].units -= moved_units
+	var moved_units = self.regions[from].troops.total() - 1  #max(1, regions[from].units/2)
+	self.regions[from].troops -= moved_units
 	self.regions[from].is_used = true
 	Utils.log("Moving " + str(moved_units) + " units from " + str(from) + " to " + str(to))
 
 	if self.regions[from].team == self.regions[to].team:
-		self.regions[to].units += moved_units
+		self.regions[to].troops += moved_units
 	else:
-		if self.regions[to].units > moved_units:
-			self.regions[to].units -= moved_units
-		elif self.regions[to].units == moved_units:
+		if self.regions[to].troops > moved_units:
+			self.regions[to].troops -= moved_units
+		elif self.regions[to].troops == moved_units:
 			self.team_regions[self.regions[to].team] -= 1
-			self.regions[to].units = 0
+			self.regions[to].troops = 0
 			self.regions[to].team = Constants.NULL_TEAM
 		else:
 			self.team_regions[self.regions[to].team] -= 1
 			self.team_regions[self.regions[from].team] += 1
-			self.regions[to].units = moved_units - self.regions[to].units
+			self.regions[to].troops = moved_units - self.regions[to].troops
 			self.regions[to].team = team

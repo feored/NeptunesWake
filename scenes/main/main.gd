@@ -468,7 +468,7 @@ func handle_move(clicked_region):
 		else:
 			self.world.regions[selected_region].update()
 			clicked_region.update()
-			if self.world.regions[selected_region].data.units > 1:
+			if self.world.regions[selected_region].data.troops.total() > 1:
 				var move = Action.new(Action.Type.Move, {"from": selected_region, "to": clicked_region.data.id, "team": self.game.human.team} )
 				await self.apply_action(move)
 			else:
@@ -553,7 +553,7 @@ func apply_action(action : Action):
 			Effects.trigger(Effect.Trigger.BuildingBuilt)
 		Action.Type.Reinforce:
 			Sfx.play(Sfx.Track.Reinforce)
-			self.world.regions[action.data.region].data.units += action.data.value
+			self.world.regions[action.data.region].reinforce_card(action.data.value)
 			if self.world.regions[action.data.region].data.team == Constants.NULL_TEAM:
 				self.world.regions[action.data.region].set_team(self.game.human.team)
 			self.world.regions[action.data.region].update()

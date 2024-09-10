@@ -10,11 +10,6 @@ func reinit(world):
 	self.moves = []
 
 func add_move(action : Action):
-	Utils.log("Adding move: " + action.to_string())
-	Utils.log("From")
-	Utils.log(world_sim.regions[action.data["from"]].to_string())
-	Utils.log("To")
-	Utils.log(world_sim.regions[action.data["to"]].to_string())
 	self.moves.push_back(action)
 	self.world_sim.simulate(action)
 	self.update_scores()
