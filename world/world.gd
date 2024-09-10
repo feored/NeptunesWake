@@ -214,7 +214,7 @@ func recalculate_region(region: int):
             self.regions[new_region].add_tile(self.tiles[tile], true)
         self.regions[new_region].set_team(region_data.team)
         self.regions[new_region].set_used(region_data.is_used)
-        self.regions[new_region].set_units(region_data.units/len(tilesets))
+        self.regions[new_region].troops = region_data.troops.divided(len(tilesets))
         self.regions[new_region].update()
         new_regions.append(new_region)
     ## recalc adjacencies

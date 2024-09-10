@@ -107,6 +107,13 @@ func move_units() -> Troops:
 	return new_troops
 
 
+func divided(by) -> Troops:
+	var new_troops = Troops.new()
+	for troop in self:
+		new_troops.set_unit(troop.type, troop.count / by)
+	return new_troops
+
+
 func total() -> int:
 	return self.thetes + self.psilos + self.hoplites + self.hippeis
 

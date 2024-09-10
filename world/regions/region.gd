@@ -211,7 +211,6 @@ func attack(attackers, team):
 	self.update()
 	return [total_attack_value, total_defense_value, captured]
 
-
 func reinforce_card(num_reinforcements):
 	self.data.troops.psilos += num_reinforcements
 	self.update()
