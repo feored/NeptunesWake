@@ -35,10 +35,6 @@ func _ready():
 
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
 func load_scenario(scenario_id):
 	var save_game = FileAccess.open("res://maps/" + Constants.SCENARIOS[scenario_id].path, FileAccess.READ)
 	var saved_state = JSON.parse_string(save_game.get_line())

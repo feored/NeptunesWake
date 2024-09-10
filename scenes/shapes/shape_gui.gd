@@ -22,10 +22,6 @@ func reroll():
 	self.shape.highlight_type()
 	self.custom_control()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
 func custom_control():
 	if not self.shape:
 		set_custom_minimum_size(Vector2.ZERO)

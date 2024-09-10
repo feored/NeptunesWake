@@ -84,7 +84,7 @@ func get_save_data(world, teams):
 	return Utils.to_map_object(saved_tiles, saved_regions, teams.duplicate())
 
 func timestamp():
-	var unix_timestamp = Time.get_unix_time_from_system()
+	#var unix_timestamp = Time.get_unix_time_from_system()
 	return Time.get_time_string_from_system(false) + ":" #+ str(unix_timestamp).split(".")[1]
 
 func log(message, message2 = "", message3 = "", message4 = "", message5 = "", message6 = "", message7 = ""):

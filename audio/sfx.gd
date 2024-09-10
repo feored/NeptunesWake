@@ -123,7 +123,3 @@ func connect_to_button(button):
 	button.connect("pressed", Callable(self, "_on_Button_pressed"))
 	button.connect("mouse_entered", Callable(self, "on_Button_hovered"))
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass

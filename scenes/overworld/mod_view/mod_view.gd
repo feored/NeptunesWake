@@ -19,7 +19,3 @@ func update_view():
 	mod_level.text = "[" + str(mod.level) + "]"
 	mod_description.text = mod.description
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-

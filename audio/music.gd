@@ -1,10 +1,10 @@
 extends AudioStreamPlayer
 
-const MIN_VOLUME = -80
-const MIN_CROSSFADE_VOLUME = -50
-const CROSSFADE_TIME = 1
-const FAST_CROSSFADE_TIME = 0.1
-const DEFAULT_VOLUME = 0.0
+const MIN_VOLUME : float = -80
+const MIN_CROSSFADE_VOLUME : float  = -50
+const CROSSFADE_TIME : float  = 1
+const FAST_CROSSFADE_TIME : float  = 0.1
+const DEFAULT_VOLUME : float  = 0.0
 
 ## Tracks
 enum Track { Menu, Victory, Defeat, World1, World2, World3, World4, World5, World6 }

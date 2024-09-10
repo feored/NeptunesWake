@@ -27,10 +27,6 @@ func reroll():
 	self.shape.reroll()
 	self.sacrificeButton.set_text(str(shape_cost.call(shape.shape.shape.keys())))
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
 func _on_reroll_button_pressed():
 	self.reroll()
 	self.reroll_cost.call()

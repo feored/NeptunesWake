@@ -8,11 +8,6 @@ func _ready():
 	self.custom_minimum_size = Vector2(0, Map.MAP_HEIGHT * 128 * 2 + 128 * 3)
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
-
 func _draw():
 	for c in coords:
 		draw_dashed_line(c[0], c[1], Color.BLACK, 2, 4)

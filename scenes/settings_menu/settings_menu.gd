@@ -17,10 +17,6 @@ func _ready():
 	auto_camera_focus_button.button_pressed = Settings.get_setting(Settings.Setting.AutoCameraFocus)
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
 
 func _on_full_screen_button_toggled(button_pressed:bool):
 	Settings.set_setting(Settings.Setting.FullScreen, button_pressed)

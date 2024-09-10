@@ -11,11 +11,6 @@ func _ready():
 	pass  # Replace with function body.
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
-
 func set_map(map_path):
 	var save_game = FileAccess.open("res://maps/" + map_path, FileAccess.READ)
 	Utils.log("Loading map: " + map_path)

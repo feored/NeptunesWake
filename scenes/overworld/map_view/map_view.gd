@@ -83,7 +83,3 @@ func choose_location(k):
 		await SceneTransition.change_scene(SceneTransition.SCENE_MAIN_GAME)
 	else:
 		self.event_started.emit(Info.run.map.map[k].event)
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass

@@ -14,7 +14,3 @@ func _ready() -> void:
 func init(troop: Troops.Troop) -> void:
 	self.troop = troop
 	
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass

@@ -34,7 +34,3 @@ func cleanup() -> void:
 	for child in self.preview_lines.get_children():
 		child.queue_free()
 	self.hide()
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass

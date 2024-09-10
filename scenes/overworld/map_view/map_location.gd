@@ -44,15 +44,15 @@ func _on_mouse_entered():
 	if self.island == null:
 		return
 	if self.island.location == Map.Location.Event:
-		var label = Label.new()
-		label.text = "Random Event"
-		label.set("theme_override_colors/font_color", Color.BLACK)
-		self.show_tooltip.emit(label, self.position + self.size / 2)
+		var event_label = Label.new()
+		event_label.text = "Random Event"
+		event_label.set("theme_override_colors/font_color", Color.BLACK)
+		self.show_tooltip.emit(event_label, self.position + self.size / 2)
 	elif self.island.mods.size() == 0:
-		var label = Label.new()
-		label.set("theme_override_colors/font_color", Color.BLACK)
-		label.text = "No Mods"
-		self.show_tooltip.emit(label, self.position + self.size / 2)
+		var no_mods_label = Label.new()
+		no_mods_label.set("theme_override_colors/font_color", Color.BLACK)
+		no_mods_label.text = "No Mods"
+		self.show_tooltip.emit(no_mods_label, self.position + self.size / 2)
 	else:
 		var mod_list = mod_list_prefab.instantiate()
 		mod_list.mouse_exited.connect(Callable(self, "_on_mouse_exited"))

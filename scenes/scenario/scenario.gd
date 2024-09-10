@@ -24,7 +24,3 @@ func _on_button_pressed():
 	Info.set_map(self.path)
 	await SceneTransition.change_scene(SceneTransition.SCENE_MAIN_GAME)
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
